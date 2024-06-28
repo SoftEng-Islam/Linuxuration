@@ -1,3 +1,10 @@
+echo -e <<EOF
+This is line \e[1]\e[0m
+This is line 2
+EOF
+
+
+
 # Write some information about Your PC
 lsmod | grep amdgpu
 echo $XDG_SESSION_TYPE
@@ -5,22 +12,32 @@ lspci -k | grep -EA3 'VGA|3D|Display'
 lspci -k | grep -A 2 -E "(VGA|3D)"
 
 
-
+#########################
 # Update system Packages
+#########################
 echo 'Update The Packages'
-pacman -Syu --noconfirm
-
-
-# Make stars appear when type sudo password
-echo 'make stars appear when type sudo password'
-echo '' >>
-
-
+sudo -i
+pacman -Syu --noconfirm && pacman -Sc --noconfirm
 
 
 # To Support Microsoft Partition FileSystem Format 'NTFS'
-sudo pacman -Sy ntfs-3g
-sudo modprobe fuse
+echo 'Install ntfs-3g to Support MS partition file system'
+pacman -Sy ntfs-3g
+modprobe fuse
+
+
+
+
+
+####################################################
+# Make stars appear when type sudo password
+#echo 'make stars appear when type sudo password'
+#echo '' >>
+####################################################
+
+
+
+
 
 
 ##################################
@@ -196,3 +213,9 @@ echo 'Include = /etc/pacman.d/microsoft.repo' >> /etc/pacman.conf
 
 sudo pacman -Sy
 sudo pacman -S code
+
+
+######################
+# git improvement
+######################
+git config advice.addIgnoredFile false
