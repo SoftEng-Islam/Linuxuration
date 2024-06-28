@@ -1,8 +1,6 @@
 echo -e <<EOF
-This is line \e[1]\e[0m
-This is line 2
+Welcome $(whoami)
 EOF
-
 
 
 # Write some information about Your PC
