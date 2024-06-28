@@ -1,49 +1,80 @@
-echo -e <<EOF
-Welcome $(whoami)
+# The Welcome Section
+echo -e "$(cat <<EOF
+
+Welcome \e[1;32m$(whoami)\e[0m
+Today's date is: \e[93m$(date)\e[0m \n
+feel free to message me on Twitter: https://x.com/SoftEng_Islam
+
+
 EOF
+)"
 
-
-# Write some information about Your PC
-lsmod | grep amdgpu
-echo $XDG_SESSION_TYPE
-lspci -k | grep -EA3 'VGA|3D|Display'
-lspci -k | grep -A 2 -E "(VGA|3D)"
 
 
 #########################
-# Update system Packages
+# Update the Packages
 #########################
-echo 'Update The Packages'
+echo 'update the packages'
 sudo -i
 pacman -Syu --noconfirm && pacman -Sc --noconfirm
 
+###############################
+# Install Packages with pacman
+###############################
+echo 'Install Needed Packages'
+pacman -S --needed --noconfirm base-devel git
+sudo pacman -S --noconfirm gedit vlc ffmpeg gstreamer gst-plugins-good gst-plugins-ugly libdvdcss gnome gnome-shell-extensions wayland xorg-server xf86-input-libinput mesa xf86-video-amdgpu linux-headers mesa lib32-mesa
 
-# To Support Microsoft Partition FileSystem Format 'NTFS'
+# Microsoft Partition FileSystem Format 'NTFS'
 echo 'Install ntfs-3g to Support MS partition file system'
 pacman -Sy ntfs-3g
 modprobe fuse
 
+# Install ZSH & oh-my-zsh
+sudo pacman -S zsh
+chsh -s /bin/zsh
 
 
+# Kitty terminal emulator
+echo 'Install Kitty terminal emulator'
+sudo pacman -S kitty
+echo 'Set Kitty as the Default Terminal:'
 
 
-####################################################
-# Make stars appear when type sudo password
-#echo 'make stars appear when type sudo password'
-#echo '' >>
-####################################################
+#############################
+# Install firewalld
+#############################
+sudo pacman -S firewalld
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+
+sudo tee /etc/NetworkManager/conf.d/00-local.conf << EOF > /dev/null
+[main]
+firewall-backend=none
+EOF
+sudo systemctl restart NetworkManager.service
+sudo firewall-cmd --permanent --new-policy=egress-shared
+sudo firewall-cmd --permanent --policy=egress-shared --set-target=ACCEPT
+sudo firewall-cmd --permanent --policy=egress-shared --add-ingress-zone=nm-shared
+sudo firewall-cmd --permanent --policy=egress-shared --add-egress-zone=trusted
+sudo firewall-cmd --permanent --policy=egress-shared --add-masquerade
+
+sudo firewall-cmd --permanent --new-policy=ingress-shared
+sudo firewall-cmd --permanent --policy=ingress-shared --set-target=ACCEPT
+sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
+sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
+sudo firewall-cmd --reload
 
 
+# ######################
+# install-OneUI
+########################
+
+#####################
+# install-bibata
+#####################
 
 
-
-
-##################################
-# **Install `dnsmasq`**
-##################################
-`sudo pacman -S dnsmasq`
-sudo systemctl enable dnsmasq.service
-sudo systemctl start dnsmasq.service
 
 #####################################
 # Install Fonts
@@ -59,12 +90,15 @@ sudo fc-cache -fv
 
 
 
-pacman -S flatpak --noconfirm
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 echo 'Disable Gnome Check-alive'
 gsettings set org.gnome.mutter check-alive-timeout 0
 
+
+
+
+pacman -S flatpak --noconfirm
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # increase the timeout settings for Flatpak
 FLATPAK_CONF="/etc/flatpak/flatpak.conf"
@@ -72,14 +106,6 @@ echo "[Network]" >> $FLATPAK_CONF
 # Increase timeout settings (adjust as needed)
 echo "RequestTimeout=800" >> $FLATPAK_CONF
 echo "Timeout settings updated in $FLATPAK_CONF"
-
-
-
-sudo usermod -aG video,input @user
-
-sudo pacman -S gedit vlc ffmpeg gstreamer gst-plugins-good gst-plugins-ugly libdvdcss gnome gnome-shell-extensions wayland xorg-server xf86-input-libinput
-sudo pacman -S mesa xf86-video-amdgpu linux-headers mesa lib32-mesa
-sudo pacman -S alacritty
 
 
 
@@ -123,11 +149,7 @@ sudo plymouth-set-default-theme -R details
 
 
 
-###############################
-# Install Packages with pacman
-###############################
-echo 'Install Needed Packages'
-pacman -S --needed --noconfirm base-devel git
+
 
 echo 'Install yay'
 git clone https://aur.archlinux.org/yay.git
@@ -175,45 +197,13 @@ APPS=(
 	# Add more applications as needed
 )
 # Function to install Flatpak applications
-install_flatpak_apps() { 
-	for app in "${APPS[@]}"; do
-		echo "Installing $app..."
+install_flatpak_apps() {
+	for app in "${APPS[@]}"; do
+		echo "Installing $app..."
 		flatpak install flathub $app -y
-		echo "---------------------------------------------" 
-	done 
+		echo "---------------------------------------------"
+	done
 	}
 # Main execution
 install_flatpak_apps
-echo "All Flatpak applications installed successfully."
-
-
-
-# Add Microsoft repository for VS Code
-echo "Adding Microsoft repository for VS Code..."
-echo "[code]" | sudo tee /etc/pacman.d/microsoft.repo > /dev/null echo "Server = https://packages.microsoft.com/yumrepos/vscode" | sudo tee -a /etc/pacman.d/microsoft.repo > /dev/null
-sudo pacman -Sy --noconfirm
-
-# Install VS Code echo "Installing Visual Studio Code..."
-sudo pacman -S --noconfirm code
-
-echo "Visual Studio Code installation completed."
-
-
-
-
-echo 'Install Visual Studio Code (VS Code)'
-cat <<EOF > /etc/pacman.d/microsoft.repo
-[code]
-Server = https://packages.microsoft.com/yumrepos/vscode
-EOF
-
-echo 'Include = /etc/pacman.d/microsoft.repo' >> /etc/pacman.conf
-
-sudo pacman -Sy
-sudo pacman -S code
-
-
-######################
-# git improvement
-######################
-git config advice.addIgnoredFile false
+echo "All Flatpak applications installed successfully."
