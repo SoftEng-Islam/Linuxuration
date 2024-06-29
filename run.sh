@@ -27,17 +27,17 @@ sudo pacman -S --noconfirm gedit vlc ffmpeg gstreamer gst-plugins-good gst-plugi
 
 # Microsoft Partition FileSystem Format 'NTFS'
 echo 'Install ntfs-3g to Support MS partition file system'
-pacman -Sy ntfs-3g
+pacman -Sy --noconfirm ntfs-3g
 modprobe fuse
 
 # Install ZSH & oh-my-zsh
-sudo pacman -S zsh
+sudo pacman -S --noconfirm zsh fzf
 chsh -s /bin/zsh
 
 
 # Kitty terminal emulator
 echo 'Install Kitty terminal emulator'
-sudo pacman -S kitty
+sudo pacman -S --noconfirm kitty
 echo 'Set Kitty as the Default Terminal:'
 export TERMINAL=kitty
 # Kitty's configuration file can be found at ~/.config/kitty/kitty.conf.
@@ -180,31 +180,36 @@ net.nokyan.Resources com.microsoft.Edge com.google.Chrome com.mattjakeman.Extens
 
 # List of Flatpak applications to install (replace with your desired apps)
 APPS=(
-	"com.visualstudio.code"
+	# "com.visualstudio.code"
 	"org.mozilla.firefox"
-	"net.nokyan.Resources"
 	"com.microsoft.Edge"
 	"com.google.Chrome"
+	"net.nokyan.Resources"
 	"com.mattjakeman.ExtensionManager"
 	"org.qbittorrent.qBittorrent"
-	"com.protonvpn.www"
 	"com.github.zadam.trilium"
-	org.gnome.Boxes
-	com.getpostman.Postman
-	io.dbeaver.DBeaverCommunity
-	rest.insomnia.Insomnia
-	com.discordapp.Discord
-	org.telegram.desktop
-	org.libreoffice.LibreOffice
-	org.mozilla.Thunderbird
-
+	"org.gnome.Boxes"
+	"com.getpostman.Postman"
+	"io.dbeaver.DBeaverCommunity"
+	"rest.insomnia.Insomnia"
+	"com.discordapp.Discord"
+	"org.telegram.desktop"
+	"org.libreoffice.LibreOffice"
+	"org.mozilla.Thunderbird"
+	"md.obsidian.Obsidian"
+	"org.gimp.GIMP"
+	"org.kde.krita"
+	"org.kde.kdenlive"
+	"org.blender.Blender"
+	"com.obsproject.Studio"
+	"org.gnome.Chess"
 	# Add more applications as needed
 )
 # Function to install Flatpak applications
 install_flatpak_apps() {
 	for app in "${APPS[@]}"; do
 		echo "Installing $app..."
-		flatpak install flathub $app -y
+		flatpak install flathub $app -y
 		echo "---------------------------------------------"
 	done
 	}
