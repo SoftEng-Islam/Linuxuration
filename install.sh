@@ -24,6 +24,7 @@ pacman -Syu --noconfirm && pacman -Sc --noconfirm
 echo 'Install Needed Packages'
 pacman -S --needed --noconfirm base-devel git
 sudo pacman -S --noconfirm gedit vlc ffmpeg gstreamer gst-plugins-good gst-plugins-ugly libdvdcss gnome gnome-shell-extensions wayland xorg-server xf86-input-libinput mesa xf86-video-amdgpu linux-headers mesa lib32-mesa
+yay -S gtk-engine-murrine
 
 # Microsoft Partition FileSystem Format 'NTFS'
 echo 'Install ntfs-3g to Support MS partition file system'
