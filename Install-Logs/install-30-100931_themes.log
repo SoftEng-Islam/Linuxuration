@@ -1,0 +1,13 @@
+[33m[NOTE](B[m Installing unzip ...
+sudo: dnf: command not found
+sudo: dnf: command not found
+[1A[K[31m[ERROR](B[m unzip failed to install :( , please check the install.log. You may need to install manually! Sorry I have tried :(
+[33m[NOTE](B[m Installing gtk-murrine-engine ...
+sudo: dnf: command not found
+sudo: dnf: command not found
+[1A[K[31m[ERROR](B[m gtk-murrine-engine failed to install :( , please check the install.log. You may need to install manually! Sorry I have tried :(
+[33m[NOTE](B[m Cloning GTK themes and Icons repository...
+[31m[ERROR](B[m Download failed for GTK themes and Icons..
+tar: assets/Bibata-Modern-Ice.tar.xz: Cannot open: No such file or directory
+tar: Error is not recoverable: exiting now
+[32m[OK](B[m Extracted Bibata-Modern-Ice.tar.xz to ~/.icons folder.
