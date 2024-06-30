@@ -4,16 +4,49 @@ Arch Linux enhancement configuration
 
 ## Please Don't Use This Script Until remove this line.
 
-![Build Status](https://img.shields.io/travis/username/projectname.svg)
-![License](https://img.shields.io/github/license/username/projectname.svg)
-![Version](https://img.shields.io/github/v/release/username/projectname.svg)
+## Features
 
-### Credit and Source:
+- Feature 1
+- Feature 2
+- Feature 3
 
-- Cursor Icons
 
-  - Bibata Rainbow https://www.gnome-look.org/p/1445634
-    Capitaine Cursors
+## Table of Contents
 
-- Wallpapers
-- Scripts
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
+
+
+## Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/username/projectname.git
+
+
+
+## Usage
+
+1. Run the application
+   ```sh
+   npm start
+
+
+## Screenshots
+
+![Screenshot1](path/to/screenshot1.png)
+![Screenshot2](path/to/screenshot2.png)
+
+  
+
+## Credit and Source:
+
+1. Cursor Icons
+    - Bibata Rainbow https://www.gnome-look.org/p/1445634
+    - Capitaine Cursors
+
+2. Wallpapers
+3. Scripts
