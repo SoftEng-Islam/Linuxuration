@@ -4,7 +4,7 @@
 
 
 > [!WARNING]
-> - Please Don't Use This Script Until remove this line.
+> - Please don't use this script, still under development
 
 
 ## Features
