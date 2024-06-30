@@ -1,5 +1,4 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
 # Hyprland-Dots to download from Releases #
 
 ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -21,7 +20,7 @@ if [ -f Hyprland-Dots.tar.gz ]; then
   # Check if versions match
   if [ "$existing_version" = "$latest_version" ]; then
     echo -e "${OK} Hyprland-Dots.tar.gz is up-to-date with the latest release ($latest_version)."
-    
+
     # Sleep for 10 seconds before exiting
     printf "${NOTE} No update found. Sleeping for 10 seconds...\n"
     sleep 10
@@ -31,7 +30,7 @@ if [ -f Hyprland-Dots.tar.gz ]; then
     read -p "Do you want to upgrade to the latest version? (y/n): " upgrade_choice
     if [ "$upgrade_choice" = "y" ]; then
 		echo -e "${NOTE} Proceeding to download the latest release." 2>&1 | tee -a "../Install-Logs/install-$(date +'%d-%H%M%S')_dotfiles.log"
-		
+
 		# Delete existing directories starting with JaKooLit-Hyprland-Dots
       find . -type d -name 'JaKooLit-Hyprland-Dots*' -exec rm -rf {} +
       rm -f Hyprland-Dots.tar.gz
@@ -86,7 +85,7 @@ if curl -L "$latest_tarball_url" -o "$file_name"; then
 
   # Set execute permission for copy.sh and execute it
   chmod +x copy.sh
-  ./copy.sh 
+  ./copy.sh
 
   echo -e "${OK} Latest Dotfiles release downloaded, extracted, and processed successfully. Check JaKooLit-Hyprland-Dots folder for more detailed install logs" 2>&1 | tee -a "../Install-Logs/install-$(date +'%d-%H%M%S')_dotfiles.log"
 else

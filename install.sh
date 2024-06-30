@@ -78,6 +78,10 @@ sudo firewall-cmd --reload
 # install-bibata
 #####################
 
+#########################
+# install gnome-pomodoro
+#########################
+yay -S gnome-pomodoro
 
 
 #####################################
@@ -90,8 +94,6 @@ yay -S ttf-jetbrains-mono
 # Update the font cache:
 echo 'Update the font Cache'
 sudo fc-cache -fv
-
-
 
 
 

@@ -1,7 +1,6 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
 # Hyprland-Dots Packages #
-# edit your packages desired here. 
+# edit your packages desired here.
 # WARNING! If you remove packages here, dotfiles may not work properly.
 # and also, ensure that packages are present in fedora repo or add copr repo
 
@@ -11,7 +10,7 @@ Extra=(
 )
 
 # packages neeeded
-hypr_package=( 
+hypr_package=(
   curl
   gawk
   git
