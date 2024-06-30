@@ -39,7 +39,13 @@ Arch Linux enhancement configuration
 ![Screenshot1](path/to/screenshot1.png)
 ![Screenshot2](path/to/screenshot2.png)
 
-  
+
+## Contact
+
+Islam Ahmed - [@SoftEng_Islam](https://x.com/SoftEng_Islam) - softeng.islam@gmail.com
+
+Project Link: [https://github.com/SoftEng-Islam/confArch](https://github.com/SoftEng-Islam/confArch)
+
 
 ## Credit and Source:
 
