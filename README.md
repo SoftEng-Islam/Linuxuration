@@ -24,15 +24,14 @@ Arch Linux enhancement configuration
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/username/projectname.git
-
+   git clone https://github.com/SoftEng-Islam/confArch.git
+   cd confArch
 
 
 ## Usage
 
 1. Run the application
-   ```sh
-   npm start
+
 
 
 ## Screenshots
