@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # The Welcome Section
 echo -e "$(cat <<EOF
 
@@ -46,29 +48,6 @@ export TERMINAL=kitty
 
 
 
-#############################
-# Install firewalld
-#############################
-sudo pacman -S firewalld
-sudo systemctl start firewalld
-sudo systemctl enable firewalld
-
-sudo tee /etc/NetworkManager/conf.d/00-local.conf << EOF > /dev/null
-[main]
-firewall-backend=none
-EOF
-sudo systemctl restart NetworkManager.service
-sudo firewall-cmd --permanent --new-policy=egress-shared
-sudo firewall-cmd --permanent --policy=egress-shared --set-target=ACCEPT
-sudo firewall-cmd --permanent --policy=egress-shared --add-ingress-zone=nm-shared
-sudo firewall-cmd --permanent --policy=egress-shared --add-egress-zone=trusted
-sudo firewall-cmd --permanent --policy=egress-shared --add-masquerade
-
-sudo firewall-cmd --permanent --new-policy=ingress-shared
-sudo firewall-cmd --permanent --policy=ingress-shared --set-target=ACCEPT
-sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
-sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
-sudo firewall-cmd --reload
 
 
 # ######################
