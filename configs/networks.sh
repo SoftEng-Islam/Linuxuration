@@ -14,9 +14,14 @@ EOF
 sudo systemctl restart NetworkManager.service
 
 
+### Check Existing Policies
+sudo firewall-cmd --permanent --get-policies
+
+### Remove Existing Policies
 sudo firewall-cmd --permanent --delete-policy=egress-shared
 sudo firewall-cmd --permanent --delete-policy=ingress-shared
 
+### Add New Policies
 sudo firewall-cmd --permanent --new-policy=egress-shared
 sudo firewall-cmd --permanent --policy=egress-shared --set-target=ACCEPT
 sudo firewall-cmd --permanent --policy=egress-shared --add-ingress-zone=nm-shared
@@ -37,57 +42,48 @@ sudo sysctl -w net.ipv4.ip_forward=1
 
 # check the status of the service (running and enabled)
 sudo systemctl status firewalld
-
 # if the service is not running, start it
 sudo systemctl start firewalld
-
 # if the service has exited, restart it(check for error if any)
 sudo systemctl restart firewalld
-
 # if the service is not enabled, enable it
 sudo systemctl enable firewalld
 
-
 # check the status of the service (running and enabled)
 sudo systemctl status dnsmasq
-
 # if the service is not running, start it
 sudo systemctl start dnsmasq
-
 # if the service has exited, restart it(check for error if any)
 sudo systemctl restart dnsmasq
-
 # if the service is not enabled, enable it
 sudo systemctl enable dnsmasq
 
-
 # check the status of the service (running and enabled)
 sudo systemctl status NetworkManager
-
 # if the service is not running, start it
 sudo systemctl start NetworkManager
-
 # if the service has exited, restart it(check for error if any)
 sudo systemctl restart NetworkManager
-
 # if the service is not enabled, enable it
 sudo systemctl enable NetworkManager
 
-
-
 # check the status of the service (running and enabled)
 sudo systemctl status systemd-resolved
-
 # if the service is not running, start it
 sudo systemctl start systemd-resolved
-
 # if the service has exited, restart it(check for error if any)
 sudo systemctl restart systemd-resolved
-
 # if the service is not enabled, enable it
 sudo systemctl enable systemd-resolved
 
 
+
+# Here are some recommendations To improve and enhance Wi-Fi and internet speed:
+# This disables Wi-Fi power-saving mode, which can help improve performance.
+sudo tee /etc/NetworkManager/NetworkManager.conf << EOF >> /dev/null
+[connection]
+wifi.powersave = 2
+EOF
 
 
 
