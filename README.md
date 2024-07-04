@@ -52,3 +52,7 @@ Project Link: [https://github.com/SoftEng-Islam/confArch](https://github.com/Sof
 
 2. Wallpapers
 3. Scripts
+
+---
+
+<p>If you have any specific questions or need help, feel free to ask me on twitter/x.</p>
