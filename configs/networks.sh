@@ -34,10 +34,9 @@ sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
 sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
 sudo firewall-cmd --reload
 
+
+#
 sudo sysctl -w net.ipv4.ip_forward=1
-
-
-
 
 
 # check the status of the service (running and enabled)
