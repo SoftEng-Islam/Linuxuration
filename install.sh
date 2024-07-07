@@ -284,6 +284,11 @@ APPS=(
 	"org.blender.Blender"
 	"com.obsproject.Studio"
 	"org.gnome.Chess"
+    # Beekeeper Studio
+    # insomnia
+    # Lunacy - UI/UX and Web Designer Tool
+    # Krita
+    # blender
 	# Add more applications as needed
 )
 # Function to install Flatpak applications
