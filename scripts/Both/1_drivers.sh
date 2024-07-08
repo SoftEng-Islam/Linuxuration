@@ -1,4 +1,9 @@
 #!/bin/bash
+# ===============================
+# install Bluetooth & enable it
+# ===============================
+
+#!/bin/bash
 # 💫 https://github.com/JaKooLit 💫 #
 # Bluetooth #
 
@@ -36,3 +41,24 @@ printf " Activating Bluetooth Services...\n"
 sudo systemctl enable --now bluetooth.service 2>&1 | tee -a "$LOG"
 
 clear
+
+
+
+
+# ===================================
+# install AMDGPU Drivers & enable it
+# ===================================
+
+
+# ===================================
+# install NVIDEA Drivers & enable it
+# ===================================
+
+
+# ==================================
+# install WIFI Drivers & enable it
+# ==================================
+
+
+
+

@@ -1,6 +1,8 @@
 #!/bin/bash
-# 💫 https://github.com/JaKooLit 💫 #
-# FONTS #
+# =========================
+# Script to Install Fonts
+# =========================
+
 
 fonts=(
 adobe-source-code-pro-fonts
@@ -59,7 +61,7 @@ tar -xJkf JetBrainsMono.tar.xz -C ~/.local/share/fonts/JetBrainsMonoNerd 2>&1 | 
 # Update font cache and log the output
 fc-cache -v 2>&1 | tee -a "$LOG"
 
-# clean up 
+# clean up
 if [ -d "JetBrainsMono.tar.xz" ]; then
 	rm -r JetBrainsMono.tar.xz 2>&1 | tee -a "$LOG"
 fi
