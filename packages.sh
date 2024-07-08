@@ -20,7 +20,8 @@ sudo pacman -S --noconfirm \
     mesa \
     lib32-mesa \
     qt6-wayland \
-    python-pip
+    python-pip \
+    inkscape
 sudo pacman -Syu --needed --noconfirm \
     ttf-liberation \
     vlc \

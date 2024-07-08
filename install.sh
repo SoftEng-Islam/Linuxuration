@@ -33,7 +33,11 @@ echo 'Select your Options:'
 # Install Apps And Useful Packages
 # Install Fonts
 # Install Drivers
-# Install tools and languages for Developers
+# Install Tools & Languages for Developers
+# Install Wine To Run Windows apps and games
+# Install ZSH & OH-MY-ZSH
+# Install Pomodoro
+# Install plymouth-themes
 
 
 # ---------------------

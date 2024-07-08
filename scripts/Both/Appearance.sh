@@ -33,3 +33,6 @@ echo "Updating MIME database..."
 sudo update-mime-database /usr/share/mime
 
 echo "Icon cache refresh complete."
+
+
+# gsettings set org.gnome.desktop.interface icon-theme  youicons
