@@ -1,10 +1,27 @@
 #!/bin/bash
-pacman -S --needed --noconfirm base-devel git
-sudo pacman -S --noconfirm gedit vlc ffmpeg gstreamer gst-plugins-good gst-plugins-ugly libdvdcss gnome gnome-shell-extensions wayland xorg-server xf86-input-libinput mesa xf86-video-amdgpu linux-headers mesa lib32-mesa
-yay -S gtk-engine-murrine
+sudo pacman -S --needed --noconfirm base-devel git
 
-# Update system and install packages using pacman
-sudo pacman -Syu --needed \
+sudo pacman -S --noconfirm \
+    gedit \
+    vlc \
+    ffmpeg \
+    gstreamer \
+    gst-plugins-good \
+    gst-plugins-ugly \
+    libdvdcss \
+    gnome \
+    gnome-shell-extensions \
+    wayland \
+    xorg-server \
+    xf86-input-libinput \
+    mesa \
+    xf86-video-amdgpu \
+    linux-headers \
+    mesa \
+    lib32-mesa \
+    qt6-wayland \
+    python-pip
+sudo pacman -Syu --needed --noconfirm \
     ttf-liberation \
     vlc \
     gnome-tweaks \
@@ -65,8 +82,8 @@ sudo pacman -Syu --needed \
     grpc \
     firewalld \
 
-
 # Install packages from AUR using yay
+yay -S --noconfirm gtk-engine-murrine
 yay -S --needed \
     gstreamer1-plugins-bad \
     gstreamer1-plugins-good \

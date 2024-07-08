@@ -29,7 +29,11 @@ echo 'Select your Options:'
 cd ~/Downloads/
 echo 'Update the Packages'
 # sudo -i
+sudo rm /var/lib/pacman/db.lck
+sudo pacman -Scc --noconfirm
 sudo pacman -Syu --noconfirm && sudo pacman -Sc --noconfirm
+sudo pacman -S --noconfirm linux-firmware
+sudo mkinitcpio -P
 
 # -----------------
 # Install Packages
