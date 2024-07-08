@@ -4,7 +4,7 @@ mkdir -p ~/.icons
 mkdir -p ~/.themes
 tar -xf "Bibata-Modern-Ice.tar.xz" -C ~/.icons
 
-tar -xzvf "theme/Andromeda-dark.tar.gz" -C ~/.themes
+# tar -xzvf "theme/Andromeda-dark.tar.gz" -C ~/.themes
 tar -xzvf "theme/WhiteSur-Lighttar.gz" -C ~/.themes
 unzip -o -q "icon/Flat-Remix-Blue-Dark.zip" -d ~/.icons
 unzip -o -q "icon/Flat-Remix-Blue-Light.zip" -d ~/.icons
@@ -33,6 +33,5 @@ echo "Updating MIME database..."
 sudo update-mime-database /usr/share/mime
 
 echo "Icon cache refresh complete."
-
 
 # gsettings set org.gnome.desktop.interface icon-theme  youicons
