@@ -15,13 +15,26 @@ EOF
 )"
 
 # -----------------------------------------------
-# Variables from PC INFO
+# PC INFO (CPU,GPU,RAM,ETC...) to Variables
 # -----------------------------------------------
+# Operating System
+# CPU
+# GPU
+# RAM
+# HDD/SDD
 
 # -----------------------------------------------
 # Options for User
 # -----------------------------------------------
 echo 'Select your Options:'
+# Install Or Improve Gnome
+# Install Or Improve Hyprland
+# Install Themes & Icons
+# Install Apps And Useful Packages
+# Install Fonts
+# Install Drivers
+# Install tools and languages for Developers
+
 
 # ---------------------
 # Update the Packages
