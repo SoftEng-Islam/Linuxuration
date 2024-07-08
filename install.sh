@@ -1,29 +1,29 @@
 #!/bin/bash
-# #################################################
-#	Here we will Install some Essintial packages
-#	and Apps
-# #################################################
+# #######################################################
+# The CONFARCH Project.
+# #######################################################
 
-
-
-
-
+# ---------------------------------------------------------------
 # Say Hello, and give the user some information about his device
+# ---------------------------------------------------------------
 echo -e "$(cat <<EOF
-
-Welcome \e[1;32m$(whoami)\e[0m \e[1;95m❤️\e[0m
+Welcome \e[1;32m$(whoami)\e[0m
 Today's date is: \e[93m$(date)\e[0m \n
 feel free to message me on Twitter: https://x.com/SoftEng_Islam
-
 
 EOF
 )"
 
+# -----------------------------------------------
+# Variables from PC INFO
+# -----------------------------------------------
 
 
-#########################
+
+
+# ---------------------
 # Update the Packages
-#########################
+# ---------------------
 echo 'update the packages'
 sudo -i
 pacman -Syu --noconfirm && pacman -Sc --noconfirm

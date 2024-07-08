@@ -2,8 +2,6 @@
 # =========================
 # Script to Install Fonts
 # =========================
-
-
 fonts=(
 adobe-source-code-pro-fonts
 fira-code-fonts
