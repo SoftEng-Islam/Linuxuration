@@ -22,6 +22,7 @@ EOF
 # GPU
 # RAM
 # HDD/SDD
+# Resulation
 
 # -----------------------------------------------
 # Options for User
