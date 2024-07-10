@@ -3,6 +3,29 @@
 # The CONFARCH Project.
 # #######################################################
 
+# ----------------------------------------------------
+# Check if running as root. If root, script will exit
+# ----------------------------------------------------
+if [[ $EUID -eq 0 ]]; then
+    echo "This script should not be executed as root! Exiting......."
+    exit 1
+fi
+clear
+
+
+# ------------------------------------
+#
+# ------------------------------------
+trap ctrl_c INT
+
+RED='\033[0;31m'
+LBLUE='\033[1;34m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+ORANGE='\033[0;33m'
+NC='\033[0m'
+
+
 # ---------------------------------------------------------------
 # Say Hello, and give the user some information about his device
 # ---------------------------------------------------------------
