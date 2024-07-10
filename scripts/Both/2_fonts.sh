@@ -66,9 +66,15 @@ fi
 
 
 
-#####################################
+# ------------------------------------
+# Install powerline-fonts
+# ------------------------------------
+sudo pacman -S --noconfirm powerline-fonts
+
+
+# ------------------------------------
 # Install JetBrains
-#####################################
+# ------------------------------------
 echo 'Use yay to install JetBrains Mono:'
 # To Verify the installation:
 # ls /usr/share/fonts/TTF | grep JetBrains
@@ -76,6 +82,7 @@ yay -S ttf-jetbrains-mono
 # Update the font cache:
 echo 'Update the font Cache'
 sudo fc-cache -fv
+
 
 
 clear

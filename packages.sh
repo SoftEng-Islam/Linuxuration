@@ -1,6 +1,5 @@
 #!/bin/bash
 sudo pacman -S --needed --noconfirm base-devel git
-
 sudo pacman -S --noconfirm \
     gedit \
     vlc \
@@ -21,7 +20,7 @@ sudo pacman -S --noconfirm \
     lib32-mesa \
     qt6-wayland \
     python-pip \
-    inkscape
+    inkscape \
 sudo pacman -Syu --needed --noconfirm \
     ttf-liberation \
     vlc \
