@@ -40,12 +40,23 @@ EOF
 # -----------------------------------------------
 # PC INFO (CPU,GPU,RAM,ETC...) to Variables
 # -----------------------------------------------
-# Operating System
+# OS
+# Kernal
 # CPU
 # GPU
-# RAM
-# HDD/SDD
+# CPU temp
+# Shell
+# Date
+# uptime
+# Local IPv4
+# External IPv4
+# Services
+# Memory(RAM)
 # Resulation
+# Swap
+# Storage /
+# Storage /home
+
 
 # -----------------------------------------------
 # Options for User
