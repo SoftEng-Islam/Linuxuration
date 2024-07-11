@@ -19,13 +19,6 @@ clear
 # ------------------------------------
 # set colors into vars
 # ------------------------------------
-
-RED='\033[31m'
-GREEN='\033[32m'
-YELLOW='\033[33m'
-LBLUE='\033[34m'
-ORANGE='\033[0;33m'
-
 # Regular Colors:
 RBlack='\033[30m'
 RRed='\033[31m'
@@ -55,6 +48,7 @@ Strikethrough='\033[9m'
 # Unicode Characters
 # `echo -e "\u2764"   # Outputs a heart symbol (❤)`
 heart='\u2764'
+
 # ---------------------------------------------------------------
 # Say Hello, and give the user some information about his device
 # ---------------------------------------------------------------
