@@ -2,7 +2,6 @@
 # ------------------------------------
 # Install trizen
 # ------------------------------------
-
 : '
 ------------------------------------------------------------------------
 Trizen is an AUR (Arch User Repository) helper that simplifies the process of installing, updating, and managing AUR packages on Arch Linux.
@@ -23,6 +22,8 @@ git clone https://aur.archlinux.org/trizen.git
 cd trizen
 # Build and install Trizen
 makepkg -si
+
+echo 'Trizen Installed'
 
 : '
 # ------------------------------------

@@ -25,8 +25,12 @@ wine --version
 
 # PlayOnLinux: A graphical...
 #..front-end for Wine that simplifies the installation and management of Windows applications:
+
 # Install PlayOnLinux from AUR
 yay -S --noconfirm playonlinux
+
+# OR you can Install it by trizen:
+# trizen -S playonlinux
 
 # After installation, you can run PlayOnLinux by executing the following command:
 playonlinux
