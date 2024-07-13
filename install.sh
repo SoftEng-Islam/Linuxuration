@@ -62,26 +62,6 @@ EOF
 )"
 
 # -----------------------------------------------
-# PC INFO (CPU,GPU,RAM,ETC...) to Variables
-# -----------------------------------------------
-# OS
-# Kernal
-# CPU
-# GPU
-# CPU temp
-# Shell
-# Date
-# uptime
-# Local IPv4
-# External IPv4
-# Services
-# Memory(RAM)
-# Resulation
-# Swap
-# Storage /
-# Storage /home
-
-# -----------------------------------------------
 # Options for User
 # -----------------------------------------------
 echo 'Select your Options:'
