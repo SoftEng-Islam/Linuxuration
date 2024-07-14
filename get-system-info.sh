@@ -78,7 +78,7 @@ get_system_info() {
     echo "${PARAM_COLOR}Packages:${RESET} $(pacman -Q | wc -l)"
     echo "${PARAM_COLOR}CPU:${RESET} $(lscpu | grep 'Model name' | cut -d: -f2 | sed 's/^[ \t]*//')"
     echo "${PARAM_COLOR}CPU Usage:${RESET} $(top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{print 100 - $1"%"}')"
-    echo "${PARAM_COLOR}CPU Frequency:${RESET} $(lscpu | grep 'MHz' | head -1 | awk '{print $3 " MHz"}')"
+    echo "${PARAM_COLOR}CPU Frequency:${RESET} $(lscpu | grep 'max MHz' | awk '{print $4}')" MHz
     echo "${PARAM_COLOR}GPU:${RESET} $(lspci | grep -i vga | cut -d: -f3 | sed 's/^[ \t]*//')"
     echo "${PARAM_COLOR}CPU Temp:${RESET} $(sensors | grep 'Package id 0:' | awk '{print $4}')"
     echo "${PARAM_COLOR}Date(Time):${RESET} $(date)"
