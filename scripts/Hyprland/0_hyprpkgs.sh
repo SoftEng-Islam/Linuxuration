@@ -1,13 +1,32 @@
 #!/bin/bash
-# Hyprland-Dots Packages #
-# edit your packages desired here.
-# WARNING! If you remove packages here, dotfiles may not work properly.
-# and also, ensure that packages are present in fedora repo or add copr repo
+# -----------------------------------------
+# Hyprland & Packages Installation Script
+# https://wiki.hyprland.org/Getting-Started/Installation/
+# -----------------------------------------
 
-# add packages wanted here
-Extra=(
+# ----------------------------------------------------------
+# Install Manual (Manual Build): Hyprland and Dependencies
+# ----------------------------------------------------------
+yay -S --noconfirm gdb ninja gcc cmake meson libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libx11 libxcomposite xorg-xinput libxrender pixman wayland-protocols cairo pango seatd libxkbcommon xcb-util-wm xorg-xwayland libinput libliftoff libdisplay-info cpio tomlplusplus hyprlang hyprcursor hyprwayland-scanner xcb-util-errors
 
-)
+# ----------------------------------------------------------
+# CMake (recommended)
+# ----------------------------------------------------------
+git clone --recursive https://github.com/hyprwm/Hyprland
+cd Hyprland
+make all && sudo make install
+
+# ------------------------------
+# Hyprland Themes and Configs
+# ------------------------------
+echo "## Theme & Configs setup ##"
+# hyprctl reload
+hyprctl --batch "\
+keyword general:border_size 4;\
+keyword general:gaps_out 40;\
+keyword general:gaps_in 20;\
+keyword general:col.active_border 0.9\
+keyword general:col.inactive_border 0.6"
 
 # packages neeeded
 hypr_package=(
@@ -47,10 +66,6 @@ hypr_package=(
   xdg-user-dirs
   xdg-utils
   yad
-)
-
-# the following packages can be deleted. however, dotfiles may not work properly
-hypr_package_2=(
   brightnessctl
   btop
   cava
@@ -81,41 +96,39 @@ uninstall=(
   mako
 )
 
-## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
-# Determine the directory where the script is located
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+# ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
+# # Determine the directory where the script is located
+# SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-# Change the working directory to the parent directory of the script
-PARENT_DIR="$SCRIPT_DIR/.."
-cd "$PARENT_DIR" || exit 1
+# # Change the working directory to the parent directory of the script
+# PARENT_DIR="$SCRIPT_DIR/.."
+# cd "$PARENT_DIR" || exit 1
 
-source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
+# source "$(dirname "$(readlink -f "$0")")/Global_functions.sh"
 
+# # Set the name of the log file to include the current date and time
+# LOG="Install-Logs/install-$(date +%d-%H%M%S)_hypr-pkgs.log"
 
-# Set the name of the log file to include the current date and time
-LOG="Install-Logs/install-$(date +%d-%H%M%S)_hypr-pkgs.log"
+# # Installation of main components
+# printf "\n%s - Installing hyprland packages.... \n" "${NOTE}"
 
+# for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${copr_packages[@]}" "${Extra[@]}"; do
+#   install_package "$PKG1" 2>&1 | tee -a "$LOG"
+#   if [ $? -ne 0 ]; then
+#     echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
+#     exit 1
+#   fi
+# done
 
-# Installation of main components
-printf "\n%s - Installing hyprland packages.... \n" "${NOTE}"
+# # removing dunst and mako to avoid swaync conflict
+# printf "\n%s - Checking if mako or dunst are installed and removing for swaync to work properly \n" "${NOTE}"
 
-for PKG1 in "${hypr_package[@]}" "${hypr_package_2[@]}" "${copr_packages[@]}" "${Extra[@]}"; do
-  install_package "$PKG1" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG1 Package installation failed, Please check the installation logs"
-    exit 1
-  fi
-done
+# for PKG in "${uninstall[@]}"; do
+#   uninstall_package "$PKG" 2>&1 | tee -a "$LOG"
+#   if [ $? -ne 0 ]; then
+#     echo -e "\e[1A\e[K${ERROR} - $PKG uninstallation had failed, please check the log"
+#     exit 1
+#   fi
+# done
 
-# removing dunst and mako to avoid swaync conflict
-printf "\n%s - Checking if mako or dunst are installed and removing for swaync to work properly \n" "${NOTE}"
-
-for PKG in "${uninstall[@]}"; do
-  uninstall_package "$PKG" 2>&1 | tee -a "$LOG"
-  if [ $? -ne 0 ]; then
-    echo -e "\e[1A\e[K${ERROR} - $PKG uninstallation had failed, please check the log"
-    exit 1
-  fi
-done
-
-clear
+# clear

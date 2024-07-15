@@ -20,8 +20,9 @@ clear
 # Check if the User want to Install or Improve Hyprland/themes
 # -------------------------------------------------------------
 if [["$1" == 'Hyprland']]: then
-# Install Hyprland and Some Deps
-sudo pacman -S
+	# Install Hyprland and Some Deps
+fi
+
 
 # ----------------------------------------------------------
 # Check if the User want to Install or Improve Gnome/themes
