@@ -16,6 +16,17 @@ if [[ $EUID -eq 0 ]]; then
 fi
 clear
 
+# -------------------------------------------------------------
+# Check if the User want to Install or Improve Hyprland/themes
+# -------------------------------------------------------------
+if [["$1" == 'Hyprland']]: then
+# Install Hyprland and Some Deps
+sudo pacman -S
+
+# ----------------------------------------------------------
+# Check if the User want to Install or Improve Gnome/themes
+# ----------------------------------------------------------
+
 # ------------------------------------
 # set colors into vars
 # ------------------------------------
@@ -85,7 +96,7 @@ echo 'Update the Packages'
 # sudo -i
 sudo rm /var/lib/pacman/db.lck
 sudo pacman -Scc --noconfirm
-sudo pacman -Syu --noconfirm && sudo pacman -Sc --noconfirm
+sudo pacman -Syu --noconfirm && sudo pacman -Sc --noconfirm && yay -Syu --noconfirm --devel
 sudo pacman -S --noconfirm linux-firmware
 sudo mkinitcpio -P
 
