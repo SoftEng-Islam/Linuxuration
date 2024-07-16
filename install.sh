@@ -19,10 +19,13 @@ clear
 # -------------------------------------------------------------
 # Check if the User want to Install or Improve Hyprland/themes
 # -------------------------------------------------------------
-if [["$1" == 'Hyprland']]: then
+if [["$1" == 'theme1']]: then
 	# Install Hyprland and Some Deps
 fi
 
+if [["$1" == 'theme2']]: then
+	# Install Hyprland and Some Deps
+fi
 
 # ----------------------------------------------------------
 # Check if the User want to Install or Improve Gnome/themes

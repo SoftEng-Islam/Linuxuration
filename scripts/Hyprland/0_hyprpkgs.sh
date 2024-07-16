@@ -12,7 +12,10 @@ yay -S --noconfirm gdb ninja gcc cmake meson libxcb xcb-proto xcb-util xcb-util-
 # ----------------------------------------------------------
 # CMake (recommended)
 # ----------------------------------------------------------
-git clone --recursive https://github.com/hyprwm/Hyprland
+# git clone --recursive https://github.com/hyprwm/Hyprland
+cd ~/Downloads
+wget -O Hyprland.zip https://github.com/hyprwm/Hyprland/archive/refs/heads/main.zip
+unzip Hyprland.zip
 cd Hyprland
 make all && sudo make install
 
@@ -21,12 +24,32 @@ make all && sudo make install
 # ------------------------------
 echo "## Theme & Configs setup ##"
 # hyprctl reload
-hyprctl --batch "\
-keyword general:border_size 4;\
-keyword general:gaps_out 40;\
-keyword general:gaps_in 20;\
-keyword general:col.active_border 0.9\
-keyword general:col.inactive_border 0.6"
+
+# Accessing the parameters
+param1=$1
+param2=$2
+
+# main theme
+if [ "$1" == "mainTheme" ]; then
+  hyprctl --batch "\
+  keyword general:border_size 4;\
+  keyword general:gaps_out 40;\
+  keyword general:gaps_in 20;\
+  keyword general:col.active_border 0.9\
+  keyword general:col.inactive_border 0.6"
+fi
+
+# Game Mode Theme
+if [ "$1" == "gamemode" ]; then
+  hyprctl --batch "\
+  keyword general:border_size 0:\
+  keyword decoration:drop_shadow 0;\
+  keyword decoration:blur:enabled 0;\
+  keyword general:gaps_in 0;\
+  keyword general:gaps_out 0;\
+  keyword general:border_size 1;\
+  keyword decoration:rounding 0"
+fi
 
 # packages neeeded
 hypr_package=(
