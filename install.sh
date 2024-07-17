@@ -1,16 +1,16 @@
 #!/bin/bash
-# =======================================================
+# -------------------------------------------------------
 # The CONFARCH Project.
 # Arch Linux enhancement configuration
-# ====================================
+# -------------------------------------------------------
 # Warning
 # Please don't use this script, still under development
-# =======================================================
+# -------------------------------------------------------
 
 # ----------------------------------------------------
 # Check if running as root. If root, script will exit
 # ----------------------------------------------------
-if [[ $EUID -eq 0 ]]; then
+if [ $EUID -eq 0 ]; then
 	echo "This script should not be executed as root! Exiting......."
 	exit 1
 fi
@@ -19,14 +19,14 @@ clear
 # -------------------------------------------------------------
 # Check if the User want to Install or Improve Hyprland/themes
 # -------------------------------------------------------------
-if ["$1" == 'hyprland']; then
+if [ "$1" == 'hyprland' ]; then
 	# Install Hyprland and Some Deps
 fi
 
 # ----------------------------------------------------------
 # Check if the User want to Install or Improve Gnome/themes
 # ----------------------------------------------------------
-if ["$1" == 'gnome']; then
+if [ "$1" == 'gnome' ]; then
 	# Install Gnome and Some Deps
 fi
 
@@ -59,6 +59,8 @@ Italic='\033[3m'
 Underline='\033[4m'
 Strikethrough='\033[9m'
 
+RESET="\033[0m" # Reset color
+
 # Unicode Characters
 # `echo -e "\u2764"   # Outputs a heart symbol (❤)`
 heart='\u2764'
@@ -68,13 +70,15 @@ heart='\u2764'
 # ---------------------------------------------------------------
 echo -e "$(
 	cat <<EOF
-Welcome \e[1;32m$(whoami)\e[0m \e[95m\u2764\e[0m
-Today's date is: \e[93m$(date)\e[0m \n
-feel free to message me on Twitter: https://x.com/SoftEng_Islam
+
+${RMagenta}===================================================================${RESET}
+${RMagenta}= ${RESET} \e[31mWelcome\e[0m \e[1;32m$(whoami)\e[0m
+${RMagenta}= ${RESET} Today's date is: \e[93m$(date)\e[0m
+${RMagenta}= ${RESET} \e[3;90mfeel free to message me on\e[0m \e[1;34mTwitter\e[0m: \e[4;96mhttps://x.com/SoftEng_Islam\e[0m
+${RMagenta}===================================================================${RESET} \n
 
 EOF
 )"
-
 # -----------------------------------------------
 # Options for User
 # -----------------------------------------------
