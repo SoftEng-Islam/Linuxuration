@@ -23,13 +23,12 @@ if ["$1" == 'hyprland']; then
 	# Install Hyprland and Some Deps
 fi
 
-if ["$1" == 'gnome']; then
-	# Install Gnome and Some Deps
-fi
-
 # ----------------------------------------------------------
 # Check if the User want to Install or Improve Gnome/themes
 # ----------------------------------------------------------
+if ["$1" == 'gnome']; then
+	# Install Gnome and Some Deps
+fi
 
 # ------------------------------------
 # set colors into vars
