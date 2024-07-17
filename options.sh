@@ -18,7 +18,7 @@ icons=1
 # ----------------------------------------------------------
 # Install Apps, 1 will install the enabled apps or app=1
 apps=1
-
+# ----------------------------------------------------------
 ## Install LibreOffice
 LibreOffice=1 # if apps=1 this means to install LibreOffice
 ## Install Brave Browser
@@ -29,7 +29,7 @@ Slack=1
 Discord=1
 ## Install Spotify
 Spotify=0
-## Install Visual Studio Code
+## Install Visual Studio Code (vscode)
 VisualStudioCode=1
 ## Install Sublime Text
 SublimeText=0
@@ -37,28 +37,73 @@ SublimeText=0
 Atom=0
 ## Install Emacs
 Emacs=0
+## Install Vim
+Vim=0
+## Install Fzf
+Fzf=1
 
-# ----------------------------------------------------
+# ---------------------
 # Install Fonts
+# ---------------------
 fonts=1
 ## Install Nerd Fonts
 NerdFonts=1
 
+# ---------------------
 # Install Drivers
+# ---------------------
 drivers=1
-# Install Tools & Languages for Developers
-# Install Wine To Run Windows apps and games
+
+# ------------------------------------------------
+# Install Programming Languages for Developers
+# ------------------------------------------------
+# NodeJS
+nodejs=1
+# PHP
+php=1
+# Rust
+rust=1
+# Dart
+dart=1
+# Ruby
+ruby=1
+# GO
+go=1
+# C++
+cpp=1
+# C#
+csharp=1
+# python
+python=1
+# Flutter
+flutter=1
+# Java
+java=1
+# C
+c=1
+
+# --------------------------------------------------
+# Install WineHQ
+# --------------------------------------------------
 wineHQ=1
+
 # --------------------------------------------------
 # Install ZSH & OH-MY-ZSH
+# --------------------------------------------------
 ## Install ZSH
 ZSH=1
+# Install OH-MY-ZSH
 OH-MY-ZSH=1
 
+# -------------------------------------
+# Install Some Gnome Extensions
+# -------------------------------------
 # Install Pomodoro
 Pomodoro=1
 
+# -------------------------------------
 # Install plymouth-themes
+# -------------------------------------
 plymouth=1
 
 # -------------------------------------------------------------
