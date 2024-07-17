@@ -97,30 +97,13 @@ echo 'Install ntfs-3g to Support MS partition file system'
 pacman -Sy --noconfirm ntfs-3g
 modprobe fuse
 
-# Install ZSH & oh-my-zsh
-sudo pacman -S --noconfirm zsh fzf
-chsh -s /bin/zsh
-
-# Kitty terminal emulator
-echo 'Install Kitty terminal emulator'
-sudo pacman -S --noconfirm kitty
-echo 'Set Kitty as the Default Terminal:'
-export TERMINAL=kitty
-# Kitty's configuration file can be found at ~/.config/kitty/kitty.conf.
-# You can customize Kitty's appearance and behavior by editing this file.
-
 # ######################
 # install-OneUI
 ########################
 
-#####################
+#-------------------
 # install-bibata
-#####################
-
-#########################
-# install gnome-pomodoro
-#########################
-yay -S gnome-pomodoro
+#-------------------
 
 echo 'Disable Gnome Check-alive'
 gsettings set org.gnome.mutter check-alive-timeout 0
@@ -135,34 +118,10 @@ echo "[Network]"  >> $FLATPAK_CONF
 echo "RequestTimeout=800"  >> $FLATPAK_CONF
 echo "Timeout settings updated in $FLATPAK_CONF"
 
-#######################
-# overclocing
-#######################
-yay -S corectrl
-
-############
-# plymouth
-############
-sudo pacman -S plymouth
-sudo plymouth-set-default-theme -R arch-logo
-sudo mkinitcpio -p linux
-sudo systemctl daemon-reload
-systemctl status plymouth.service
-ls /usr/share/plymouth/themes/
-sudo plymouth-set-default-theme -R details
-
-##########################
-# Install ZSH & oh_my_zsh
-##########################
-
-################################
-# Install Some Gnome Extensions
-################################
-
-##########################
+# ----------------------------------------------------
 # Install Apps
 # `flatpak install -y flathub com.visualstudio.code org.mozilla.firefox`
-##########################
+# ----------------------------------------------------
 echo 'Installing Resources App'
 flatpak install flathub com.visualstudio.code org.mozilla.firefox
 net.nokyan.Resources com.microsoft.Edge com.google.Chrome com.mattjakeman.ExtensionManager org.qbittorrent.qBittorrent com.protonvpn.www com.github.zadam.trilium

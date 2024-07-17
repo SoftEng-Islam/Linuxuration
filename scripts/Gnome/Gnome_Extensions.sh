@@ -1,5 +1,7 @@
 #!/bin/bash
-# GNOME Shell extensions
+# --------------------------
+# Gnome Extensions
+# --------------------------
 
 # sudo pacman -S --noconfirm gnome-shell gnome-shell-extensions gnome-shell-extension-prefs
 
@@ -7,7 +9,7 @@
 install_extension_installer() {
     echo "Downloading the latest gnome-shell-extension-installer..."
     mkdir -p ~/.local/bin
-    echo 'export PATH=$PATH:~/.local/bin' >> ~/.bashrc
+    echo 'export PATH=$PATH:~/.local/bin' >>~/.bashrc
     source ~/.bashrc
     wget -O ~/.local/bin/gnome-shell-extension-installer https://raw.githubusercontent.com/brunelli/gnome-shell-extension-installer/master/gnome-shell-extension-installer
     chmod +x ~/.local/bin/gnome-shell-extension-installer
@@ -51,9 +53,12 @@ install_gnome_extension 4994
 # Install blur-my-shell extension (ID 3193)
 install_gnome_extension 3193
 
-
-
 # Enable the extension (UUID dash-to-dock@micxgx.gmail.com)
 gnome-extensions enable dash-to-dock@micxgx.gmail.com
 
 echo "Installation and enabling of GNOME extension completed."
+
+#########################
+# install gnome-pomodoro
+#########################
+yay -S gnome-pomodoro
