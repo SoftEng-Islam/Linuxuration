@@ -16,20 +16,6 @@ if [ $EUID -eq 0 ]; then
 fi
 clear
 
-# -------------------------------------------------------------
-# Check if the User want to Install or Improve Hyprland/themes
-# -------------------------------------------------------------
-if [ "$1" == 'hyprland' ]; then
-	# Install Hyprland and Some Deps
-fi
-
-# ----------------------------------------------------------
-# Check if the User want to Install or Improve Gnome/themes
-# ----------------------------------------------------------
-if [ "$1" == 'gnome' ]; then
-	# Install Gnome and Some Deps
-fi
-
 # ------------------------------------
 # set colors into vars
 # ------------------------------------
@@ -84,16 +70,49 @@ EOF
 # -----------------------------------------------
 echo 'Select your Options:'
 # Install Or Improve Gnome
+gnome=1
 # Install Or Improve Hyprland
-# Install Themes & Icons
-# Install Apps And Useful Packages
+hyprland=1
+# Install Themes
+themes=1
+# Install Icons
+icons=1
+# Install Apps
+apps=1
+# Install LibreOffice
+# Install Brave Browser
+# Install Vivaldi Browser
+# Install Slack
+# Install Discord
+# Install Spotify
+# Install Visual Studio Code
+# Install Sublime Text
+# Install Atom
+# Install Emacs
+
 # Install Fonts
+fonts=1
 # Install Drivers
+drivers=1
 # Install Tools & Languages for Developers
 # Install Wine To Run Windows apps and games
 # Install ZSH & OH-MY-ZSH
 # Install Pomodoro
 # Install plymouth-themes
+
+# -------------------------------------------------------------
+# Check if the User want to Install or Improve Hyprland/themes
+# -------------------------------------------------------------
+if [ "$1" == 'hyprland' ]; then
+	# Install Hyprland and Some Deps
+fi
+
+# ----------------------------------------------------------
+# Check if the User want to Install or Improve Gnome/themes
+# ----------------------------------------------------------
+if [ "$1" == 'gnome' ]; then
+	# Install Gnome and Some Deps
+fi
 
 # ---------------------
 # Update the Packages
