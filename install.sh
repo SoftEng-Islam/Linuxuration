@@ -105,9 +105,6 @@ modprobe fuse
 # install-bibata
 #-------------------
 
-echo 'Disable Gnome Check-alive'
-gsettings set org.gnome.mutter check-alive-timeout 0
-
 pacman -S flatpak --noconfirm
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
