@@ -97,32 +97,10 @@ echo 'Install ntfs-3g to Support MS partition file system'
 pacman -Sy --noconfirm ntfs-3g
 modprobe fuse
 
-# ######################
-# install-OneUI
-########################
-
-#-------------------
-# install-bibata
-#-------------------
-
-pacman -S flatpak --noconfirm
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
-# increase the timeout settings for Flatpak
-FLATPAK_CONF="/etc/flatpak/flatpak.conf"
-echo "[Network]"  >> $FLATPAK_CONF
-# Increase timeout settings (adjust as needed)
-echo "RequestTimeout=800"  >> $FLATPAK_CONF
-echo "Timeout settings updated in $FLATPAK_CONF"
-
 # ----------------------------------------------------
-# Install Apps
-# `flatpak install -y flathub com.visualstudio.code org.mozilla.firefox`
+# Install Flatpak Apps
 # ----------------------------------------------------
 echo 'Installing Resources App'
-flatpak install flathub com.visualstudio.code org.mozilla.firefox
-net.nokyan.Resources com.microsoft.Edge com.google.Chrome com.mattjakeman.ExtensionManager org.qbittorrent.qBittorrent com.protonvpn.www com.github.zadam.trilium
-
 # List of Flatpak applications to install (replace with your desired apps)
 APPS=(
 	# "com.visualstudio.code"
@@ -148,11 +126,11 @@ APPS=(
 	"org.blender.Blender"
 	"com.obsproject.Studio"
 	"org.gnome.Chess"
-	# Beekeeper Studio
-	# insomnia
-	# Lunacy - UI/UX and Web Designer Tool
-	# Krita
-	# blender
+	"Beekeeper Studio"
+	"insomnia"
+	"Lunacy - UI/UX and Web Designer Tool"
+	"Krita"
+	"blender"
 	# Add more applications as needed
 )
 # Function to install Flatpak applications
