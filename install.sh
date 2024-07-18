@@ -7,6 +7,16 @@
 # Please don't use this script, still under development
 # -------------------------------------------------------
 
+# check if the pacman package manager is available on the system.
+# If pacman is not found, it prints an error message indicating that
+# the system is not Arch Linux or an Arch-based distribution,
+# and then it exits the script with a status code of 1.
+if ! command -v pacman >/dev/null 2>&1; then
+	printf "\e[31m[$0]: pacman not found, it seems that the system is not ArchLinux or Arch-based distros. Aborting...\e[0m\n"
+	exit 1
+fi
+echo "pacman is found. Continuing with the script..."
+
 # ----------------------------------------------------
 # Check if running as root. If root, script will exit
 # ----------------------------------------------------
