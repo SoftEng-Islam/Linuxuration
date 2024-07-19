@@ -31,7 +31,7 @@ param2=$2
 
 # main theme
 if [ "$1" == "mainTheme" ]; then
-  hyprctl --batch "\
+	hyprctl --batch "\
   keyword general:border_size 4;\
   keyword general:gaps_out 40;\
   keyword general:gaps_in 20;\
@@ -41,7 +41,7 @@ fi
 
 # Game Mode Theme
 if [ "$1" == "gamemode" ]; then
-  hyprctl --batch "\
+	hyprctl --batch "\
   keyword general:border_size 0:\
   keyword decoration:drop_shadow 0;\
   keyword decoration:blur:enabled 0;\
@@ -53,70 +53,70 @@ fi
 
 # packages neeeded
 hypr_package=(
-  curl
-  gawk
-  git
-  grim
-  gvfs
-  gvfs-mtp
-  ImageMagick
-  jq
-  kitty
-  kvantum
-  nano
-  network-manager-applet
-  openssl
-  pamixer
-  pavucontrol
-  pipewire-alsa
-  pipewire-utils
-  playerctl
-  polkit-gnome
-  python3-requests
-  python3-pip
-  python3-pyquery
-  qt5ct
-  qt6ct
-  qt6-qtsvg
-  rofi-wayland
-  slurp
-  swappy
-  SwayNotificationCenter
-  waybar
-  wget2
-  wl-clipboard
-  wlogout
-  xdg-user-dirs
-  xdg-utils
-  yad
-  brightnessctl
-  btop
-  cava
-  eog
-  fastfetch
-  gnome-system-monitor
-  mousepad
-  mpv
-  mpv-mpris
-  nvtop
-  qalculate-gtk
-  vim-enhanced
+	curl
+	gawk
+	git
+	grim
+	gvfs
+	gvfs-mtp
+	ImageMagick
+	jq
+	kitty
+	kvantum
+	nano
+	network-manager-applet
+	openssl
+	pamixer
+	pavucontrol
+	pipewire-alsa
+	pipewire-utils
+	playerctl
+	polkit-gnome
+	python3-requests
+	python3-pip
+	python3-pyquery
+	qt5ct
+	qt6ct
+	qt6-qtsvg
+	rofi-wayland
+	slurp
+	swappy
+	SwayNotificationCenter
+	waybar
+	wget2
+	wl-clipboard
+	wlogout
+	xdg-user-dirs
+	xdg-utils
+	yad
+	brightnessctl
+	btop
+	cava
+	eog
+	fastfetch
+	gnome-system-monitor
+	mousepad
+	mpv
+	mpv-mpris
+	nvtop
+	qalculate-gtk
+	vim-enhanced
 )
 
 copr_packages=(
-  aylurs-gtk-shell
-  cliphist
-  hypridle
-  hyprlock
-  pamixer
-  pyprland
-  swww
+	aylurs-gtk-shell
+	cliphist
+	hypridle
+	hyprlock
+	pamixer
+	pyprland
+	swww
 )
 
 # List of packages to uninstall as it conflicts with swaync or causing swaync to not function properly
 uninstall=(
-  dunst
-  mako
+	dunst
+	mako
 )
 
 # ## WARNING: DO NOT EDIT BEYOND THIS LINE IF YOU DON'T KNOW WHAT YOU ARE DOING! ##
@@ -155,3 +155,14 @@ uninstall=(
 # done
 
 # clear
+
+# for fix gpg: Note: database_open 134217901 waiting for lock (held by 57012)
+# Example of Fixing Permissions and Importing Keys
+sudo pacman -S gnupg
+chmod 700 ~/.gnupg
+chmod 600 ~/.gnupg/*
+sudo chown -R $(whoami):$(whoami) ~/.gnupg
+mkdir -p /tmp/mygnupg
+export GNUPGHOME=/tmp/mygnupg
+chmod 700 /tmp/mygnupg
+gpg --recv-keys F4FDB18A9937358364B276E9E25D679AF73C6D2F
