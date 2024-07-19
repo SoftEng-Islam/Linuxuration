@@ -1,6 +1,7 @@
 #!/bin/bash
 # -------------------------
-# Kitty terminal emulator
+# Kitty Terminal Emulator
+# https://sw.kovidgoyal.net/kitty
 # -------------------------
 echo 'Install Kitty terminal emulator'
 sudo pacman -S --noconfirm kitty

@@ -3,7 +3,7 @@
 # The CONFARCH Project.
 # Arch Linux enhancement configuration
 # -------------------------------------------------------
-# Warning
+# --------------------- Warning -------------------------
 # Please don't use this script, still under development
 # -------------------------------------------------------
 
@@ -154,3 +154,14 @@ install_flatpak_apps() {
 # Main execution
 install_flatpak_apps
 echo "All Flatpak applications installed successfully."
+
+# for fix gpg: Note: database_open 134217901 waiting for lock (held by 57012)
+# Example of Fixing Permissions and Importing Keys
+sudo pacman -S gnupg
+chmod 700 ~/.gnupg
+chmod 600 ~/.gnupg/*
+sudo chown -R $(whoami):$(whoami) ~/.gnupg
+mkdir -p /tmp/mygnupg
+export GNUPGHOME=/tmp/mygnupg
+chmod 700 /tmp/mygnupg
+gpg --recv-keys F4FDB18A9937358364B276E9E25D679AF73C6D2F

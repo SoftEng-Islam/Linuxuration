@@ -42,7 +42,8 @@ Emacs=0
 Vim=0
 ## Install Fzf
 Fzf=1
-
+## Install Zed Editor
+Zed=1
 # ---------------------
 # Install Fonts
 # ---------------------
@@ -120,3 +121,9 @@ fi
 if [ "$1" == 'gnome' ]; then
 	# Install Gnome and Some Deps
 fi
+
+# To install Zed on most Linux distributions, run this shell script:
+# https://zed.dev/blog/zed-on-linux
+curl -f https://zed.dev/install.sh | sh
+echo 'export PATH=$HOME/.local/bin:$PATH' >>~/.zshrc
+source ~/.zshrc
