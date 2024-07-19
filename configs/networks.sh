@@ -50,9 +50,16 @@ sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
 sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
 sudo firewall-cmd --reload
 
+# Configure iptables for NAT
+# Set up NAT using iptables to allow the network traffic to be forwarded:
 sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
+
+# Save iptables Rules
+# To ensure the iptables rules persist after a reboot, save them using `iptables-save`:
+sudo iptables-save >/etc/iptables/iptables.rules
+sudo systemctl enable iptables
 
 # Enable IP Forwarding
 sudo sysctl -w net.ipv4.ip_forward=1
