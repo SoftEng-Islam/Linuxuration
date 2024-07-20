@@ -2,13 +2,21 @@
 # ---------------------------------------------- #
 # Here some fixies for Network & WIFI & Internet #
 # ---------------------------------------------- #
+# https://wiki.archlinux.org/index.php/NetworkManager
+# https://wiki.archlinux.org/index.php/WireGuard
+# ---------------------------------------------- #
 # Features:
 # Repair host.conf & hosts
-# Repair dnsmasq.conf
-# Repair nm.conf
-# Repair NetworkManager.conf
-# Repair systemd-resolved.conf
-#
+# Repair iptables
+# Repair firewalld
+# Repair dnsmasq
+# Repair NetworkManager
+# Repair systemd-resolved
+# Repair nm
+# Repair nm-applet
+# Repair nm-wireguard
+# Repair nm-connection-editor
+# Repair nm-openvpn
 # ---------------------------------------------- #
 
 # ----------------- #
@@ -33,6 +41,7 @@ sudo pacman -S --noconfirm \
 	nm-connection-editor \
 	connman \
 	dhcpcd \
+	dhclient \
 	network-manager-applet \
 	netctl \
 	networkmanager-openvpn \
@@ -92,6 +101,27 @@ sudo iptables-save >/etc/iptables/iptables.rules
 # Enable IP Forwarding
 sudo sysctl -w net.ipv4.ip_forward=1
 
+# ---------------------- #
+# Adjust TCP/IP Settings
+# ---------------------- #
+# Create or edit the sysctl configuration file:
+sudo rm /etc/sysctl.d/99-sysctl.conf && sudo touch /etc/sysctl.d/99-sysctl.conf
+# Add the following lines to optimize TCP/IP settings:
+sudo tee /etc/sysctl.d/99-sysctl.conf <<EOF >/dev/null
+net.ipv4.tcp_window_scaling = 1
+net.core.rmem_max = 16777216
+net.core.wmem_max = 16777216
+net.ipv4.tcp_rmem = 4096 87380 16777216
+net.ipv4.tcp_wmem = 4096 65536 16777216
+net.core.netdev_max_backlog = 5000
+net.ipv4.tcp_fin_timeout = 15
+net.ipv4.tcp_keepalive_time = 300
+net.ipv4.tcp_syncookies = 1
+net.ipv4.tcp_tw_reuse = 1
+EOF
+# Apply the changes:
+sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
+
 # --------------- #
 # Enable Services #
 # --------------- #
@@ -104,26 +134,24 @@ systemctl start iptables
 systemctl restart iptables
 # if the service is not enabled, enable it
 systemctl enable iptables
-
+# -------------------------------
 systemctl status firewalld
 systemctl start firewalld
 systemctl restart firewalld
 systemctl enable firewalld
-
+# -------------------------------
 systemctl status dnsmasq
 systemctl start dnsmasq
 systemctl restart dnsmasq
 systemctl enable dnsmasq
-
+# -------------------------------
 systemctl status NetworkManager
 systemctl start NetworkManager
 systemctl restart NetworkManager
 systemctl enable NetworkManager
-
+# -------------------------------
 systemctl status systemd-resolved
 systemctl start systemd-resolved
 systemctl restart systemd-resolved
 systemctl enable systemd-resolved
-
 exit
-# --------------------------------
