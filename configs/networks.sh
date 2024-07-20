@@ -3,6 +3,11 @@
 # Here some fixies for Network & WIFI & Internet #
 # ---------------------------------------------- #
 # Features:
+# Repair host.conf & hosts
+# Repair dnsmasq.conf
+# Repair nm.conf
+# Repair NetworkManager.conf
+# Repair systemd-resolved.conf
 #
 # ---------------------------------------------- #
 
@@ -16,12 +21,25 @@ sudo pacman --noconfirm -S linux-firmware
 # Install Important Packages #
 # -------------------------- #
 sudo pacman -S --noconfirm \
-	firewalld networkmanager \
-	wpa_supplicant dhclient \
+	firewalld \
+	networkmanager \
+	wpa_supplicant \
+	dhclient \
 	iw wireless_tools \
-	dialog iptables dnsmasq \
-	hostapd nm-connection-editor \
-	connman dhcpcd network-manager-applet netctl
+	dialog \
+	iptables \
+	dnsmasq \
+	hostapd \
+	nm-connection-editor \
+	connman \
+	dhcpcd \
+	network-manager-applet \
+	netctl \
+	networkmanager-openvpn \
+	wireguard-tools \
+	wireguard-dkms \
+	qrencode \
+	xdg-utils
 
 # Configure firewall
 sudo tee /etc/NetworkManager/conf.d/00-local.conf <<EOF >/dev/null
