@@ -122,10 +122,21 @@ EOF
 # Apply the changes:
 sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
 
+# -------------------- #
+# Increase Buffer Size #
+# -------------------- #
+# Increase the buffer size for better throughput:
+$(sudo sysctl -w net.core.rmem_max=16777216)
+$(sudo sysctl -w net.core.wmem_max=16777216)
+
 # --------------- #
 # Enable Services #
 # --------------- #
 sudo -i
+# Disable unnecessary services that may be consuming bandwidth:
+sudo systemctl disable --now avahi-daemon
+sudo systemctl disable --now cups
+# -------------------------------
 # check the status of the service (running and enabled)
 systemctl status iptables
 # if the service is not running, start it
