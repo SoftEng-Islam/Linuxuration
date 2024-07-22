@@ -113,3 +113,81 @@ yay -S --needed \
 	firewalld \
 	nwg-shell \
 	lxappearance
+
+# Set up QEMU
+yay -S --noconfirm qemu
+sudo ln -s /usr/bin/qemu-system-x86_64
+
+# Set up Rust
+rustup toolchain install stable
+rustup default stable
+
+# Set up Python
+pip install -r requirements.txt
+
+# Set up NodeJS
+yay -S --noconfirm nodejs
+npm install -g yarn
+yarn
+
+# Set up C
+yay -S --noconfirm clang
+yay -S --noconfirm libc++
+
+# Set up C++
+yay -S --noconfirm libstdc++
+
+# Set up C#
+yay -S --noconfirm dotnet-sdk
+
+# Set up Go
+yay -S --noconfirm go
+
+# Set up Docker
+yay -S --noconfirm docker
+sudo systemctl start docker
+sudo systemctl enable docker
+
+# Set up Docker Compose
+yay -S --noconfirm docker-compose
+sudo ln -s /usr/bin/docker-compose /usr/local/bin/docker-compose
+
+# Set up WireGuard
+yay -S --noconfirm wireguard-tools
+
+# Set up SSH
+yay -S --noconfirm openssh
+sudo systemctl enable sshd
+
+# Set up Git
+yay -S --noconfirm git
+
+# Set up Git LFS
+yay -S --noconfirm git-lfs
+git lfs install
+
+# Set up Tmux
+yay -S --noconfirm tmux
+
+# Set up Vim
+yay -S --noconfirm vim
+
+# Set up ZSH
+yay -S --noconfirm zsh
+
+# Set up ZSH Plugins
+yay -S --noconfirm zsh-syntax-highlighting
+yay -S --noconfirm zsh-autosuggestions
+yay -S --noconfirm zsh-completions
+
+# Set up Oh My ZSH
+yay -S --noconfirm oh-my-zsh
+
+# Set up NPM
+yay -S --noconfirm npm
+
+# Set up Python
+yay -S --noconfirm python
+
+# Set up NodeJS
+yay -S --noconfirm nodejs
