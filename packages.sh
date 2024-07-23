@@ -23,7 +23,6 @@ sudo pacman -S --needed --noconfirm \
 	qt6-wayland \
 	python-pip \
 	inkscape \
-	sudo pacman -Syu --needed --noconfirm \
 	ttf-liberation \
 	vlc \
 	gnome-tweaks \
