@@ -1,6 +1,8 @@
 #!/bin/bash
-sudo pacman -S --needed --noconfirm base-devel git
-sudo pacman -S --noconfirm \
+# ------------------------------------------- #
+# Common Packages for Poth Hyprland and Gnome #
+# ------------------------------------------- #
+sudo pacman -S --needed --noconfirm \
 	gedit \
 	vlc \
 	ffmpeg \
@@ -25,7 +27,7 @@ sudo pacman -S --noconfirm \
 	ttf-liberation \
 	vlc \
 	gnome-tweaks \
-	git \
+	base-devel git \
 	ffmpegthumbs \
 	boost \
 	gstreamer \
@@ -88,8 +90,7 @@ sudo pacman -S --noconfirm \
 	mesa xf86-video-amdgpu
 
 # Install packages from AUR using yay
-yay -S --noconfirm gtk-engine-murrine
-yay -S --needed \
+yay -S --needed --noconfirm \
 	gstreamer1-plugins-bad \
 	gstreamer1-plugins-good \
 	gstreamer1-plugins-base \
@@ -112,7 +113,8 @@ yay -S --needed \
 	grpc \
 	firewalld \
 	nwg-shell \
-	lxappearance
+	lxappearance \
+	gtk-engine-murrine
 
 # Set up QEMU
 yay -S --noconfirm qemu
