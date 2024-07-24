@@ -1,6 +1,8 @@
 #!/bin/bash
 # ------------------------------------------- #
 # Common Packages for Poth Hyprland and Gnome #
+# sudo nano /etc/pacman.conf
+# sudo nano /etc/makepkg.conf
 # ------------------------------------------- #
 sudo pacman -S --needed --noconfirm \
 	gedit \
@@ -114,6 +116,8 @@ yay -S --needed --noconfirm \
 	nwg-shell \
 	lxappearance \
 	gtk-engine-murrine
+
+# packages
 
 # Set up QEMU
 yay -S --noconfirm qemu
