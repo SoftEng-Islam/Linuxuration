@@ -185,6 +185,16 @@ EOF
 # Apply the changes
 sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
 
+# Set TCP Retries
+sudo tee /etc/sysctl.conf <<EOF >/dev/null
+net.ipv4.tcp_retries1 = 5
+net.ipv4.tcp_retries2 = 15
+EOF
+# Apply the changes
+sudo sysctl -p /etc/sysctl.conf
+
+sudo sysctl -p
+
 # Increase Buffer Size
 log "Increasing buffer size..."
 sudo sysctl -w net.core.rmem_max=16777216
