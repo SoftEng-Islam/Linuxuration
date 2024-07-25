@@ -2,9 +2,13 @@
 # -------------------------------------
 # Clean Up Script
 # -------------------------------------
-
+# a cleanup script for Arch Linux can help maintain your system by removing unnecessary files, clearing caches, and managing orphaned packages. Below is an example of a simple bash script that performs common cleanup tasks:
+# Clears the package cache
+# Removes orphaned packages
+# Cleans up unnecessary journal logs
+# Removes unused package files
+# -------------------------------------
 # Run the script with root privileges
-
 sudo -i
 
 # Clean package cache
