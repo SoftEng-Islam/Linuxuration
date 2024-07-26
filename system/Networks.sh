@@ -37,6 +37,11 @@ log "Updating the system..."
 sudo pacman --noconfirm -Syu || error_exit "Failed to update the system"
 sudo pacman --noconfirm -S linux-firmware || error_exit "Failed to install linux-firmware"
 
+# Install Cloudflare WARP
+# This might help you bypass your ISP’s restrictions and provide a faster internet
+# There will be a button on the right sidebar to toggle WARP if it’s installed
+yay -S --noconfirm cloudflare-warp-bin && sudo systemctl enable warp-svc --now
+
 # -------------------------- #
 # Install Important Packages #
 # -------------------------- #
