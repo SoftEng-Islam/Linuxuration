@@ -30,9 +30,9 @@ The repository "confArch" by SoftEng-Islam is designed for enhancing Arch Linux 
 - [Contact](#contact)
 ## Introduction
 
-After installing any Linux distribution, developers typically follow a series of steps to customize and optimize their new environment for their workflow. Here’s a breakdown of these common steps:
+After installing any Linux distribution, developers and users typically follow a series of steps to customize and optimize their new environment for their workflow. Here’s a breakdown of these common steps:
 
-### Steps Developers Typically Take
+### Steps Developers & Users Typically Take
 
 1. **Update System**:
    - **Command**: `sudo pacman -Syu` (for Arch Linux)
