@@ -17,6 +17,7 @@ sudo pacman -S --noconfirm wayland wayland-protocols libx11 libxkbcommon xcb-uti
 
 # Install additional dependencies required for Hyprland
 yay -S --noconfirm gdb gcc libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libxcomposite xorg-xinput libxrender pixman cairo pango seatd libxkbcommon xorg-xwayland libinput libliftoff libdisplay-info cpio tomlplusplus hyprland-git hyprcursor hyprwayland-scanner xcb-util-errors
+yay -S hyprpicker-git
 
 # ----------------------------------------------------------
 # Step 2: Clone and Build Hyprland
