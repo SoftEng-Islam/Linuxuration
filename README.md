@@ -14,7 +14,7 @@
 
 ## Table of Contents
 
-- [Introduction] (#introduction)
+- [Introduction](#introduction)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
