@@ -64,6 +64,12 @@ heart='\u2764'
 # ---------------------------------------------------------------
 # Say Hello, and give the user some information about his device
 # ---------------------------------------------------------------
+# Write some information about Your PC
+# lsmod | grep amdgpu
+# echo $XDG_SESSION_TYPE
+# lspci -k | grep -EA3 'VGA|3D|Display'
+# lspci -k | grep -A 2 -E "(VGA|3D)"
+
 echo -e "$(
 	cat <<EOF
 

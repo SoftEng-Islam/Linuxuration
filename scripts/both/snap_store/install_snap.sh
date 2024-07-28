@@ -1,9 +1,10 @@
 #!/bin/bash
+# ---------------------------------
+# Script to install Snap Store
+# ---------------------------------
 # Enable snaps on Arch Linux and install Snap Store
 # Snaps are applications packaged with all their dependencies to run on all popular Linux distributions from a single build.
 # They update automatically and roll back gracefully.
-
-
 
 git clone https://aur.archlinux.org/snapd.git
 cd snapd
