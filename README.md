@@ -20,52 +20,49 @@
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
+## Introduction
 
-## introduction
+After installing any Linux distribution, developers typically follow a series of steps to customize and optimize their new environment for their workflow. Here’s a breakdown of these common steps:
 
-After installing any Linux distribution, developers typically follow a series of steps to customize and optimize their new environment for their workflow. Here’s a breakdown of what they often do and their typical feelings during this process:
+### Steps Developers Typically Take
 
-Steps Developers Typically Take:
-Update System:
+1. **Update System**:
+   - **Command**: `sudo pacman -Syu` (for Arch Linux)
+   - **Purpose**: Ensure all software packages are up-to-date with the latest versions and security patches.
 
-Command: sudo pacman -Syu (for Arch Linux)
-Purpose: Ensuring all software packages are up-to-date with the latest versions and security patches.
-Install Essential Development Tools:
+2. **Install Essential Development Tools**:
+   - **Examples**: Git, text editors (VSCode, Vim, Emacs), compilers (GCC, Clang), build tools (make, CMake), and language-specific tools (Node.js, Python, Ruby).
+   - **Command**: `sudo pacman -S git vim gcc make cmake python nodejs`
 
-Examples: Git, text editors (like VSCode, Vim, or Emacs), compilers (GCC, Clang), build tools (make, CMake), and language-specific tools (Node.js, Python, Ruby).
-Command: sudo pacman -S git vim gcc make cmake python nodejs
-Configure Shell and Terminal:
+3. **Configure Shell and Terminal**:
+   - **Tools**: Zsh, Oh My Zsh, custom shell scripts.
+   - **Purpose**: Enhance the terminal experience with themes, plugins, and customizations.
 
-Tools: Zsh, Oh My Zsh, custom shell scripts.
-Purpose: Enhancing the terminal experience with themes, plugins, and customizations.
-Setup Version Control:
+4. **Setup Version Control**:
+   - **Tool**: Git
+   - **Commands**:
+     ```bash
+     git config --global user.name "Your Name"
+     git config --global user.email "your.email@example.com"
+     ```
 
-Tool: Git
-Commands:
+5. **Install Development Libraries and Dependencies**:
+   - **Purpose**: Ensure all necessary libraries and dependencies are available for development projects.
+   - **Examples**: Database clients (MySQL, PostgreSQL), libraries (OpenSSL, zlib).
 
-```
- git config --global user.name "Your Name"
- git config --global user.email "your.email@example.com"
-```
+6. **Customize Desktop Environment**:
+   - **Tools**: Window managers (Hyprland), status bars (polybar), and other UI customizations.
+   - **Purpose**: Create a productive and aesthetically pleasing workspace.
 
-Install Development Libraries and Dependencies:
+7. **Set Up Development Environment**:
+   - **Examples**: Setting up Integrated Development Environments (IDEs) like IntelliJ IDEA, PyCharm, or Eclipse, configuring Docker for containerized development.
 
-Purpose: Ensuring all necessary libraries and dependencies are available for development projects.
-Examples: Database clients (MySQL, PostgreSQL), libraries (OpenSSL, zlib).
-Customize Desktop Environment:
+8. **Configure Network and Connectivity**:
+   - **Purpose**: Ensure reliable internet and network access.
+   - **Examples**: Installing network tools like `net-tools`, `curl`, `wget`.
 
-Tools: Window managers (Hyprland), status bars (polybar), and other UI customizations.
-Purpose: Creating a productive and aesthetically pleasing workspace.
-Set Up Development Environment:
-
-Examples: Setting up Integrated Development Environments (IDEs) like IntelliJ IDEA, PyCharm, or Eclipse, configuring Docker for containerized development.
-Configure Network and Connectivity:
-
-Purpose: Ensuring reliable internet and network access.
-Examples: Installing network tools like net-tools, curl, wget.
-Install Additional Software:
-
-Examples: Browsers (Firefox, Chromium), communication tools (Slack, Zoom), productivity tools (LibreOffice, GIMP).
+9. **Install Additional Software**:
+   - **Examples**: Browsers (Firefox, Chromium), communication tools (Slack, Zoom), productivity tools (LibreOffice, GIMP).
 
 ## Installation
 
