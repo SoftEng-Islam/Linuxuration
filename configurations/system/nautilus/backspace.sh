@@ -28,7 +28,7 @@ check_exit_status "Failed to install python-nautilus."
 # Clone the repository
 cd ~/Downloads/
 echo "Cloning the nautilus-backspace repository..."
-git clone https://github.com/alt-gnome-team/nautilus-backspace.git
+git clone https://github.com/SoftEng-Islam/nautilus-backspace.git
 check_exit_status "Failed to clone the repository."
 
 # Change to the repository directory
