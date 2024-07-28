@@ -2,15 +2,23 @@
 
 **Arch** Linux enhancement configuration
 
+The repository "confArch" by SoftEng-Islam is designed for enhancing Arch Linux configurations. It contains scripts and configurations to update the system, install essential development tools, configure the shell and terminal, set up version control, install development libraries and dependencies, customize the desktop environment, set up the development environment, configure network connectivity, and install additional software.
+
 > [!WARNING]
 >
 > - Please don't use this script, still under development
 
 ## Features
 
-- Feature 1
-- Feature 2
-- Feature 3
+- System Updates: Commands and scripts to keep Arch Linux up-to-date.
+- Development Tools Installation: Scripts to install Git, text editors, compilers, and build tools.
+- Shell and Terminal Configuration: Setup for Zsh, Oh My Zsh, and custom shell scripts.
+- Version Control Setup: Configuration for Git.
+- Development Libraries and Dependencies: Installation of essential libraries and database clients.
+- Desktop Environment Customization: Configuration for window managers, status bars, and UI tweaks.
+- Development Environment Setup: IDE setup and Docker configuration.
+- Network and Connectivity Configuration: Ensuring reliable network access.
+- Additional Software Installation: Browsers, communication tools, and productivity software.
 
 ## Table of Contents
 
