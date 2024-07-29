@@ -26,62 +26,6 @@ echo "pacman is found. Continuing with the script..."
 prevent_sudo_or_root
 # clear
 
-# ------------------------------------
-# set colors into vars
-# ------------------------------------
-# Regular Colors:
-RBlack='\033[30m'
-RRed='\033[31m'
-RGreen='\033[32m'
-RYellow='\033[33m'
-RBlue='\033[34m'
-RMagenta='\033[35m'
-RCyan='\033[36m'
-RWhite='\033[37m'
-
-# Bright (Bold) Colors:
-BrBlack='\033[90m'
-BrRed='\033[91m'
-BrGreen='\033[92m'
-BrYellow='\033[93m'
-BrBlue='\033[94m'
-BrMagenta='\033[95m'
-BrCyan='\033[96m'
-BrWhite='\033[97m'
-
-NC='\033[0m'
-BOLD='\033[1m'
-Italic='\033[3m'
-Underline='\033[4m'
-Strikethrough='\033[9m'
-
-RESET="\033[0m" # Reset color
-
-# Unicode Characters
-# `echo -e "\u2764"   # Outputs a heart symbol (❤)`
-heart='\u2764'
-
-# ---------------------------------------------------------------
-# Say Hello, and give the user some information about his device
-# ---------------------------------------------------------------
-# Write some information about Your PC
-# lsmod | grep amdgpu
-# echo $XDG_SESSION_TYPE
-# lspci -k | grep -EA3 'VGA|3D|Display'
-# lspci -k | grep -A 2 -E "(VGA|3D)"
-
-echo -e "$(
-	cat <<EOF
-
-${RMagenta}===================================================================${RESET}
-${RMagenta}= ${RESET} \e[31mWelcome\e[0m \e[1;32m$(whoami)\e[0m
-${RMagenta}= ${RESET} Today's date is: \e[93m$(date)\e[0m
-${RMagenta}= ${RESET} \e[3;90mfeel free to message me on\e[0m \e[1;34mTwitter\e[0m: \e[4;96mhttps://x.com/SoftEng_Islam\e[0m
-${RMagenta}===================================================================${RESET} \n
-
-EOF
-)"
-
 # ---------------------
 # Update the Packages
 # ---------------------

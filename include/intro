@@ -1,7 +1,24 @@
 #!/usr/bin/env bash
-function intro() {
+function _intro() {
+	# ---------------------------------------------------------------
+	# Say Hello, and give the user some information about his device
+	# ---------------------------------------------------------------
+	# Write some information about Your PC
+	# lsmod | grep amdgpu
+	# echo $XDG_SESSION_TYPE
+	# lspci -k | grep -EA3 'VGA|3D|Display'
+	# lspci -k | grep -A 2 -E "(VGA|3D)"
+
+	echo -e "$(
+		cat <<EOF
+
+${RMagenta}===================================================================${RESET}
+${RMagenta}1 ${RESET} ${Red}Welcome${RESET} \e[1;32m$(whoami)\e[0m ${heart}
+${RMagenta}2 ${RESET} Today's date is: ${B_Yellow}$(date)${RESET}
+${RMagenta}3 ${RESET} \e[3;90mfeel free to message me on\e[0m \e[1;34mTwitter\e[0m: \e[4;96mhttps://x.com/SoftEng_Islam\e[0m
+${RMagenta}===================================================================${RESET} \n
+
+EOF
+	)"
 
 }
-
-# To test the intro function uncomment the below comment:
-# intro
