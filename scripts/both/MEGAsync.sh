@@ -4,7 +4,6 @@
 wget https://mega.nz/linux/repo/Arch_Extra/x86_64/megasync-x86_64.pkg.tar.zst && sudo pacman -U "$PWD/megasync-x86_64.pkg.tar.zst"
 wget https://mega.nz/linux/repo/Arch_Extra/x86_64/nautilus-megasync-x86_64.pkg.tar.zst && sudo pacman -U "$PWD/nautilus-megasync-x86_64.pkg.tar.zst"
 
-
 # Function to install yay if not already installed
 # install_yay() {
 #     if ! command -v yay &> /dev/null; then

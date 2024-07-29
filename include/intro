@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+function intro() {
+
+}
+
+# To test the intro function uncomment the below comment:
+# intro

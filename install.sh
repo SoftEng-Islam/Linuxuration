@@ -6,6 +6,9 @@
 # --------------------- Warning -------------------------
 # Please don't use this script, still under development
 # -------------------------------------------------------
+cd "$(dirname "$0")"
+export base="$(pwd)"
+source ./include/Global_functions
 
 # check if the pacman package manager is available on the system.
 # If pacman is not found, it prints an error message indicating that
@@ -20,11 +23,8 @@ echo "pacman is found. Continuing with the script..."
 # ----------------------------------------------------
 # Check if running as root. If root, script will exit
 # ----------------------------------------------------
-if [ $EUID -eq 0 ]; then
-	echo "This script should not be executed as root! Exiting......."
-	exit 1
-fi
-clear
+prevent_sudo_or_root
+# clear
 
 # ------------------------------------
 # set colors into vars

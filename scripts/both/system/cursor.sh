@@ -22,7 +22,6 @@ echo 'Install Cursor Icons'
 # For local user:
 # mv Bibata-Rainbow-* ~/.icons
 
-
 # Uninstall
 # From all user:
 # sudo rm -r /usr/share/icons/Bibata-Rainbow-*

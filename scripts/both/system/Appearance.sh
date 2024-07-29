@@ -11,21 +11,21 @@ unzip -o -q "icon/Flat-Remix-Blue-Light.zip" -d ~/.icons
 
 # Function to update icon cache for a given directory
 update_icon_cache() {
-    local dir=$1
-    if [ -d "$dir" ]; then
-        echo "Updating icon cache for: $dir"
-        sudo gtk-update-icon-cache "$dir"
-    fi
+	local dir=$1
+	if [ -d "$dir" ]; then
+		echo "Updating icon cache for: $dir"
+		sudo gtk-update-icon-cache "$dir"
+	fi
 }
 
 # Update system-wide icon themes
 for theme in /usr/share/icons/*; do
-    update_icon_cache "$theme"
+	update_icon_cache "$theme"
 done
 
 # Update user-specific icon themes
 for theme in ~/.local/share/icons/*; do
-    update_icon_cache "$theme"
+	update_icon_cache "$theme"
 done
 
 # Update MIME database
