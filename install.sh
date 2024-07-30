@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+cd "$(dirname "$0")"
+export base="$(pwd)"
 # -------------------------------------------------------
 # The CONFARCH Project.
 # Arch Linux enhancement configuration
@@ -6,10 +8,15 @@
 # --------------------- Warning -------------------------
 # Please don't use this script, still under development
 # -------------------------------------------------------
-cd "$(dirname "$0")"
-export base="$(pwd)"
+
+# ----------------------------------------------------
+# Include Files:
+# ----------------------------------------------------
 source ./include/Global_functions
 
+# -------------------------------
+# Check if pacman is available
+# -------------------------------
 # check if the pacman package manager is available on the system.
 # If pacman is not found, it prints an error message indicating that
 # the system is not Arch Linux or an Arch-based distribution,

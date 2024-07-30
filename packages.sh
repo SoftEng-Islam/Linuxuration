@@ -90,6 +90,9 @@ sudo pacman -S --needed --noconfirm \
 	qt5-base qt5-webengine \
 	mesa xf86-video-amdgpu
 
+pkg-config --libs --cflags javascriptcoregtk-4.0
+export PKG_CONFIG_PATH=/usr/lib/pkgconfig:/usr/share/pkgconfig
+
 # Install packages from AUR using yay
 yay -S --needed --noconfirm \
 	gstreamer1-plugins-bad \
