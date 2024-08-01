@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-function _intro() {
+function _welcome() {
 	# ---------------------------------------------------------------
 	# Say Hello, and give the user some information about his device
 	# ---------------------------------------------------------------

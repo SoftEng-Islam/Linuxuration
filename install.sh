@@ -13,6 +13,7 @@ export base="$(pwd)"
 # Include Files:
 # ----------------------------------------------------
 source ./include/Global_functions
+source ./include/welcome
 
 # -------------------------------
 # Check if pacman is available
@@ -32,6 +33,11 @@ echo "pacman is found. Continuing with the script..."
 # ----------------------------------------------------
 prevent_sudo_or_root
 # clear
+
+# ---------------------------------------------------
+# Show Welcome Message
+# ---------------------------------------------------
+_welcome
 
 # ---------------------
 # Update the Packages
