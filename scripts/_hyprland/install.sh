@@ -115,3 +115,9 @@ done
 # ----------------------------------------------------------
 
 echo "Hyprland and all necessary packages have been installed successfully!"
+
+# ------------
+# xdph
+# ------------
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
