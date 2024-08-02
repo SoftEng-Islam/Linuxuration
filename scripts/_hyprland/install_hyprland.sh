@@ -33,7 +33,7 @@ print_status "Updating system and installing dependencies..."
 retry 3 sudo pacman -Syu --noconfirm gammastep base-devel cmake meson ninja bmake wayland wayland-protocols libx11 libxkbcommon xcb-util-image xcb-util-wm xcb-util-xrm pixman pango cairo gdk-pixbuf2 gtk3 glibc
 
 # Install additional dependencies required for Hyprland
-retry 3 yay -S --noconfirm gdb gcc libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libxcomposite xorg-xinput libxrender cairo pango seatd libxkbcommon xorg-xwayland libinput libliftoff libdisplay-info cpio tomlplusplus hyprland-git hyprcursor hyprwayland-scanner xcb-util-errors
+retry 3 yay -S --noconfirm gdb gcc libxcb xcb-proto xcb-util xcb-util-keysyms libxfixes libxcomposite xorg-xinput libxrender cairo pango seatd libxkbcommon xorg-xwayland libinput libliftoff libdisplay-info cpio tomlplusplus hyprland-git hyprcursor hyprwayland-scanner xcb-util-errors hyprpicker-git
 
 # Step 2: Clone and Build Hyprland
 print_status "Cloning and building Hyprland..."
@@ -117,3 +117,9 @@ for package in "${hypr_packages[@]}"; do
 done
 
 print_status "Hyprland and all necessary packages have been installed successfully!"
+
+# ------------
+# xdph
+# ------------
+xdg-desktop-portal-hyprland
+xdg-desktop-portal-gtk
