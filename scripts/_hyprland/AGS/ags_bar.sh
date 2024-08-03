@@ -18,3 +18,7 @@ echo "Download: $download_speed, Upload: $upload_speed"
 EOF
 
 chmod +x ~/scripts/internet_speed.sh
+
+# Integrate with AGS:
+# You need to create a widget in AGS to run the script and display the output.
+# Edit your AGS configuration file, e.g., ~/.config/ags/config.yml:
