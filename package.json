@@ -1,0 +1,50 @@
+{
+	"name": "confArch",
+	"private": true,
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vue-tsc --noEmit && vite build",
+		"preview": "vite preview",
+		"tauri": "tauri"
+	},
+	"dependencies": {
+		"@vue/language-plugin-pug": "^1.6.5",
+		"pug-load": "^1.0.2",
+		"@tauri-apps/api": "^1.5.0",
+		"@tiptap/pm": "^2.1.12",
+		"@tiptap/starter-kit": "^2.1.12",
+		"@tiptap/vue-3": "^2.1.12",
+		"@types/perfect-scrollbar": "^0.7.0",
+		"bcrypt": "^5.1.1",
+		"perfect-scrollbar": "^1.5.5",
+		"remixicon": "^3.5.0",
+		"vee-validate": "^4.11.8",
+		"vue": "^3.3.4",
+		"vue-perfect-scrollbar": "^0.2.1",
+		"vue-tippy": "^6.3.1",
+		"vue3-perfect-scrollbar": "^2.0.0"
+	},
+	"devDependencies": {
+		"@tailwindcss/aspect-ratio": "^0.4.2",
+		"@tailwindcss/container-queries": "^0.1.1",
+		"@tailwindcss/forms": "^0.5.6",
+		"@tailwindcss/typography": "^0.5.10",
+		"@tauri-apps/cli": "^1.5.0",
+		"@vitejs/plugin-vue": "^4.2.3",
+		"animate.css": "^4.1.1",
+		"autoprefixer": "^10.4.16",
+		"pinia": "^2.1.7",
+		"postcss": "^8.4.31",
+		"pug": "^3.0.2",
+		"sass": "^1.69.5",
+		"sass-loader": "^13.3.2",
+		"tailwindcss": "^3.3.5",
+		"typescript": "^5.0.2",
+		"vite": "^4.4.4",
+		"vite-plugin-pug": "^0.3.2",
+		"vue-pug-plugin": "^2.0.3",
+		"vue-tsc": "^2.0.29"
+	}
+}

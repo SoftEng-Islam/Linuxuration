@@ -1,0 +1,43 @@
+{
+	"noImplicitAny": true,
+	"compilerOptions": {
+		"useDefineForClassFields": true,
+		"module": "ESNext",
+		"lib": [
+			"ES2015",
+			"DOM",
+			"DOM.Iterable"
+		],
+		"skipLibCheck": true,
+		/* Bundler mode */
+		"moduleResolution": "Node",
+		"allowImportingTsExtensions": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"noEmit": true,
+		"jsx": "preserve",
+		"forceConsistentCasingInFileNames": true,
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"strictFunctionTypes": false,
+	},
+	"vueCompilerOptions": {
+		"plugins": [
+			"@volar/vue-language-plugin-pug"
+		]
+	},
+	"include": [
+		"src/**/*.ts",
+		"src/**/*.d.ts",
+		"src/**/*.tsx",
+		"src/**/*.vue"
+	],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
+}

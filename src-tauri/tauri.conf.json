@@ -1,0 +1,85 @@
+{
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build",
+    "devPath": "http://localhost:1420",
+    "distDir": "../dist",
+    "withGlobalTauri": false
+  },
+  "package": {
+    "productName": "dev-doku",
+    "version": "0.0.0"
+  },
+  "tauri": {
+    "allowlist": {
+		"window": {
+			"all": true,
+			"create": true,
+			"center": true,
+			"requestUserAttention": true,
+			"setResizable": true,
+			"setMaximizable": true,
+			"setMinimizable": true,
+			"setClosable": true,
+			"setTitle": true,
+			"maximize": true,
+			"unmaximize": true,
+			"minimize": true,
+			"unminimize": true,
+			"show": true,
+			"hide": true,
+			"close": true,
+			"setDecorations": true,
+			"setAlwaysOnTop": true,
+			"setContentProtected": true,
+			"setSize": true,
+			"setMinSize": true,
+			"setMaxSize": true,
+			"setPosition": true,
+			"setFullscreen": true,
+			"setFocus": true,
+			"setIcon": true,
+			"setSkipTaskbar": true,
+			"setCursorGrab": true,
+			"setCursorVisible": true,
+			"setCursorIcon": true,
+			"setCursorPosition": true,
+			"setIgnoreCursorEvents": true,
+			"startDragging": true,
+			"print": true
+		},
+      "all": false,
+      "shell": {
+        "all": false,
+        "open": true
+      }
+    },
+    "bundle": {
+      "active": true,
+      "targets": "all",
+      "identifier": "com.tauri.dev",
+      "icon": [
+        "icons/32x32.png",
+        "icons/128x128.png",
+        "icons/128x128@2x.png",
+        "icons/icon.icns",
+        "icons/icon.ico"
+      ]
+    },
+    "security": {
+      "csp": null
+    },
+    "windows": [
+      {
+		"decorations": false,
+		"transparent": true,
+        "fullscreen": false,
+        "resizable": true,
+        "title": "dev-doku",
+        "width": 800,
+        "height": 600
+
+      }
+    ]
+  }
+}
