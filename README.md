@@ -110,4 +110,4 @@ Project Link: [https://github.com/SoftEng-Islam/confArch](https://github.com/Sof
 
 ---
 
-If you have any specific questions or need help, feel free to ask me on twitter/x.
+If you have any specific questions or need help, feel free to ask me on [twitter/x](https://x.com/SoftEng_Islam).
