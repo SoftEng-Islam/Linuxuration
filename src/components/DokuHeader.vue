@@ -211,3 +211,6 @@ header(class="overflow-hidden w-full top-0 left-0 h-[var(--HeaderHeight)] flex i
 	}
 }
 </style>
+export default {
+
+}

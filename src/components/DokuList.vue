@@ -1,30 +1,30 @@
 <script setup lang="ts">
-	import { ref } from 'vue';
-	import DokuPages from "./DokuPages.vue";
+import { ref } from 'vue';
+import DokuPages from "./DokuPages.vue";
 
-	import { useTippy } from 'vue-tippy'
-	const btn = ref()
+import { useTippy } from 'vue-tippy';
+const btn = ref();
 
-	useTippy(btn, {
-		content: 'Active Now!',
-		trigger: 'click',
+useTippy(btn, {
+	content: 'Active Now!',
+	trigger: 'click',
 
-	})
-
-
-	// Our List
-	let activeIndex =  ref<null | number>(null);
-	const items = ref(['Islam', 'Ahmed', 'Mohamed']);
+});
 
 
-	let ri_arrow_left = ref<boolean>(true);
-	let ri_arrow_right = ref<boolean>(false);
-	let DokuListClosed= ref<boolean>(false);
-	function close(): void {
-		DokuListClosed.value = !DokuListClosed.value;
-		ri_arrow_left.value = !ri_arrow_left.value;
-		ri_arrow_right.value = !ri_arrow_right.value;
-	}
+// Our List
+let activeIndex = ref<null | number>(null);
+const items = ref(['Islam', 'Ahmed', 'Mohamed']);
+
+
+let ri_arrow_left = ref<boolean>(true);
+let ri_arrow_right = ref<boolean>(false);
+let DokuListClosed = ref<boolean>(false);
+function close(): void {
+	DokuListClosed.value = !DokuListClosed.value;
+	ri_arrow_left.value = !ri_arrow_left.value;
+	ri_arrow_right.value = !ri_arrow_right.value;
+}
 </script>
 <template lang="pug">
 //- All Docs List

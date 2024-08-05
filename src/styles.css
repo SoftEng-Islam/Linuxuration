@@ -26,14 +26,13 @@
 }
 
 :root {
-
 	/* Light Colors */
 	--L-gra: hsl(0, 0%, 90%);
 	--L-pur: hsl(271, 60%, 70%);
 	--L-pin: hsl(330, 60%, 70%);
 	--L-blu: hsl(217, 60%, 70%);
 	--L-gre: hsl(142, 60%, 70%);
-	--L-yel: hsl(45,  60%, 70%);
+	--L-yel: hsl(45, 60%, 70%);
 
 	/* Dark Colors */
 	--D-gra: hsl(229, 14%, 22%);
@@ -41,7 +40,7 @@
 	--D-pin: hsl(336, 60%, 20%);
 	--D-blu: hsl(217, 60%, 20%);
 	--D-gre: hsl(145, 60%, 20%);
-	--D-yel: hsl(26,  60%, 20%);
+	--D-yel: hsl(26, 60%, 20%);
 
 	/* Dark Theme */
 	--th_gra1: hsl(225, 10%, 05%);
@@ -69,16 +68,15 @@
 	--th_gre3: hsl(142, 30%, 15%);
 	--th_gre4: hsl(142, 30%, 20%);
 
-	--th_yel1: hsl(45,  30%, 05%);
-	--th_yel2: hsl(45,  30%, 10%);
-	--th_yel3: hsl(45,  30%, 15%);
-	--th_yel4: hsl(45,  30%, 20%);
+	--th_yel1: hsl(45, 30%, 05%);
+	--th_yel2: hsl(45, 30%, 10%);
+	--th_yel3: hsl(45, 30%, 15%);
+	--th_yel4: hsl(45, 30%, 20%);
 
 	--Theme1: var(--th_gra1);
 	--Theme2: var(--th_gra2);
 	--Theme3: var(--th_gra3);
 	--Theme4: var(--th_gra4);
-
 
 	/* Light Theme */
 	--Lth_gra1: hsl(0, 0%, 60%);
@@ -106,16 +104,15 @@
 	--Lth_gre3: hsl(142, 10%, 80%);
 	--Lth_gre4: hsl(142, 10%, 90%);
 
-	--Lth_yel1: hsl(45,  10%, 60%);
-	--Lth_yel2: hsl(45,  10%, 70%);
-	--Lth_yel3: hsl(45,  10%, 80%);
-	--Lth_yel4: hsl(45,  10%, 90%);
+	--Lth_yel1: hsl(45, 10%, 60%);
+	--Lth_yel2: hsl(45, 10%, 70%);
+	--Lth_yel3: hsl(45, 10%, 80%);
+	--Lth_yel4: hsl(45, 10%, 90%);
 
 	--LTheme1: var(--Lth_gra1);
 	--LTheme2: var(--Lth_gra2);
 	--LTheme3: var(--Lth_gra3);
 	--LTheme4: var(--Lth_gra4);
-
 
 	/* Header Height */
 	--HeaderHeight: 3.5rem;
@@ -143,7 +140,6 @@ html {
 	--popper-theme-border-radius: 6px;
 	--popper-theme-padding: 32px;
 	--popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
-
 }
 html.dark {
 	--popper-theme-background-color: #333333;
@@ -153,12 +149,16 @@ html.dark {
 	--popper-theme-border-radius: 6px;
 	--popper-theme-padding: 32px;
 	--popper-theme-box-shadow: 0 6px 30px -6px rgba(0, 0, 0, 0.25);
-  }
+}
 
-  body {
+body {
 	font-family: JetBrains;
 	@apply flex items-center justify-center
-		border-4 border-solid border-[var(--LborderFavColor)] dark:border-[var(--borderFavColor)]
+		/* Dynamic Border based on vars */
+		/* border-4 border-solid border-[var(--LborderFavColor)] dark:border-[var(--borderFavColor)] */
+
+		/* Static Border */
+		border-2 border-solid border-gray-800 border-opacity-25
 		bg-[var(--LTheme4)] dark:bg-[var(--Theme4)]
 		h-screen w-screen
 		overflow-hidden;
