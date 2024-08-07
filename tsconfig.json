@@ -1,43 +1,45 @@
 {
 	"noImplicitAny": true,
 	"compilerOptions": {
+		"target": "esnext",
+		"module": "esnext",
+		"moduleResolution": "node",
+		"strict": true,
+		"jsx": "preserve",
+		"sourceMap": true,
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		},
+		"types": ["node"],
 		"useDefineForClassFields": true,
-		"module": "ESNext",
-		"lib": [
-			"ES2015",
-			"DOM",
-			"DOM.Iterable"
-		],
+		"lib": ["ES2015", "DOM", "DOM.Iterable"],
 		"skipLibCheck": true,
-		/* Bundler mode */
-		"moduleResolution": "Node",
 		"allowImportingTsExtensions": true,
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"noEmit": true,
-		"jsx": "preserve",
 		"forceConsistentCasingInFileNames": true,
-		/* Linting */
-		"strict": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"noFallthroughCasesInSwitch": true,
-		"strictFunctionTypes": true,
+		"strictFunctionTypes": true
 	},
 	"vueCompilerOptions": {
-		"plugins": [
-			"@volar/vue-language-plugin-pug"
-		]
+		"plugins": ["@volar/vue-language-plugin-pug"]
 	},
 	"include": [
-		"src/**/*.ts",
-		"src/**/*.d.ts",
-		"src/**/*.tsx",
-		"src/**/*.vue"
+		"src/**/*",
+		"src/types/**/*"
+		// "src/**/*.ts",
+		// "src/**/*.d.ts",
+		// "src/**/*.tsx",
+		// "src/**/*.vue"
 	],
+	"exclude": ["node_modules"],
 	"references": [
 		{
-			"path": "./tsconfig.node.json"
+			// "path": "./tsconfig.node.json"
 		}
 	]
 }

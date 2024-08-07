@@ -31,6 +31,7 @@ function MT_toggleMode() {
 let LiColorActive = ref<number>(1);
 
 let rootElement = document.querySelector(":root") as HTMLElement;
+
 function setColorTheme(color: number): void {
 	LiColorActive.value = color;
 	switch(color) {
