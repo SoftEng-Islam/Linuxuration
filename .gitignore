@@ -1,4 +1,2 @@
-test.sh
-Note.sh
-dots-hyprland-main/
-Fedora-Hyprland-main/
+./debug.sh
+node_modules
