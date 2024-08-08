@@ -6,9 +6,9 @@ import StatusBar from "./components/StatusBar.vue";
 </script>
 
 <template lang="pug">
-DokuHeader
+<DokuHeader/>
 div(class="relative left-0 w-full h-[var(--DokuListsHeight)] flex items-end justify-center")
-	DokuList
-	StatusBar
+	<DokuList/>
+	<StatusBar/>
 //- <Greet/>
 </template>

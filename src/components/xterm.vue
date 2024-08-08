@@ -36,9 +36,5 @@ onMounted(() => {
 </script>
 
 <template lang="pug">
-div(ref="terminalRef" class="p-4 border-2 border-red-500")
+div(ref="terminalRef" class="h-16 mb-2 overflow-hidden")
 </template>
-
-<style>
-/* Add any additional styles here */
-</style>

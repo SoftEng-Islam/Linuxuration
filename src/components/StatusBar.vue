@@ -17,6 +17,7 @@ div(class="relative w-full flex flex-col item-center justify-center bg-[var(--LT
 			button(type="button" @click="setActiveTab(2)") Terminal
 		li(class="flex items-center h-8 p-3 text-white hover:opacity-100 hover:cursor-pointer border-b-4" :class="statusbarActiveTab === 3 ? 'opacity-100 border-b-[var(--light-fav-color)] dark:border-[var(--dark-fav-color)] border-b-4': 'opacity-50 border-transparent'")
 			button(type="button" @click="setActiveTab(3)") Errors
-	div(class="h-20 p-3 w-full bg-[var(--light-fav-color)] dark:bg-[var(--dark-fav-color)]" v-show="true")
+	div(class="h-28 mb-5 p-3 w-full overflow-hidden bg-[var(--light-fav-color)] dark:bg-[var(--dark-fav-color)]" v-show="true")
 		xterm
+		| fdsfsdfsdfdf
 </template>

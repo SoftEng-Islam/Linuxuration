@@ -7,16 +7,8 @@ import "animate.css";
 import "remixicon/fonts/remixicon.css";
 
 // Minimalistic but perfect custom scrollbar plugin
-import { PerfectScrollbar } from "vue3-perfect-scrollbar";
-import "./styles/PerfectScrollbar.css";
+// import { PerfectScrollbar } from "vue3-perfect-scrollbar";
+// import "./styles/PerfectScrollbar.css";
 
 // mount App
-createApp(App)
-	.use(createPinia())
-	.use(PerfectScrollbar, {
-		watchOptions: true,
-		options: {
-			swipeEasing: true,
-		},
-	})
-	.mount("#app");
+createApp(App).use(createPinia()).mount("#app");
