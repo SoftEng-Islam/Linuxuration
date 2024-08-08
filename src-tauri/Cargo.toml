@@ -1,8 +1,8 @@
 [package]
-name = "dev-doku"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
+name = "confArch"
+version = "1.0.0"
+description = "A confArch App"
+authors = ["Islam Ahmed"]
 license = ""
 repository = ""
 edition = "2021"

@@ -31,7 +31,7 @@ div(class="absolute duration-100 h-[var(--DokuListsHeight)] bg-[var(--LTheme3)] 
 		button(type="button" @click="close" class="w-4 h-11 rounded-tr-lg rounded-br-lg bg-[var(--LTheme3)] dark:bg-[var(--Theme3)] absolute z-20 top-1/2 right-[-1rem] translate-y-[-50%]")
 			<i v-show="ri_arrow_left" class="ri-arrow-left-s-line dark:text-white"></i>
 			<i v-show="ri_arrow_right" class="ri-arrow-right-s-line dark:text-white"></i>
-	<doku-pages/>
+		DokuPages
 </template>
 <style scoped lang="sass">
 .DokuList_Ul

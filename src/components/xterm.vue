@@ -30,11 +30,11 @@ onMounted(() => {
 		terminal.value.open(terminalRef.value);
 
 		// Example script to run
-		runScript('echo "Hello, world"');
+		runScript('echo "Hello, world!"');
 	}
 });
 </script>
 
 <template lang="pug">
-div(ref="terminalRef" class="h-16 mb-2 overflow-hidden")
+div(ref="terminalRef" class="h-16 rounded-lg border-4 border-black overflow-hidden")
 </template>
