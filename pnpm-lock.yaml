@@ -24,7 +24,7 @@ importers:
         specifier: ^4.3.0
         version: 4.3.0
       vue:
-        specifier: ^3.4.34
+        specifier: ^3.4.36
         version: 3.4.36(typescript@5.5.4)
       vue3-perfect-scrollbar:
         specifier: ^2.0.0
@@ -58,10 +58,10 @@ importers:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.41)
       pinia:
-        specifier: ^2.2.0
+        specifier: ^2.2.1
         version: 2.2.1(typescript@5.5.4)(vue@3.4.36(typescript@5.5.4))
       postcss:
-        specifier: ^8.4.40
+        specifier: ^8.4.41
         version: 8.4.41
       pug:
         specifier: ^3.0.3

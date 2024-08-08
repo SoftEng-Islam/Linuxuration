@@ -28,18 +28,11 @@
 	"vueCompilerOptions": {
 		"plugins": ["@volar/vue-language-plugin-pug"]
 	},
-	"include": [
-		"src/**/*",
-		"src/types/**/*"
-		// "src/**/*.ts",
-		// "src/**/*.d.ts",
-		// "src/**/*.tsx",
-		// "src/**/*.vue"
-	],
+	"include": ["src/**/*"],
 	"exclude": ["node_modules"],
 	"references": [
 		{
-			// "path": "./tsconfig.node.json"
+			"path": "./tsconfig.node.json"
 		}
 	]
 }

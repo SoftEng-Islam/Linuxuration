@@ -2,15 +2,6 @@
 import { ref } from 'vue';
 import DokuPages from "./DokuPages.vue";
 
-import { useTippy } from 'vue-tippy';
-const btn = ref();
-
-useTippy(btn, {
-	content: 'Active Now!',
-	trigger: 'click',
-
-});
-
 
 // Our List
 let activeIndex = ref<null | number>(null);

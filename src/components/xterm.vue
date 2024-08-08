@@ -1,34 +1,43 @@
-<!-- Terminal.vue -->
-<template>
-	<div ref="terminal"></div>
-</template>
-
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { Terminal } from '@xterm/xterm';
 import '@xterm/xterm/css/xterm.css';
 import { invoke } from '@tauri-apps/api/tauri';
 
-const terminalRef = ref(null);
-let terminal;
+// Create a reference for the terminal container
+const terminalRef = ref<HTMLElement | null>(null);
+const terminal = ref<Terminal | null>(null);
 
-const runScript = async (script) => {
+const runScript = async (script: string) => {
 	try {
-		const output = await invoke('run_bash_script', { script });
-		terminal.write(output);
+		// Invoke the Tauri command and get the output
+		const output: string | Uint8Array = await invoke('run_bash_script', { script });
+
+		// Write the output to the terminal
+		terminal.value?.write(typeof output === 'string' ? output : new TextDecoder().decode(output));
 	} catch (error) {
-		terminal.write(`Error: ${error}`);
+		// Write the error message to the terminal
+		terminal.value?.write(`Error: ${error}`);
 	}
 };
 
 onMounted(() => {
-	terminal = new Terminal();
-	terminal.open(terminalRef.value);
+	// Initialize the terminal instance
+	terminal.value = new Terminal();
 
-	// Example script to run
-	runScript('echo "Hello, Tauri!"');
+	// Ensure the terminalRef is not null before opening the terminal
+	if (terminalRef.value) {
+		terminal.value.open(terminalRef.value);
+
+		// Example script to run
+		runScript('echo "Hello, world"');
+	}
 });
 </script>
+
+<template lang="pug">
+div(ref="terminalRef" class="p-4 border-2 border-red-500")
+</template>
 
 <style>
 /* Add any additional styles here */

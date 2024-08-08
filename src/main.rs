@@ -1,18 +1,9 @@
-// fn main() {
-//     println!("Hello, world!");
-// }
-
-#![cfg_attr(
-    all(not(debug_assertions), target_os = "windows"),
-    windows_subsystem = "windows"
-)]
-
 use std::process::Command;
-use tauri::{generate_handler, Builder, Runtime};
+use tauri::command;
 
-#[tauri::command]
+#[command]
 fn run_bash_script(script: String) -> Result<String, String> {
-    let output = Command::new("sh")
+    let output = Command::new("bash")
         .arg("-c")
         .arg(script)
         .output()
@@ -26,8 +17,8 @@ fn run_bash_script(script: String) -> Result<String, String> {
 }
 
 fn main() {
-    Builder::default()
-        .invoke_handler(generate_handler![run_bash_script])
+    tauri::Builder::default()
+        .invoke_handler(tauri::generate_handler![run_bash_script])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
