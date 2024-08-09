@@ -65,13 +65,11 @@ sudo pacman -S --needed --noconfirm \
 	netctl \
 	networkmanager-openvpn \
 	wireguard-tools \
-	wireguard-dkms \
 	qrencode \
 	xdg-utils \
 	traceroute \
 	nmap \
 	bind \
-	python-nftables \
 	nftables || error_exit "Failed to install packages"
 
 # Disable NetworkManager to prevent interference during configuration
