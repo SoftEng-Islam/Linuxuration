@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo pacman -S dos2unix --noconfirm
+sudo pacman -S --needed dos2unix --noconfirm
 for script in "$@"; do
 	echo "Cleaning $script..."
 	# Remove non-ASCII characters
