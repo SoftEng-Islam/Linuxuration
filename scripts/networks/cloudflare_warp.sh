@@ -1,21 +1,5 @@
 #!/bin/bash
-
-# Function to check if yay is installed
-check_yay() {
-	if ! command -v yay &>/dev/null; then
-		echo "yay is not installed. Please install yay and try again."
-		exit 1
-	fi
-}
-
-# Function to confirm action
-confirm() {
-	read -p "$1 (y/n): " response
-	if [[ "$response" != "y" && "$response" != "Y" ]]; then
-		echo "Action cancelled."
-		exit 1
-	fi
-}
+source ../../include/global_functions
 
 # Check if yay is installed
 check_yay
