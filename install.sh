@@ -36,19 +36,10 @@ check_pacman
 # ------------------- #
 update_packages
 
-# -----------------
-# Install Packages
-# -----------------
-echo 'Install Needed Packages'
-echo 'Install yay'
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -si
-
-# echo 'Install debtap by yay'
-# yay -S debtap
-# echo 'Initialize `debtap` (only needed the first time)'
-# debtap -u
+# ----------------------------------------------------------- #
+# Function to check if yay is installed and install it if not #
+# ----------------------------------------------------------- #
+check_yay
 
 # Microsoft Partition FileSystem Format 'NTFS'
 echo 'Install ntfs-3g to Support MS partition file system'

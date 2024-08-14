@@ -127,25 +127,18 @@ check_yay() {
 check_yay() {
 	if ! command -v yay &>/dev/null; then
 		echo "yay is not installed. Installing yay..."
-
 		# Install yay
 		sudo pacman -S --needed base-devel git
-
 		# Clone the yay repository from the AUR
 		git clone https://aur.archlinux.org/yay.git
-
 		# Change directory to yay
 		cd yay
-
 		# Build and install yay
 		makepkg -si
-
 		# Change back to the previous directory
 		cd ..
-
 		# Remove the yay directory
 		rm -rf yay
-
 		echo "yay has been successfully installed."
 	else
 		echo "yay is already installed."
@@ -172,3 +165,8 @@ update_packages() {
 	sudo pacman -S --noconfirm linux-firmware
 	sudo mkinitcpio -P
 }
+
+# echo 'Install debtap by yay'
+# yay -S debtap
+# echo 'Initialize `debtap` (only needed the first time)'
+# debtap -u
