@@ -9,28 +9,15 @@ export base="$(pwd)"
 # Please don't use this script, still under development
 # -------------------------------------------------------
 
-# ----------------------------------------------------
-# Include Files:
-# ----------------------------------------------------
+#---------------------------------#
+# Include variables and functions #
+#---------------------------------#
 source ./include/Global_functions
 source ./include/welcome
 
-# -------------------------------
-# Check if pacman is available
-# -------------------------------
-# check if the pacman package manager is available on the system.
-# If pacman is not found, it prints an error message indicating that
-# the system is not Arch Linux or an Arch-based distribution,
-# and then it exits the script with a status code of 1.
-if ! command -v pacman >/dev/null 2>&1; then
-	printf "\e[31m[$0]: pacman not found, it seems that the system is not ArchLinux or Arch-based distros. Aborting...\e[0m\n"
-	exit 1
-fi
-echo "pacman is found. Continuing with the script..."
-
-# ----------------------------------------------------
-# Check if running as root. If root, script will exit
-# ----------------------------------------------------
+# --------------------------------------------------- #
+# Check if running as root. If root, script will exit #
+# --------------------------------------------------- #
 prevent_sudo_or_root
 # clear
 
@@ -39,17 +26,15 @@ prevent_sudo_or_root
 # ---------------------------------------------------
 _welcome
 
-# ---------------------
-# Update the Packages
-# ---------------------
-cd ~/Downloads/
-echo 'Update the Packages'
-# sudo -i
-sudo rm /var/lib/pacman/db.lck
-sudo pacman -Scc --noconfirm
-sudo pacman -Syu --noconfirm && sudo pacman -Sc --noconfirm && yay -Syu --noconfirm --devel
-sudo pacman -S --noconfirm linux-firmware
-sudo mkinitcpio -P
+# ---------------------------- #
+# Check if pacman is available #
+# ---------------------------- #
+check_pacman
+
+# ------------------- #
+# Update the Packages #
+# ------------------- #
+update_packages
 
 # -----------------
 # Install Packages
