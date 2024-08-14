@@ -21,6 +21,13 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_FZF=true
 
 # Keybindings
+# Emacs Mode Keybindings:
+# Ctrl + A: Move the cursor to the beginning of the line.
+# Ctrl + E: Move the cursor to the end of the line.
+# Ctrl + K: Cut the text from the cursor to the end of the line.
+# Ctrl + Y: Paste the text that was cut (yank).
+# Ctrl + P: Go to the previous command in history.
+# Ctrl + N: Go to the next command in history.
 bindkey -e  # Use emacs mode (default)
 zle -N fzf-history-widget
 bindkey '^P' fzf-history-widget  # Bind Ctrl+P to trigger fzf history search
