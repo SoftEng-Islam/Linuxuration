@@ -1,33 +1,29 @@
 # Path to your oh-my-zsh installation.
 ZSH=~/.oh-my-zsh/
 
+# List of plugins to load with Oh My Zsh
+plugins=(
+    fzf
+    git
+    zsh-autocomplete
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+)
+
 # Load Oh My Zsh framework
 source $ZSH/oh-my-zsh.sh
 
 # Load custom theme
 source ~/.oh-my-zsh/themes/softeng.zsh-theme
 
-# Load zsh-autocomplete plugin
-source ~/.oh-my-zsh/custom/plugins/zsh-autocomplete/zsh-autocomplete.plugin.zsh
-
-# List of plugins to load with Oh My Zsh
-plugins=(
-    fzf
-    git
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-)
-
 # Zsh-autosuggestions configuration
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_FZF=true
 
-# Bind keys in emacs mode (default)
-bindkey -e
-
-# Bind Ctrl+P to trigger fzf history search
+# Keybindings
+bindkey -e  # Use emacs mode (default)
 zle -N fzf-history-widget
-bindkey '^P' fzf-history-widget
+bindkey '^P' fzf-history-widget  # Bind Ctrl+P to trigger fzf history search
 
 # Detect the AUR helper (yay or paru)
 if pacman -Qi yay &>/dev/null; then
@@ -37,19 +33,19 @@ elif pacman -Qi paru &>/dev/null; then
 fi
 
 # Aliases for common commands
-alias c='clear' # Clear terminal
-alias l='eza -lh --icons=auto' # Long list with icons
-alias ls='eza -1 --icons=auto' # Short list with icons
-alias ll='eza -lha --icons=auto --sort=name --group-directories-first' # Long list all with icons
-alias ld='eza -lhD --icons=auto' # Long list directories with icons
-alias lt='eza --icons=auto --tree' # List folder as tree with icons
-alias un='$aurhelper -Rns' # Uninstall package
-alias up='$aurhelper -Syu' # Update system/packages/AUR
-alias pl='$aurhelper -Qs' # List installed packages
-alias pa='$aurhelper -Ss' # List available packages
-alias pc='$aurhelper -Sc' # Remove unused cache
-alias po='$aurhelper -Qtdq | $aurhelper -Rns -' # Remove unused packages
-alias vc='code' # Open Visual Studio Code
+alias c='clear'  # Clear terminal
+alias l='eza -lh --icons=auto'  # Long list with icons
+alias ls='eza -1 --icons=auto'  # Short list with icons
+alias ll='eza -lha --icons=auto --sort=name --group-directories-first'  # Long list all with icons
+alias ld='eza -lhD --icons=auto'  # Long list directories with icons
+alias lt='eza --icons=auto --tree'  # List folder as tree with icons
+alias un='$aurhelper -Rns'  # Uninstall package
+alias up='$aurhelper -Syu'  # Update system/packages/AUR
+alias pl='$aurhelper -Qs'  # List installed packages
+alias pa='$aurhelper -Ss'  # List available packages
+alias pc='$aurhelper -Sc'  # Remove unused cache
+alias po='$aurhelper -Qtdq | $aurhelper -Rns -'  # Remove unused packages
+alias vc='code'  # Open Visual Studio Code
 
 # Handy change directory shortcuts
 alias ..='cd ..'
