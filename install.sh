@@ -24,7 +24,7 @@ prevent_sudo_or_root
 # ---------------------------------------------------
 # Show Welcome Message
 # ---------------------------------------------------
-_welcome
+welcome
 
 # ---------------------------- #
 # Check if pacman is available #
