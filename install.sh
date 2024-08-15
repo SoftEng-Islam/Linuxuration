@@ -41,14 +41,16 @@ update_packages
 # ----------------------------------------------------------- #
 check_yay
 
-# Microsoft Partition FileSystem Format 'NTFS'
+# -------------------------------------------- #
+# Microsoft Partition FileSystem Format 'NTFS' #
+# -------------------------------------------- #
 echo 'Install ntfs-3g to Support MS partition file system'
 pacman -Sy --noconfirm ntfs-3g
 modprobe fuse
 
-# ----------------------------------------------------
-# Install Flatpak Apps
-# ----------------------------------------------------
+# -------------------- #
+# Install Flatpak Apps #
+# -------------------- #
 echo 'Installing Resources App'
 # List of Flatpak applications to install (replace with your desired apps)
 APPS=(
