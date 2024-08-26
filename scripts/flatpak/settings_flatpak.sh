@@ -7,7 +7,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 
 # increase the timeout settings for Flatpak
 FLATPAK_CONF="/etc/flatpak/flatpak.conf"
-echo "[Network]" >>$FLATPAK_CONF
-# Increase timeout settings (adjust as needed)
-echo "RequestTimeout=800" >>$FLATPAK_CONF
+echo "[Network]" | sudo tee -a $FLATPAK_CONF > /dev/null
+echo "RequestTimeout=1000" | sudo tee -a $FLATPAK_CONF > /dev/null
 echo "Timeout settings updated in $FLATPAK_CONF"

@@ -55,7 +55,6 @@ sudo pacman -S --needed --noconfirm \
 	iw \
 	wireless_tools \
 	dialog \
-	iptables \
 	dnsmasq \
 	hostapd \
 	nm-connection-editor \
@@ -69,8 +68,10 @@ sudo pacman -S --needed --noconfirm \
 	xdg-utils \
 	traceroute \
 	nmap \
-	bind \
-	nftables || error_exit "Failed to install packages"
+	bind || error_exit "Failed to install packages"
+	# iptables \
+	# nftables
+
 
 # Disable NetworkManager to prevent interference during configuration
 log "Disabling NetworkManager..."
@@ -105,12 +106,12 @@ EOF
 sudo chattr +i /etc/resolv.conf
 
 # Verify Network Connectivity
-log "Verifying network connectivity..."
-ping -c 4 8.8.8.8 || error_exit "Network connectivity test failed"
+#log "Verifying network connectivity..."
+#ping -c 4 8.8.8.8 || error_exit "Network connectivity test failed"
 
 # Verify DNS Resolution
-log "Verifying DNS resolution..."
-ping -c 4 google.com || error_exit "DNS resolution test failed"
+#log "Verifying DNS resolution..."
+#ping -c 4 google.com || error_exit "DNS resolution test failed"
 
 # Verify Router/Gateway
 log "Verifying router/gateway..."
@@ -132,11 +133,11 @@ sudo tee /etc/NetworkManager/NetworkManager.conf <<EOF >>/dev/null
 wifi.powersave = 2
 EOF
 
-log "Disabling IPv6..."
-sudo tee /etc/sysctl.d/ipv6.conf <<EOF >/dev/null
-net.ipv6.conf.all.disable_ipv6 = 1
-net.ipv6.conf.eth0.disable_ipv6 = 1
-EOF
+#log "Disabling IPv6..."
+#sudo tee /etc/sysctl.d/ipv6.conf <<EOF >/dev/null
+#net.ipv6.conf.all.disable_ipv6 = 1
+#net.ipv6.conf.eth0.disable_ipv6 = 1
+#EOF
 
 # Firewall Policies
 log "Configuring firewall policies..."
@@ -166,7 +167,10 @@ sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -
 sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
 
 # Save iptables Rules
-sudo iptables-save >/etc/iptables/iptables.rules
+sudo touch /etc/iptables/iptables.rules
+sudo chmod 644 /etc/iptables/iptables.rules
+# sudo iptables-save >/etc/iptables/iptables.rules
+sudo iptables-save | sudo tee /etc/iptables/iptables.rules
 
 # Enable IP Forwarding
 sudo sysctl -w net.ipv4.ip_forward=1
@@ -174,6 +178,7 @@ sudo sysctl -w net.ipv4.ip_forward=1
 # Adjust TCP/IP Settings
 log "Adjusting TCP/IP settings..."
 sudo tee /etc/sysctl.d/99-sysctl.conf <<EOF >/dev/null
+net.ipv4.ip_forward = 1
 net.ipv4.tcp_window_scaling = 1
 net.core.rmem_max = 16777216
 net.core.wmem_max = 16777216

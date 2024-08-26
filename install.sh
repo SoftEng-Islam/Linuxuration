@@ -45,50 +45,33 @@ check_yay
 # Microsoft Partition FileSystem Format 'NTFS' #
 # -------------------------------------------- #
 echo 'Install ntfs-3g to Support MS partition file system'
-pacman -Sy --noconfirm ntfs-3g
+pacman -S --noconfirm fuse3  ntfs-3g
 modprobe fuse
+
+
+# ----------------------------------------------
+# Here will some Configuration
+# ----------------------------------------------
+# ----------------------------------------------------------
+# This Command is used to add the current user to additional groups,
+# specifically the video and input groups,
+# on a Unix-like operating system
+# ----------------------------------------------------------
+# Explanation of Each Group:
+## video: Access to video devices.
+## input: Access to input devices like keyboards and mice.
+## audio: Access to audio devices.
+## network: Permissions to manage network connections.
+## wheel: Ability to use sudo for administrative tasks.
+## storage: Access to storage devices.
+## lp: Manage printers.
+## uucp: Access to serial ports and devices connected via serial ports.
+sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp $(whoami)
+
+
+
+
 
 # -------------------- #
 # Install Flatpak Apps #
 # -------------------- #
-echo 'Installing Resources App'
-# List of Flatpak applications to install (replace with your desired apps)
-APPS=(
-	# "com.visualstudio.code"
-	"org.mozilla.firefox"
-	"com.microsoft.Edge"
-	"com.google.Chrome"
-	"net.nokyan.Resources"
-	"com.mattjakeman.ExtensionManager"
-	"org.qbittorrent.qBittorrent"
-	"com.github.zadam.trilium"
-	"org.gnome.Boxes"
-	"com.getpostman.Postman"
-	"io.dbeaver.DBeaverCommunity"
-	"rest.insomnia.Insomnia"
-	"com.discordapp.Discord"
-	"org.telegram.desktop"
-	"org.libreoffice.LibreOffice"
-	"org.mozilla.Thunderbird"
-	"md.obsidian.Obsidian"
-	"org.gimp.GIMP"
-	"org.kde.krita"
-	"org.kde.kdenlive"
-	"org.blender.Blender"
-	"com.obsproject.Studio"
-	"org.gnome.Chess"
-	"Beekeeper Studio"
-	"Lunacy - UI/UX and Web Designer Tool"
-	# Add more applications as needed
-)
-# Function to install Flatpak applications
-install_flatpak_apps() {
-	for app in "${APPS[@]}"; do
-		echo "Installing $app..."
-		flatpak install flathub $app -y
-		echo "---------------------------------------------"
-	done
-}
-# Main execution
-install_flatpak_apps
-echo "All Flatpak applications installed successfully."

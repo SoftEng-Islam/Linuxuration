@@ -3,11 +3,12 @@ ZSH=~/.oh-my-zsh/
 
 # List of plugins to load with Oh My Zsh
 plugins=(
-    fzf
-    git
-    zsh-autocomplete
-    zsh-autosuggestions
-    zsh-syntax-highlighting
+	git
+	fzf
+	zsh-autocomplete
+	zsh-autosuggestions
+	zsh-syntax-highlighting
+	zsh-history-substring-search
 )
 
 # Load Oh My Zsh framework
@@ -15,6 +16,12 @@ source $ZSH/oh-my-zsh.sh
 
 # Load custom theme
 source ~/.oh-my-zsh/themes/softeng.zsh-theme
+
+# Enable syntax highlighting
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Enable autosuggestions
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Zsh-autosuggestions configuration
 ZSH_AUTOSUGGEST_STRATEGY=(history completion)
