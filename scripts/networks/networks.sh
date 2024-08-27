@@ -171,6 +171,9 @@ sudo touch /etc/iptables/iptables.rules
 sudo chmod 644 /etc/iptables/iptables.rules
 # sudo iptables-save >/etc/iptables/iptables.rules
 sudo iptables-save | sudo tee /etc/iptables/iptables.rules
+sudo iptables -L
+sudo modprobe ip_tables
+sudo modprobe iptable_filter
 
 # Enable IP Forwarding
 sudo sysctl -w net.ipv4.ip_forward=1
@@ -210,12 +213,12 @@ sudo sysctl -w net.core.rmem_max=16777216
 sudo sysctl -w net.core.wmem_max=16777216
 
 # Enable/Disable Services
-log "Disabling unnecessary services..."
-sudo systemctl disable --now avahi-daemon
-sudo systemctl disable --now cups
+#log "Disabling unnecessary services..."
+#sudo systemctl disable --now avahi-daemon
+#sudo systemctl disable --now cups
 
 log "Enabling and starting necessary services..."
-services=(iptables firewalld dnsmasq NetworkManager systemd-resolved)
+services=(dnsmasq iptables ip6tables firewalld NetworkManager systemd-resolved )
 for service in "${services[@]}"; do
 	sudo systemctl enable --now $service
 	sudo systemctl restart $service
