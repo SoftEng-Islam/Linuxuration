@@ -160,24 +160,6 @@ sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
 sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
 sudo firewall-cmd --reload
 
-# Configure iptables for NAT
-log "Configuring iptables for NAT..."
-sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
-sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
-sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
-
-# Save iptables Rules
-sudo touch /etc/iptables/iptables.rules
-sudo chmod 644 /etc/iptables/iptables.rules
-# sudo iptables-save >/etc/iptables/iptables.rules
-sudo iptables-save | sudo tee /etc/iptables/iptables.rules
-sudo iptables -L
-sudo modprobe ip_tables
-sudo modprobe iptable_filter
-
-# Enable IP Forwarding
-sudo sysctl -w net.ipv4.ip_forward=1
-
 # Adjust TCP/IP Settings
 log "Adjusting TCP/IP settings..."
 sudo tee /etc/sysctl.d/99-sysctl.conf <<EOF >/dev/null
@@ -217,7 +199,26 @@ sudo sysctl -w net.core.wmem_max=16777216
 #sudo systemctl disable --now avahi-daemon
 #sudo systemctl disable --now cups
 
-log "Enabling and starting necessary services..."
+
+# Configure iptables for NAT
+# log "Configuring iptables for NAT..."
+sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
+
+# Save iptables Rules
+sudo touch /etc/iptables/iptables.rules
+sudo chmod 644 /etc/iptables/iptables.rules
+# sudo iptables-save >/etc/iptables/iptables.rules
+sudo iptables-save | sudo tee /etc/iptables/iptables.rules
+sudo iptables -L
+sudo modprobe ip_tables
+sudo modprobe iptable_filter
+
+# Enable IP Forwarding
+sudo sysctl -w net.ipv4.ip_forward=1
+
+# log "Enabling and starting necessary services..."
 services=(dnsmasq iptables ip6tables firewalld NetworkManager systemd-resolved )
 for service in "${services[@]}"; do
 	sudo systemctl enable --now $service
@@ -225,3 +226,67 @@ for service in "${services[@]}"; do
 done
 
 log "Network and Wi-Fi setup completed successfully."
+
+# ----------------------------------------------------
+#!/bin/bash
+source ../../include/global_functions
+
+# Check if yay is installed
+check_yay
+
+# Confirm the installation
+confirm "Do you want to install Cloudflare WARP and enable its service?"
+
+# Install Cloudflare WARP
+echo "Installing Cloudflare WARP..."
+yay -S --noconfirm cloudflare-warp-bin
+if [[ $? -ne 0 ]]; then
+	echo "Failed to install Cloudflare WARP. Exiting."
+	exit 1
+fi
+
+# Enable and start the WARP service
+echo "Enabling and starting the WARP service..."
+sudo systemctl enable warp-svc --now
+if [[ $? -ne 0 ]]; then
+	echo "Failed to enable and start the WARP service. Exiting."
+	exit 1
+fi
+
+echo "Cloudflare WARP has been installed and the service is running."
+
+
+# ----------------------------------------------------
+#!/bin/bash
+# =========================================================
+# This script can install hashcat & hcxdumptool & hcxtools
+# =========================================================
+
+# -----------------------------------------------------------
+# Install hcxdumptool
+# https://github.com/ZerBea/hcxdumptool
+# Small tool to capture packets from wlan devices.
+# -----------------------------------------------------------
+cd ~/Downloads/
+git clone https://github.com/ZerBea/hcxdumptool.git
+cd hcxdumptool
+make -j $(nproc)
+sudo make install
+
+# -----------------------------------------------------------
+# Install hcxtools
+# https://github.com/ZerBea/hcxtools
+# A small set of tools to convert packets from capture files to hash files for use with Hashcat or John the Ripper.
+# -----------------------------------------------------------
+cd ~/Downloads/
+git clone https://github.com/ZerBea/hcxtools.git
+cd hcxtools
+make -j $(nproc)
+sudo make install
+
+# -----------------------------------------------------------
+# Install Hashcat
+# https://hashcat.net/hashcat/
+# https://github.com/hashcat/hashcat
+# World's fastest and most advanced password recovery utility
+# -----------------------------------------------------------
