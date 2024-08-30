@@ -27,66 +27,49 @@ prevent_sudo_or_root
 welcome
 
 # ------------------------------------- #
-# Function Check if pacman is available #
+# Check if pacman is available #
 # ------------------------------------- #
 # check if the pacman package manager is available on the system.
 # If pacman is not found, it prints an error message indicating that
 # the system is not Arch Linux or an Arch-based distribution,
 # and then it exits the script with a status code of 1.
-check_pacman() {
-	if ! command -v pacman >/dev/null 2>&1; then
-		printf "\e[31m[$0]: pacman not found, it seems that the system is not ArchLinux or Arch-based distros. Aborting...\e[0m\n"
-		exit 1
-	fi
-	echo "pacman is found. Continuing with the script..."
-}
 
-# Function to check if yay is installed
-check_yay() {
-	if ! command -v yay &>/dev/null; then
-		echo "yay is not installed. Please install yay and try again."
-		exit 1
-	fi
-}
-# Function to check if yay is installed and install it if not
-check_yay() {
-	if ! command -v yay &>/dev/null; then
-		echo "yay is not installed. Installing yay..."
-		# Install yay
-		sudo pacman -S --needed base-devel git
-		# Clone the yay repository from the AUR
-		git clone https://aur.archlinux.org/yay.git
-		# Change directory to yay
-		cd yay
-		# Build and install yay
-		makepkg -si
-		# Change back to the previous directory
-		cd ..
-		# Remove the yay directory
-		rm -rf yay
-		echo "yay has been successfully installed."
-	else
-		echo "yay is already installed."
-	fi
-}
+if ! command -v pacman >/dev/null 2>&1; then
+	printf "\e[31m[$0]: pacman not found, it seems that the system is not ArchLinux or Arch-based distros. Aborting...\e[0m\n"
+	exit 1
+else
+	echo "pacman is found. Continuing with the script..."
+fi
+
+# Check if yay is installed and install it if not
+if ! command -v yay &>/dev/null; then
+	echo "yay is not installed. Installing yay..."
+	# Install yay
+	sudo pacman -S --needed base-devel git
+	# Clone the yay repository from the AUR
+	git clone https://aur.archlinux.org/yay.git && cd yay
+	# Build and install yay & Change back to the previous directory
+	makepkg -si && cd ..
+	# Remove the yay directory
+	rm -rf yay
+	echo "yay has been successfully installed."
+else
+	echo "yay is already installed. Continuing with the script..."
+fi
 
 # ------------------- #
 # Update the Packages #
 # ------------------- #
 update_packages
 
-# ----------------------------------------------------------- #
-# Function to check if yay is installed and install it if not #
-# ----------------------------------------------------------- #
-check_yay
 
 # -------------------------------------------- #
 # Microsoft Partition FileSystem Format 'NTFS' #
 # -------------------------------------------- #
-echo 'Install ntfs-3g to Support MS partition file system'
-pacman -S --noconfirm fuse3  ntfs-3g
-modprobe fuse
-
+echo 'Install ntfs and fuse to Support MS Partition File System'
+sudo pacman -S --noconfirm fuse3  ntfs-3g
+sudo modprobe fuse
+echo 'ntfs and fuse has been installed'
 
 # ----------------------------------------------
 # Here will some Configuration
@@ -194,3 +177,7 @@ yay -S --noconfirm microsoft-edge-stable-bin google-chrome
 # C#
 
 # python
+
+
+
+update_packages
