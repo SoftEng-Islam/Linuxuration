@@ -62,12 +62,11 @@ fi
 # ------------------- #
 update_packages
 
-
 # -------------------------------------------- #
 # Microsoft Partition FileSystem Format 'NTFS' #
 # -------------------------------------------- #
 echo 'Install ntfs and fuse to Support MS Partition File System'
-sudo pacman -S --noconfirm fuse3  ntfs-3g
+sudo pacman -S --noconfirm fuse3 ntfs-3g
 sudo modprobe fuse
 echo 'ntfs and fuse has been installed'
 
@@ -90,10 +89,6 @@ echo 'ntfs and fuse has been installed'
 ## uucp: Access to serial ports and devices connected via serial ports.
 sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp $(whoami)
 
-
-
-
-
 # -------------------- #
 # Install Apps & Tools #
 # -------------------- #
@@ -115,7 +110,7 @@ i_git() { # git
 	git 'config' --global core.packedGitLimit 512m
 	git 'config' --global advice.addIgnoredFile false
 }
-i_nodeJS(){ # NodeJS
+i_nodeJS() { # NodeJS
 	# installs nvm (Node Version Manager)
 	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
 	# download and install Node.js (you may need to restart the terminal)
@@ -125,7 +120,7 @@ i_nodeJS(){ # NodeJS
 	# verifies the right npm version is in the environment
 	npm -v # should print `10.8.2`
 }
-i_npms(){ # Install Node Package Managers
+i_npms() { # Install Node Package Managers
 	# Install NPM
 	#sudo pacman -S --noconfirm npm
 
@@ -145,14 +140,35 @@ i_npms(){ # Install Node Package Managers
 	sudo pacman -S --noconfirm pnpm
 }
 i_xdman() { # xdman(Download Manager)
-	sudo pacman -S --noconfirm  jdk-openjdk yt-dlp
+	sudo pacman -S --noconfirm jdk-openjdk yt-dlp
 	yay -S --noconfirm youtube-dl xdman --noconfirm
 }
 i_motrix() { # motrix(Download Manager)
 	yay -S --noconfirm motrix
 }
 i_brower() { # browsers (Ms Edge, Chrome, Firefox)
-yay -S --noconfirm microsoft-edge-stable-bin google-chrome
+	yay -S --noconfirm microsoft-edge-stable-bin google-chrome
+}
+
+i_zsh() {
+	# Install ZSH & oh-my-zsh
+	sudo pacman -S --noconfirm zsh fzf
+	# Install Plugins
+	cd ~/.oh-my-zsh/custom/plugins/
+	# Install zsh-autocomplete
+	git clone https://github.com/marlonrichert/zsh-autocomplete.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autocomplete
+	# Install zsh-autosuggestions
+	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+	# Install zsh-history-substring-search
+	git clone https://github.com/zsh-users/zsh-history-substring-search ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-history-substring-search
+	# Install zsh-syntax-highlighting
+	git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+	# Set ZSH as default
+	chsh -s /bin/zsh
+	# Update ZSH
+    exec zsh
+	# Reload the configuration file (optional)
+    source ~/.zshrc
 }
 
 # =============================================================
@@ -177,7 +193,5 @@ yay -S --noconfirm microsoft-edge-stable-bin google-chrome
 # C#
 
 # python
-
-
 
 update_packages
