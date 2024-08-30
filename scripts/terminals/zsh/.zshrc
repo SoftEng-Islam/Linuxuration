@@ -1,15 +1,5 @@
-# Path to your oh-my-zsh installation.
+# Path to your Oh My Zsh installation
 ZSH=~/.oh-my-zsh/
-
-# List of plugins to load with Oh My Zsh
-plugins=(
-	git
-	fzf
-	zsh-autocomplete
-	zsh-autosuggestions
-	zsh-syntax-highlighting
-	zsh-history-substring-search
-)
 
 # Load Oh My Zsh framework
 source $ZSH/oh-my-zsh.sh
@@ -17,10 +7,25 @@ source $ZSH/oh-my-zsh.sh
 # Load custom theme
 source ~/.oh-my-zsh/themes/softeng.zsh-theme
 
-# Enable syntax highlighting
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Load fzf with Zsh integration
+source <(fzf --zsh)
 
-# Enable autosuggestions
+# Uncomment to use Powerlevel10k configuration if available
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Plugin and feature setup
+plugins=(
+    git
+    fzf
+    zsh-autocomplete
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-history-substring-search
+)
+
+# Manual sourcing for plugins not handled by Oh My Zsh
+source ~/.oh-my-zsh/custom/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Zsh-autosuggestions configuration
@@ -28,13 +33,6 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 ZSH_AUTOSUGGEST_USE_FZF=true
 
 # Keybindings
-# Emacs Mode Keybindings:
-# Ctrl + A: Move the cursor to the beginning of the line.
-# Ctrl + E: Move the cursor to the end of the line.
-# Ctrl + K: Cut the text from the cursor to the end of the line.
-# Ctrl + Y: Paste the text that was cut (yank).
-# Ctrl + P: Go to the previous command in history.
-# Ctrl + N: Go to the next command in history.
 bindkey -e  # Use emacs mode (default)
 zle -N fzf-history-widget
 bindkey '^P' fzf-history-widget  # Bind Ctrl+P to trigger fzf history search
@@ -59,7 +57,7 @@ alias pl='$aurhelper -Qs'  # List installed packages
 alias pa='$aurhelper -Ss'  # List available packages
 alias pc='$aurhelper -Sc'  # Remove unused cache
 alias po='$aurhelper -Qtdq | $aurhelper -Rns -'  # Remove unused packages
-alias vc='code'  # Open Visual Studio Code
+alias code='com.visualstudio.code . &'
 
 # Handy change directory shortcuts
 alias ..='cd ..'
@@ -73,10 +71,11 @@ alias mkdir='mkdir -p'
 
 # Optimized history settings
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE=1500
+SAVEHIST=1500
 setopt appendhistory
 setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_EXPIRE_DUPS_FIRST
 
 # Fuzzy search in history as you type
 function fzf-history-widget {
@@ -85,9 +84,20 @@ function fzf-history-widget {
 }
 
 # Optimize completion
-zcompdump="${HOME}/.zcompdump-softeng-5.9"
+# Define the base name for zcompdump files
+zcompdump_base="${HOME}/.zcompdump"
+
+# Find the zcompdump file without a corresponding .zwc file
+zcompdump=$(ls ${zcompdump_base}* 2>/dev/null | grep -v '\.zwc$' | head -n 1)
+
+# If no suitable zcompdump file is found, create a new one
+if [[ -z $zcompdump ]]; then
+    zcompdump="${HOME}/.zcompdump-new"
+fi
+
+# Compile the zcompdump file
 if [[ ! -s $zcompdump || $ZDOTDIR/.zcompdump -nt $zcompdump ]]; then
-    zcompile "${zcompdump}"
+    zcompile "$zcompdump"
 fi
 
 # Command not found handler: suggest packages containing the command
@@ -133,8 +143,32 @@ function in {
     fi
 }
 
-# Uncomment to use Powerlevel10k configuration if available
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# User configuration
+export HISTCONTROL=ignoreboth
+export HISTIGNORE="&:[bf]g:c:clear:history:exit:q:pwd:* --help"
+export LESS_TERMCAP_md="$(tput bold 2> /dev/null; tput setaf 2 2> /dev/null)"
+export LESS_TERMCAP_me="$(tput sgr0 2> /dev/null)"
+export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+alias make="make -j$(nproc)"
+alias ninja="ninja -j$(nproc)"
+alias n="ninja"
+alias rmpkg="sudo pacman -Rsn"
+alias cleanch="sudo pacman -Scc"
+alias fixpacman="sudo rm /var/lib/pacman/db.lck"
+alias update="sudo pacman -Syu"
+alias apt="man pacman"
+alias apt-get="man pacman"
+alias please="sudo"
+alias tb="nc termbin.com 9999"
+alias cleanup="sudo pacman -Rsn $(pacman -Qtdq)"
+alias jctl="journalctl -p 3 -xb"
+alias rip="expac --timefmt='%Y-%m-%d %T' '%l\t%n %v' | sort | tail -200 | nl"
 
-# Load fzf with Zsh integration
-source <(fzf --zsh)
+# Uncomment the following line if pasting URLs and other text is messed up
+# DISABLE_MAGIC_FUNCTIONS="true"
+
+# Uncomment the following line to enable command auto-correction
+# ENABLE_CORRECTION="true"
+
+# Uncomment the following line to display red dots whilst waiting for completion
+COMPLETION_WAITING_DOTS="true"
