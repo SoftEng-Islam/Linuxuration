@@ -15,6 +15,7 @@ export base="$(pwd)"
 source ./include/Global_functions
 source ./include/welcome
 
+
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
@@ -39,22 +40,6 @@ if ! command -v pacman >/dev/null 2>&1; then
 	exit 1
 else
 	echo "pacman is found. Continuing with the script..."
-fi
-
-# Check if yay is installed and install it if not
-if ! command -v yay &>/dev/null; then
-	echo "yay is not installed. Installing yay..."
-	# Install yay
-	sudo pacman -S --needed base-devel git
-	# Clone the yay repository from the AUR
-	git clone https://aur.archlinux.org/yay.git && cd yay
-	# Build and install yay & Change back to the previous directory
-	makepkg -si && cd ..
-	# Remove the yay directory
-	rm -rf yay
-	echo "yay has been successfully installed."
-else
-	echo "yay is already installed. Continuing with the script..."
 fi
 
 # ------------------- #
@@ -89,13 +74,35 @@ echo 'ntfs and fuse has been installed'
 ## uucp: Access to serial ports and devices connected via serial ports.
 sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp $(whoami)
 
-# -------------------- #
-# Install Apps & Tools #
-# -------------------- #
+# ----------------------------- #
+# Install Arch Package Managers #
+# ----------------------------- #
+# Check if yay is installed and install it if not
+i_yay() {
+	if ! command -v yay &>/dev/null; then
+		echo "yay is not installed. Installing yay..."
+		# Install yay
+		sudo pacman -S --needed base-devel git
+		# Clone the yay repository from the AUR
+		git clone https://aur.archlinux.org/yay.git && cd yay
+		# Build and install yay & Change back to the previous directory
+		makepkg -si && cd ..
+		# Remove the yay directory
+		rm -rf yay
+		echo "yay has been successfully installed."
+	else
+		echo "yay is already installed. Continuing with the script..."
+	fi
+}
+
 i_paru() { # paru
 	git clone https://aur.archlinux.org/paru.git && cd paru
 	makepkg -si
 }
+
+# -------------------- #
+# Install Apps & Tools #
+# -------------------- #
 
 i_git() { # git
 	sudo pacman -S --noconfirm git
@@ -110,38 +117,13 @@ i_git() { # git
 	git 'config' --global core.packedGitLimit 512m
 	git 'config' --global advice.addIgnoredFile false
 }
-i_nodeJS() { # NodeJS
-	# installs nvm (Node Version Manager)
-	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
-	# download and install Node.js (you may need to restart the terminal)
-	nvm install 22
-	# verifies the right Node.js version is in the environment
-	node -v # should print `v22.7.0`
-	# verifies the right npm version is in the environment
-	npm -v # should print `10.8.2`
-}
-i_npms() { # Install Node Package Managers
-	# Install NPM
-	#sudo pacman -S --noconfirm npm
 
-	# NPM configurations
-	npm config set registry https://registry.npmjs.org/
-	npm config set prefer-offline true
-	npm config set maxsockets 50
-	npm config set fetch-retries 100
-	npm config set fetch-retry-mintimeout 999999
-	npm config set fetch-retry-maxtimeout 999999
-
-	# Install yarn
-	sudo pacman -S --noconfirm yarn
-	yarn config set registry https://registry.yarnpkg.com/
-
-	# Install pnpm
-	sudo pacman -S --noconfirm pnpm
-}
 i_xdman() { # xdman(Download Manager)
 	sudo pacman -S --noconfirm jdk-openjdk yt-dlp
 	yay -S --noconfirm youtube-dl xdman --noconfirm
+}
+i_FDM() {
+	yay -S freedownloadmanager
 }
 i_motrix() { # motrix(Download Manager)
 	yay -S --noconfirm motrix
@@ -166,20 +148,45 @@ i_zsh() {
 	# Set ZSH as default
 	chsh -s /bin/zsh
 	# Update ZSH
-    exec zsh
+	exec zsh
 	# Reload the configuration file (optional)
-    source ~/.zshrc
+	source ~/.zshrc
+}
+i_vsCode() { # Microsoft Visual Studio Code
+	yay -S visual-studio-code-bin
 }
 
 # =============================================================
-# Just script to install some Programming Languages
+# Just Install Some Programming Languages & Famous Development Tools
 # and Frameworks, Tools that related to Web Development Stack.
 # =============================================================
 
 # NodeJS
+i_nodeJS() { # NodeJS
+	# installs nvm (Node Version Manager)
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.0/install.sh | bash
+	# download and install Node.js (you may need to restart the terminal)
+	nvm install 22
+	# verifies the right Node.js version is in the environment
+	node -v # should print `v22.7.0`
+	# verifies the right npm version is in the environment
+	npm -v # should print `10.8.2`
 
-# PHP
+	# Set NPM Configurations
+	npm config set registry https://registry.npmjs.org/
+	npm config set prefer-offline true
+	npm config set maxsockets 50
+	npm config set fetch-retries 100
+	npm config set fetch-retry-mintimeout 999999
+	npm config set fetch-retry-maxtimeout 999999
 
+	# Install yarn
+	sudo pacman -S --noconfirm yarn
+	yarn config set registry https://registry.yarnpkg.com/
+
+	# Install pnpm
+	sudo pacman -S --noconfirm pnpm
+}
 # Rust
 
 # Dart
@@ -194,4 +201,170 @@ i_zsh() {
 
 # python
 
+# ------------------------------------------- #
+# Install Flatpak Applications and Extensions #
+# ------------------------------------------- #
+i_flatpak() {
+	sudo pacman -S flatpak --noconfirm
+	# Add the Flathub remote
+	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+	# Reboot your system (optional) Rebooting ensures that everything is properly set up, but its not strictly necessary.
+	# sudo reboot
+	# Increase the timeout settings for Flatpak
+	FLATPAK_CONF="/etc/flatpak/flatpak.conf"
+	echo "[Network]" | sudo tee -a $FLATPAK_CONF > /dev/null
+	echo "RequestTimeout=1000" | sudo tee -a $FLATPAK_CONF > /dev/null
+	echo "Timeout settings updated in $FLATPAK_CONF"
+	# List of Flatpak applications to install (replace with your desired apps)
+
+
+Applications=(
+    # ------------------------------------------- // Audio/Video
+    "com.github.rafostar.Clapper"                # Clapper
+    "com.github.unrud.VideoDownloader"           # Video Downloader
+    "com.obsproject.Studio"                      # OBS Studio
+    "net.base_art.Glide"                         # Glide
+    "org.audacityteam.Audacity"                  # Audacity
+    "org.kde.kdenlive"                           # Kdenlive
+    "org.gnome.eog"                              # Image Viewer
+
+    # ------------------------------------------- // System
+    "com.github.tchx84.Flatseal"                 # Flatseal
+    "com.mattjakeman.ExtensionManager"           # Extension Manager
+    "io.github.flattool.Warehouse"               # Warehouse
+    "io.gitlab.adhami3310.Impression"            # Impression
+    "io.missioncenter.MissionCenter"             # Mission Center
+    "net.nokyan.Resources"                       # Resources
+    "org.filezillaproject.Filezilla"             # Filezilla
+    "org.gnome.Boxes"                            # Boxes
+    "org.gnome.Calculator"                       # Calculator
+    "org.gnome.Connections"                      # Connections
+    "org.gnome.Loupe"                            # Loupe
+    "org.gnome.Photos"                           # Photos
+    "fr.romainvigier.MetadataCleaner"            # Metadata Cleaner
+
+    # ------------------------------------------- // Browser
+    "com.google.Chrome"                          # Google Chrome
+    "com.microsoft.Edge"                         # Microsoft Edge
+    "org.mozilla.firefox"                        # Firefox
+
+    # ------------------------------------------- // Social
+    "com.discordapp.Discord"                     # Discord
+    "org.telegram.desktop"                       # Telegram
+
+    # ------------------------------------------- // Productivity
+    "com.jgraph.drawio.desktop"                  # draw.io
+    "md.obsidian.Obsidian"                       # Obsidian
+    "org.libreoffice.LibreOffice"                # LibreOffice
+    "org.mozilla.Thunderbird"                    # Thunderbird
+
+    # ------------------------------------------- // Image/Graphics
+    "com.icons8.Lunacy"                          # Lunacy
+    "io.gitlab.theevilskeleton.Upscaler"         # Image Upscaler
+    "org.blender.Blender"                        # Blender
+    "org.gimp.GIMP"                              # GIMP
+    "org.inkscape.Inkscape"                      # Inkscape
+    "org.kde.krita"                              # Krita
+    "org.freecadweb.FreeCAD"                     # FreeCAD
+
+    # ------------------------------------------- // Photography
+    # (You can add more photography-related apps here as needed)
+
+    # ------------------------------------------- // Gaming
+    "org.gnome.Chess"                            # Chess
+
+    # ------------------------------------------- // Development
+    "com.getpostman.Postman"                     # Postman
+    "com.slack.Slack"                            # Slack
+    "com.visualstudio.code"                      # Visual Studio Code
+    "io.beekeeperstudio.Studio"                  # Beekeeper Studio
+    "io.dbeaver.DBeaverCommunity"                # DBeaver Community
+    "rest.insomnia.Insomnia"                     # Insomnia
+    "com.github.zadam.trilium"                   # Trilium
+    "org.qbittorrent.qBittorrent"                # qBittorrent
+)
+
+	# Function to install Flatpak applications
+	installFlatpakApps() {
+		for app in "${APPS[@]}";
+			echo "Installing $app..."
+			flatpak install flathub $app -y
+			echo "---------------------------------------------"
+		done
+	}
+	# Main execution
+	installFlatpakApps
+	echo "All Flatpak applications installed successfully."
+}
+
+
+
+
+
+
+
+# ---------------------------------------- #
+# To set microsoft edge as default Browser #
+# ---------------------------------------- #
+# xdg-settings set default-web-browser microsoft-edge.desktop
+xdg-settings set default-web-browser com.microsoft.Edge.desktop
+
+# --------------------------------- #
+# to get whats you default browser? #
+# --------------------------------- #
+xdg-settings get default-web-browser
+
+# ------------------------------- #
+# List all installed browsers #
+# ------------------------------- #
+ls /usr/share/applications | grep edge
+ls /var/lib/flatpak/exports/share/applications | grep edge
+ls /var/lib/snapd/desktop/applications | grep edge
+
+# ------------------------------- #
+# To open a link in default browser #
+# ------------------------------- #
+xdg-open https://www.google.com
+
+# ------------------------------- #
+# To open a link in specific browser #
+# ------------------------------- #
+google-chrome https://www.google.com
+
+# Update MIME Types (Optional)
+# To ensure that all relevant MIME types are associated with Microsoft Edge, you can use the xdg-mime command:
+xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/http
+xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/https
+xdg-mime default com.microsoft.Edge.desktop text/html
+xdg-mime default com.microsoft.Edge.desktop application/xhtml+xml
+xdg-mime default com.microsoft.Edge.desktop application/xml
+xdg-mime default com.microsoft.Edge.desktop application/x-extension-htm
+xdg-mime default com.microsoft.Edge.desktop application/x-extension-html
+xdg-mime default com.microsoft.Edge.desktop application/x-extension-shtml
+xdg-mime default com.microsoft.Edge.desktop application/x-extension-xht
+xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
+
+
+
+
+
+
+
+
+
+
+# Increase the Size of tmpfs
+# This will allow you to have a larger temporary directory, which can be useful for tools that use temporary files.
+# This will fix ERROR: Failed to write file “/run/user/1000/.flatpak/....”: write() failed: No space left on device
+# mount | grep /run/user/1000 # Check if it's a tmpfs.
+# sudo mount -o remount,size=5G /run/user/1000 # remount it with a larger size.
+echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=6G 0 0 ' | sudo tee -a /etc/fstab;
+
+# update the packages again
 update_packages
+
+# Clear Temporary Files
+sudo rm -rf /tmp/*
+
+echo 'Scrip	Completed!'
+echo 'Done!'

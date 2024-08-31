@@ -1,0 +1,3 @@
+hi
+Hi Islam
+tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=2G 0 0
