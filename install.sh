@@ -74,6 +74,19 @@ echo 'ntfs and fuse has been installed'
 ## uucp: Access to serial ports and devices connected via serial ports.
 sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp $(whoami)
 
+# set XDG variables
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_CONFIG_HOME="$HOME/.config"
+# print XDG variables
+echo $XDG_CACHE_HOME
+echo $XDG_CONFIG_HOME
+
+
+
+
+
+
+
 # ----------------------------- #
 # Install Arch Package Managers #
 # ----------------------------- #
@@ -347,6 +360,8 @@ xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
 
 
 
+
+
 # -------------------------- #
 # Increase the Size of tmpfs #
 # -------------------------- #
@@ -357,9 +372,11 @@ xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
 #! Sometimes This will not work, so use this command instead:
 sudo chown 1000:1000 /run/user/1000
 sudo chmod 700 /run/user/1000
-echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/fstab;
+echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=3G 0 0' | sudo tee -a /etc/fstab;
 # altrnative method
-sudo echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/systemd/system/run-user-1000.mount.d/override.conf
+sudo echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=3G 0 0' | sudo tee -a /etc/systemd/system/run-user-1000.mount.d/override.conf
+d /run/user/1000 0700 softeng softeng 3G
+sudo systemd-tmpfiles --create
 # check if it's a tmpfs
 df -h /run/user/1000
 # Alt

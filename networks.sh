@@ -47,29 +47,31 @@ yay -S --needed --noconfirm cloudflare-warp-bin && sudo systemctl enable warp-sv
 # Install Important Packages #
 # -------------------------- #
 log "Installing important packages..."
-sudo pacman -S --needed --noconfirm \
-	firewalld \
-	networkmanager \
-	wpa_supplicant \
-	dhclient \
-	iw \
-	wireless_tools \
-	dialog \
-	dnsmasq \
-	hostapd \
-	nm-connection-editor \
-	connman \
-	dhcpcd \
-	network-manager-applet \
-	netctl \
-	networkmanager-openvpn \
-	wireguard-tools \
-	qrencode \
-	xdg-utils \
-	traceroute \
-	nmap \
-	bind || error_exit "Failed to install packages"
+packages=(
+	firewalld # Firewall service
+	networkmanager
+	wpa_supplicant
+	dhclient
+	iw
+	wireless_tools
+	dialog
+	dnsmasq
+	hostapd
+	nm-connection-editor
+	connman
+	dhcpcd
+	network-manager-applet
+	netctl
+	networkmanager-openvpn
+	wireguard-tools
+	qrencode
+	xdg-utils
+	traceroute
+	nmap
+	bind
+)
 # There a conflect with iptables & nftables
+sudo pacman -S --noconfirm "${packages[@]}"
 
 # Disable NetworkManager to prevent interference during configuration
 log "Disabling NetworkManager..."
@@ -191,11 +193,6 @@ sudo sysctl -p
 log "Increasing buffer size..."
 sudo sysctl -w net.core.rmem_max=16777216
 sudo sysctl -w net.core.wmem_max=16777216
-
-# Enable/Disable Services
-#log "Disabling unnecessary services..."
-#sudo systemctl disable --now avahi-daemon
-#sudo systemctl disable --now cups
 
 # Save iptables Rules
 sudo touch /etc/iptables/iptables.rules
