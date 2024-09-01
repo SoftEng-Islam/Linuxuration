@@ -358,8 +358,17 @@ xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
 # This will fix ERROR: Failed to write file “/run/user/1000/.flatpak/....”: write() failed: No space left on device
 # mount | grep /run/user/1000 # Check if it's a tmpfs.
 # sudo mount -o remount,size=5G /run/user/1000 # remount it with a larger size.
-echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=6G 0 0 ' | sudo tee -a /etc/fstab;
+# Sometimes This will not work.
+sudo chown 1000:1000 /run/user/1000
+sudo chmod 700 /run/user/1000
+echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/fstab;
+# Alt
+sudo echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/systemd/system/run-user-1000.mount.d/override.conf
+df -h
+# Alt
+# sudo echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/fstab
 
+# -------------------------
 # update the packages again
 update_packages
 

@@ -69,9 +69,8 @@ sudo pacman -S --needed --noconfirm \
 	traceroute \
 	nmap \
 	bind || error_exit "Failed to install packages"
-	# iptables \
-	# nftables
-
+# iptables \
+# nftables
 
 # Disable NetworkManager to prevent interference during configuration
 log "Disabling NetworkManager..."
@@ -199,13 +198,6 @@ sudo sysctl -w net.core.wmem_max=16777216
 #sudo systemctl disable --now avahi-daemon
 #sudo systemctl disable --now cups
 
-
-# Configure iptables for NAT
-# log "Configuring iptables for NAT..."
-sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
-sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
-sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
-
 # Save iptables Rules
 sudo touch /etc/iptables/iptables.rules
 sudo chmod 644 /etc/iptables/iptables.rules
@@ -215,11 +207,17 @@ sudo iptables -L
 sudo modprobe ip_tables
 sudo modprobe iptable_filter
 
+# Configure iptables for NAT
+# log "Configuring iptables for NAT..."
+sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
+
 # Enable IP Forwarding
 sudo sysctl -w net.ipv4.ip_forward=1
 
 # log "Enabling and starting necessary services..."
-services=(dnsmasq iptables ip6tables firewalld NetworkManager systemd-resolved )
+services=(dnsmasq iptables ip6tables firewalld NetworkManager systemd-resolved)
 for service in "${services[@]}"; do
 	sudo systemctl enable --now $service
 	sudo systemctl restart $service
@@ -254,7 +252,6 @@ if [[ $? -ne 0 ]]; then
 fi
 
 echo "Cloudflare WARP has been installed and the service is running."
-
 
 # ----------------------------------------------------
 #!/bin/bash
