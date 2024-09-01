@@ -314,22 +314,23 @@ xdg-settings set default-web-browser com.microsoft.Edge.desktop
 # --------------------------------- #
 xdg-settings get default-web-browser
 
-# ------------------------------- #
+# --------------------------- #
 # List all installed browsers #
-# ------------------------------- #
+# --------------------------- #
 ls /usr/share/applications | grep edge
 ls /var/lib/flatpak/exports/share/applications | grep edge
 ls /var/lib/snapd/desktop/applications | grep edge
 
-# ------------------------------- #
+# --------------------------------- #
 # To open a link in default browser #
-# ------------------------------- #
+# --------------------------------- #
 xdg-open https://www.google.com
 
-# ------------------------------- #
+# ---------------------------------- #
 # To open a link in specific browser #
-# ------------------------------- #
+# ---------------------------------- #
 google-chrome https://www.google.com
+
 
 # Update MIME Types (Optional)
 # To ensure that all relevant MIME types are associated with Microsoft Edge, you can use the xdg-mime command:
@@ -346,14 +347,9 @@ xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
 
 
 
-
-
-
-
-
-
-
-# Increase the Size of tmpfs
+# -------------------------- #
+# Increase the Size of tmpfs #
+# -------------------------- #
 # This will allow you to have a larger temporary directory, which can be useful for tools that use temporary files.
 # This will fix ERROR: Failed to write file “/run/user/1000/.flatpak/....”: write() failed: No space left on device
 # mount | grep /run/user/1000 # Check if it's a tmpfs.
@@ -368,11 +364,17 @@ df -h
 # Alt
 # sudo echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/fstab
 
-# -------------------------
-# update the packages again
+
+
+
+# ------------------------- #
+# update the packages again #
+# ------------------------- #
 update_packages
 
-# Clear Temporary Files
+# --------------------- #
+# Clear Temporary Files #
+# --------------------- #
 sudo rm -rf /tmp/*
 
 echo 'Scrip	Completed!'

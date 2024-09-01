@@ -69,8 +69,7 @@ sudo pacman -S --needed --noconfirm \
 	traceroute \
 	nmap \
 	bind || error_exit "Failed to install packages"
-# iptables \
-# nftables
+# There a conflect with iptables & nftables
 
 # Disable NetworkManager to prevent interference during configuration
 log "Disabling NetworkManager..."
