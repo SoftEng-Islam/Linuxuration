@@ -333,7 +333,7 @@ google-chrome https://www.google.com
 
 
 # Update MIME Types (Optional)
-# To ensure that all relevant MIME types are associated with Microsoft Edge, you can use the xdg-mime command:
+# * To ensure that all relevant MIME types are associated with Microsoft Edge, you can use the xdg-mime command:
 xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/http
 xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/https
 xdg-mime default com.microsoft.Edge.desktop text/html
@@ -350,17 +350,18 @@ xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
 # -------------------------- #
 # Increase the Size of tmpfs #
 # -------------------------- #
-# This will allow you to have a larger temporary directory, which can be useful for tools that use temporary files.
-# This will fix ERROR: Failed to write file “/run/user/1000/.flatpak/....”: write() failed: No space left on device
+#* This will allow you to have a larger temporary directory, which can be useful for tools that use temporary files.
+#* This will fix ERROR: Failed to write file “/run/user/1000/.flatpak/....”: write() failed: No space left on device
 # mount | grep /run/user/1000 # Check if it's a tmpfs.
 # sudo mount -o remount,size=5G /run/user/1000 # remount it with a larger size.
-# Sometimes This will not work.
+#! Sometimes This will not work, so use this command instead:
 sudo chown 1000:1000 /run/user/1000
 sudo chmod 700 /run/user/1000
 echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/fstab;
-# Alt
+# altrnative method
 sudo echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/systemd/system/run-user-1000.mount.d/override.conf
-df -h
+# check if it's a tmpfs
+df -h /run/user/1000
 # Alt
 # sudo echo 'tmpfs /run/user/1000 tmpfs rw,nosuid,nodev,noexec,relatime,size=8G 0 0' | sudo tee -a /etc/fstab
 
