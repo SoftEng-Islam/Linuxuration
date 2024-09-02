@@ -3,25 +3,41 @@
 # Script to install suggested packages #
 # ------------------------------------ #
 
-echo "Installing suggested pacman packages..."
-pacman_pakgs=(
-	# 1. Text Editor
+# Create log file
+touch ./packages.log
+# Function to log messages
+log_message() {
+	local timestamp
+	timestamp=$(date +"%Y-%m-%d %H:%M:%S")
+	echo "[$timestamp] $1" >>./packages.log
+}
+
+# Empty arrays to store packages
+pacman_to_install=()
+yay_to_install=()
+
+# pacman_not_exist=()
+# yay_not_exist=()
+
+# Create an array of packages
+allPackages=(
+	# Text Editor
 	gedit
-	# 2. Media Tools
+	# Media Tools
 	vlc              # Multimedia player
 	ffmpeg           # Multimedia framework
 	gstreamer        # Media framework
 	gst-plugins-good # Good set of GStreamer plugins
 	gst-plugins-ugly # Ugly set of GStreamer plugins
 	libdvdcss        # Library for accessing encrypted DVDs
-	# 3. GNOME Desktop Environment
+	# GNOME Desktop Environment
 	gnome                  # GNOME desktop environment
 	gnome-shell-extensions # Extensions for GNOME Shell
 	gnome-tweaks           # GNOME tweaking tool
 	gnome-extensions-app   # Manage GNOME Shell extensions
 	gnome-keyring          # GNOME keyring management
 	gnome-control-center   # GNOME Control Center
-	# 4. Display Server and Graphics
+	# Display Server and Graphics
 	wayland             # Wayland display server protocol
 	xorg-server         # X.Org server
 	xf86-input-libinput # Input driver for X.Org
@@ -33,13 +49,13 @@ pacman_pakgs=(
 	libcap              # POSIX capabilities library
 	libxtst             # X11 Test extension library
 	libxrandr           # X11 RandR extension library
-	# 5. Hyprland and Wayland-Related Packages
+	# Hyprland and Wayland-Related Packages
 	hyprland                    # Hyprland window manager
 	waybar                      # Highly customizable status bar for Wayland
 	swaylock-effects            # Screen locker for Wayland with fancy effects
 	wofi                        # Application launcher for Wayland
 	xdg-desktop-portal-hyprland # Desktop portal for Hyprland
-	# 6. Terminal Enhancements
+	# Terminal Enhancements
 	alacritty     # Terminal emulator
 	kitty         # Terminal emulator
 	tmux          # Terminal multiplexer
@@ -50,7 +66,7 @@ pacman_pakgs=(
 	exa           # Modern replacement for 'ls'
 	fd            # Simple, fast alternative to 'find'
 	ripgrep       # Line-oriented search tool
-	# 7. Development Tools
+	# Development Tools
 	neovim                          # Text editor
 	code                            # Visual Studio Code
 	intellij-idea-community-edition # IntelliJ IDEA Community Edition
@@ -77,7 +93,7 @@ pacman_pakgs=(
 	base-devel                      # Development tools (make, gcc, etc.)
 	ttf-liberation                  # Liberation fonts
 
-	# 8. Performance and Optimization
+	# Performance and Optimization
 	earlyoom       # Out-of-memory management
 	thermald       # Thermal management
 	tlp            # Power management
@@ -88,7 +104,7 @@ pacman_pakgs=(
 	preload        # Adaptive readahead daemon
 	zram-generator # Compressed RAM with ZRAM
 
-	# 9. General Utilities
+	# General Utilities
 	syncthing   # Continuous file synchronization
 	ranger      # Terminal file manager
 	ncdu        # Disk usage analyzer
@@ -97,7 +113,7 @@ pacman_pakgs=(
 	timeshift   # System restore tool
 	resolvconf  # DNS resolution manager
 	gnome-disks # Manage disk drives and media
-	# 10. Additional Utilities
+	# Additional Utilities
 	grub-customizer         # GUI tool to configure GRUB2
 	networkmanager-tui      # Text user interface for NetworkManager
 	aircrack-ng             # Wireless network security tools
@@ -137,16 +153,219 @@ pacman_pakgs=(
 	yad                     # Yet Another Dialog
 	mpv                     # Media player
 	xdg-desktop-portal      # Desktop integration portal
+	# Audio
+	strawberry
+	lollypop
+	audacious
+	elisa
+	kwave
+	audacity
+	ardour
+	lmms
+	mixxx
+	musescore
+	rosegarden
+	bitwig-studio
 
-)
-sudo pacman -S --noconfirm "${pacman_pakgs[@]}"
+	# Browsers
+	cachy-browser
+	librewolf-bin
+	firefox
+	firefox-esr-bin
+	chromium
+	ungoogled-chromium
+	vivaldi
+	vivaldi-ffmpeg-codecs
+	torbrowser-launcher
+	brave-bin
+	falkon
+	qutebrowser
+	python-adblock
 
-# ---------------------------------------------
-# Install suggested yay packages
-# ---------------------------------------------
-echo "Installing suggested yay packages..."
-yay_pakgs=(
-	# 1. Media Tools
+	# Communication
+	telegram-desktop
+	discord
+	neochat
+	fractal
+	element-desktop
+	wire-desktop
+	signal-desktop
+	zoom
+	teams
+	slack-desktop
+	mumble
+
+	# Development
+	vim
+	code
+	atom
+	emacs
+	qtcreator
+	gnome-builder
+	kdevelop
+	netbeans
+	intellij-idea-community-edition
+	pycharm-community-edition
+	gitkraken
+	cockpit
+	cockpit-machines
+	ansible
+	docker
+	docker-compose
+	podman-docker
+	podman-compose
+	crun
+	salt
+	jenkins
+	puppet
+	prometheus
+	vagrant
+	terraform
+
+	# Games
+	aisleriot
+	mari0
+	kapman
+	knights
+	kmahjongg
+	supertuxkart
+	supertux
+	extremetuxracer
+	minetest
+	minetest-server
+	0ad
+	teeworlds
+	xonotic
+	hedgewars
+
+	# Graphics
+	krita
+	krita-plugin-gmic
+	opencolorio
+	gimp
+	inkscape
+	blender
+	digikam
+	darktable
+	luminancehdr
+	kolourpaint
+	mypaint
+	wings3d
+	sweethome3d
+	freecad
+	librecad
+	kicad
+	pencil2d
+	synfigstudio
+	opentoonz
+	fontforge
+	birdfont
+
+	# Internet
+	xdman
+	freedownloadmanager
+	deluge-gtk
+	qbittorrent
+	nextcloud-client
+	remmina
+	filezilla
+	putty
+	warpinator
+	nitroshare
+	jdownloader2
+
+	# Mail
+	thunderbird
+	kmail
+	evolution
+	geary
+	mailspring
+	claws-mail
+	sylpheed
+
+	# Multimedia
+	hypnotix
+	shortwave
+	converseen
+	handbrake
+	mystiq
+	transmageddon
+	soundconverter
+	stremio
+	kodi
+	kodi-platform
+	kodi-eventclients
+	mediaelch
+	subtitlecomposer
+	kid3
+	easytag
+	k3b
+	cdparanoia
+	cdrdao
+	dvd+rw-tools
+	emovix
+	transcode
+	vcdimager
+	cdrtools
+	brasero
+	xfburn
+
+	# Office
+	libreoffice-fresh
+	libmythes
+	libreoffice-still
+	libmythes
+	joplin
+	onlyoffice-bin
+	wps-office
+	wps-office-mime
+	ttf-wps-fonts
+	freeoffice
+	yozo-office
+	yozo-office-fonts
+	calligra
+	skrooge
+	kmymoney
+	abiword
+	gnumeric
+	gnucash
+	homebank
+
+	# Other
+	scrcpy
+	droidcam
+	soundwire
+	variety
+
+	# Video
+	kdenlive
+	movit
+	sox
+	opus-tools
+	frei0r-plugins
+	opentimelineio
+	dvgrab
+	opencv
+	dragon
+	shotcut
+	pitivi
+	frei0r-plugins
+	openshot
+	obs-studio
+	vlc
+	smplayer
+	smplayer-skins
+	smplayer-themes
+	baka-mplayer
+
+	# Virtualization
+	virtualbox
+	gnome-boxes
+	virt-manager
+	genymotion
+	# -----------------------------
+	# yay packages
+	# Media Tools
 	gstreamer1-plugins-bad            # Bad set of GStreamer plugins (AUR)
 	gstreamer1-plugins-good           # Good set of GStreamer plugins (AUR)
 	gstreamer1-plugins-base           # Base set of GStreamer plugins (AUR)
@@ -171,7 +390,7 @@ yay_pakgs=(
 	qemu-arch-extra   # Extra QEMU binary files (AUR)
 	qemu-headless     # Headless mode of QEMU (AUR)
 
-	# 4. Additional AUR packages for system enhancement
+	# Additional AUR packages for system enhancement
 	hyprland          # Hyprland window manager (AUR)
 	swww              # Wallpaper manager for Wayland (AUR)
 	swaybg            # Wallpaper utility for Wayland (AUR)
@@ -198,215 +417,37 @@ yay_pakgs=(
 	tmate             # Instant terminal sharing (AUR)
 	zram-generator    # Compressed RAM with ZRAM (AUR)
 )
-yay -S --noconfirm "${yay_pakgs[@]}"
+
+# Loop through each package in the allPackages Array
+for package in "${allPackages[@]}"; do
+	if pacman -Si "$package" &>/dev/null; then
+		# Package exists in Pacman
+		if ! pacman -Qi "$package" &>/dev/null; then
+			# Package is not installed
+			pacman_to_install+=("$package")
+		else
+			echo "Package '$package' is already installed via Pacman."
+		fi
+	elif yay -Si "$package" $ >/dev/null; then
+		# Package exists in Yay (AUR)
+		if ! yay -Q "$package" &>/dev/null; then
+			# Package is not installed
+			yay_to_install+=("$package")
+		else
+			echo "Package '$package' is already install via Yay."
+		fi
+	else
+		echo "Package '$package' does not exist in Pacman or Yay."
+	fi
+done
+
+# Install the missing packages via Pacman
+if [ ${#pacman_to_install[@]} -gt 0 ]; then
+	# shellcheck disable=SC2145
+	echo "Installing the following packages via Pacman: ${pacman_to_install[@]}"
+	sudo pacman -S --noconfirm "${pacman_to_install[@]}"
+else
+	echo "No missing packages to install via Pacman."
+fi
 
 echo "The suggested packages has been installed successfully."
-
-# "Audio"
-strawberry
-lollypop
-audacious
-elisa
-kwave
-audacity
-ardour
-lmms
-mixxx
-musescore
-rosegarden
-bitwig-studio
-
-# name: "Browsers"
-cachy-browser
-librewolf-bin
-firefox
-firefox-esr-bin
-chromium
-ungoogled-chromium
-vivaldi
-vivaldi-ffmpeg-codecs
-torbrowser-launcher
-brave-bin
-falkon
-qutebrowser
-python-adblock
-
-# name: "Communication"
-telegram-desktop
-discord
-neochat
-fractal
-element-desktop
-wire-desktop
-signal-desktop
-zoom
-teams
-slack-desktop
-mumble
-
-# name: "Development"
-vim
-code
-atom
-emacs
-qtcreator
-gnome-builder
-kdevelop
-netbeans
-intellij-idea-community-edition
-pycharm-community-edition
-gitkraken
-cockpit
-cockpit-machines
-ansible
-docker
-docker-compose
-podman-docker
-podman-compose
-crun
-salt
-jenkins
-puppet
-prometheus
-vagrant
-terraform
-
-# name: "Games"
-aisleriot
-mari0
-kapman
-knights
-kmahjongg
-supertuxkart
-supertux
-extremetuxracer
-minetest
-minetest-server
-0ad
-teeworlds
-xonotic
-hedgewars
-
-# name: "Graphics"
-krita
-krita-plugin-gmic
-opencolorio
-gimp
-inkscape
-blender
-digikam
-darktable
-luminancehdr
-kolourpaint
-mypaint
-wings3d
-sweethome3d
-freecad
-librecad
-kicad
-pencil2d
-synfigstudio
-opentoonz
-fontforge
-birdfont
-
-# name: "Internet"
-xdman
-freedownloadmanager
-deluge-gtk
-qbittorrent
-nextcloud-client
-remmina
-filezilla
-putty
-warpinator
-nitroshare
-jdownloader2
-
-# name: "Mail"
-thunderbird
-kmail
-evolution
-geary
-mailspring
-claws-mail
-sylpheed
-
-# name: "Multimedia"
-hypnotix
-shortwave
-converseen
-handbrake
-mystiq
-transmageddon
-soundconverter
-stremio
-kodi kodi-platform kodi-eventclients
-mediaelch
-subtitlecomposer
-kid3
-easytag
-k3b
-cdparanoia
-cdrdao
-dvd+rw-tools
-emovix
-transcode
-vcdimager
-cdrtools
-brasero
-xfburn
-
-# name: "Office"
-libreoffice-fresh
-libmythes
-libreoffice-still
-libmythes
-joplin
-onlyoffice-bin
-wps-office
-wps-office-mime
-ttf-wps-fonts
-freeoffice
-yozo-office
-yozo-office-fonts
-calligra
-skrooge
-kmymoney
-abiword
-gnumeric
-gnucash
-homebank
-
-# name: "Other"
-scrcpy
-droidcam
-soundwire
-variety
-
-# name: "Video"
-kdenlive
-movit
-sox
-opus-tools
-frei0r-plugins
-opentimelineio
-dvgrab
-opencv
-dragon
-shotcut
-pitivi
-frei0r-plugins
-openshot
-obs-studio
-vlc
-smplayer
-smplayer-skins
-smplayer-themes
-baka-mplayer
-
-# name: "Virtualization"
-virtualbox
-gnome-boxes
-virt-manager
-genymotion
