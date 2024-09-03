@@ -81,6 +81,10 @@ export XDG_CONFIG_HOME="$HOME/.config"
 echo $XDG_CACHE_HOME
 echo $XDG_CONFIG_HOME
 
+export WLR_VSYNC=1
+
+echo 'Disable Gnome Check-alive'
+gsettings set org.gnome.mutter check-alive-timeout 0
 
 
 

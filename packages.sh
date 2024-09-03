@@ -416,6 +416,10 @@ allPackages=(
 	tuned             # Dynamic adaptive system tuning daemon (AUR)
 	tmate             # Instant terminal sharing (AUR)
 	zram-generator    # Compressed RAM with ZRAM (AUR)
+
+	# unSorted
+	gedit vlc ffmpeg gstreamer gst-plugins-good gst-plugins-ugly libdvdcss gnome gnome-shell-extensions wayland xorg-server xf86-input-libinput mesa xf86-video-amdgpu linux-headers mesa lib32-mesa alacritty
+
 )
 
 # Loop through each package in the allPackages Array
