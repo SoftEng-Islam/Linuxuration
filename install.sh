@@ -57,7 +57,6 @@ echo 'ntfs and fuse has been installed'
 # add this line to /etc/fstab
 # /dev/disk/by-partlabel/[partition] /mnt/[partition] auto auto,nofail,nodev,uid=1000,gid=1000,utf8,umask=022,exec,x-gvfs-show 0 0
 
-
 # ----------------------------------------------
 # Here will some Configuration
 # ----------------------------------------------
@@ -222,12 +221,10 @@ i_nodeJS() { # NodeJS
 # C#
 # python
 
-
 # ---------------------
 # Overclocing
 # ---------------------
 yay -S corectrl
-
 
 # ------------------------------------------- #
 # Install Flatpak Applications and Extensions #
@@ -240,88 +237,90 @@ i_flatpak() {
 	# sudo reboot
 	# Increase the timeout settings for Flatpak
 	FLATPAK_CONF="/etc/flatpak/flatpak.conf"
-	echo "[Network]" | sudo tee -a $FLATPAK_CONF > /dev/null
-	echo "RequestTimeout=1000" | sudo tee -a $FLATPAK_CONF > /dev/null
+	echo "[Network]" | sudo tee -a $FLATPAK_CONF >/dev/null
+	echo "RequestTimeout=1000" | sudo tee -a $FLATPAK_CONF >/dev/null
 	echo "Timeout settings updated in $FLATPAK_CONF"
 	# List of Flatpak applications to install (replace with your desired apps)
-
-Applications=(
-    # ------------------------------------------- // Audio/Video
-    "com.github.rafostar.Clapper"                # Clapper
-    "com.github.unrud.VideoDownloader"           # Video Downloader
-    "com.obsproject.Studio"                      # OBS Studio
-    "net.base_art.Glide"                         # Glide
-    "org.audacityteam.Audacity"                  # Audacity
-    "org.kde.kdenlive"                           # Kdenlive
-    "org.gnome.eog"                              # Image Viewer
-
-    # ------------------------------------------- // System
-    "com.github.tchx84.Flatseal"                 # Flatseal
-    "com.mattjakeman.ExtensionManager"           # Extension Manager
-    "io.github.flattool.Warehouse"               # Warehouse
-    "io.gitlab.adhami3310.Impression"            # Impression
-    "io.missioncenter.MissionCenter"             # Mission Center
-    "net.nokyan.Resources"                       # Resources
-    "org.filezillaproject.Filezilla"             # Filezilla
-    "org.gnome.Boxes"                            # Boxes
-    "org.gnome.Calculator"                       # Calculator
-    "org.gnome.Connections"                      # Connections
-    "org.gnome.Loupe"                            # Loupe
-    "org.gnome.Photos"                           # Photos
-    "fr.romainvigier.MetadataCleaner"            # Metadata Cleaner
-
-    # ------------------------------------------- // Browser
-    "com.google.Chrome"                          # Google Chrome
-    "com.microsoft.Edge"                         # Microsoft Edge
-    "org.mozilla.firefox"                        # Firefox
-
-    # ------------------------------------------- // Social
-    "com.discordapp.Discord"                     # Discord
-    "org.telegram.desktop"                       # Telegram
-
-    # ------------------------------------------- // Productivity
-    "com.jgraph.drawio.desktop"                  # draw.io
-    "md.obsidian.Obsidian"                       # Obsidian
-    "org.libreoffice.LibreOffice"                # LibreOffice
-    "org.mozilla.Thunderbird"                    # Thunderbird
-
-    # ------------------------------------------- // Image/Graphics
-    "com.icons8.Lunacy"                          # Lunacy
-    "io.gitlab.theevilskeleton.Upscaler"         # Image Upscaler
-    "org.blender.Blender"                        # Blender
-    "org.gimp.GIMP"                              # GIMP
-    "org.inkscape.Inkscape"                      # Inkscape
-    "org.kde.krita"                              # Krita
-    "org.freecadweb.FreeCAD"                     # FreeCAD
-
-    # ------------------------------------------- // Photography
-    # (You can add more photography-related apps here as needed)
-
-    # ------------------------------------------- // Gaming
-    "org.gnome.Chess"                            # Chess
-
-    # ------------------------------------------- // Development
-    "com.getpostman.Postman"                     # Postman
-    "com.slack.Slack"                            # Slack
-    "com.visualstudio.code"                      # Visual Studio Code
-    "io.beekeeperstudio.Studio"                  # Beekeeper Studio
-    "io.dbeaver.DBeaverCommunity"                # DBeaver Community
-    "rest.insomnia.Insomnia"                     # Insomnia
-    "com.github.zadam.trilium"                   # Trilium
-    "org.qbittorrent.qBittorrent"                # qBittorrent
-)
-	# Function to install Flatpak applications
-	installFlatpakApps() {
-		for app in "${APPS[@]}";
-			echo "Installing $app..."
-			flatpak install flathub $app -y
-			echo "---------------------------------------------"
-		done
-	}
-	# Main execution
-	installFlatpakApps
-	echo "All Flatpak applications installed successfully."
 }
+
+# List of Flatpak applications to install
+Applications=(
+	# ------------------------------------------- // Audio/Video
+	"com.github.rafostar.Clapper"      # Clapper
+	"com.github.unrud.VideoDownloader" # Video Downloader
+	"com.obsproject.Studio"            # OBS Studio
+	"net.base_art.Glide"               # Glide
+	"org.audacityteam.Audacity"        # Audacity
+	"org.kde.kdenlive"                 # Kdenlive
+	"org.gnome.eog"                    # Image Viewer
+
+	# ------------------------------------------- // System
+	"com.github.tchx84.Flatseal"       # Flatseal
+	"com.mattjakeman.ExtensionManager" # Extension Manager
+	"io.github.flattool.Warehouse"     # Warehouse
+	"io.gitlab.adhami3310.Impression"  # Impression
+	"io.missioncenter.MissionCenter"   # Mission Center
+	"net.nokyan.Resources"             # Resources
+	"org.filezillaproject.Filezilla"   # Filezilla
+	"org.gnome.Boxes"                  # Boxes
+	"org.gnome.Calculator"             # Calculator
+	"org.gnome.Connections"            # Connections
+	"org.gnome.Loupe"                  # Loupe
+	"org.gnome.Photos"                 # Photos
+	"fr.romainvigier.MetadataCleaner"  # Metadata Cleaner
+
+	# ------------------------------------------- // Browser
+	"com.google.Chrome"   # Google Chrome
+	"com.microsoft.Edge"  # Microsoft Edge
+	"org.mozilla.firefox" # Firefox
+
+	# ------------------------------------------- // Social
+	"com.discordapp.Discord" # Discord
+	"org.telegram.desktop"   # Telegram
+
+	# ------------------------------------------- // Productivity
+	"com.jgraph.drawio.desktop"   # draw.io
+	"md.obsidian.Obsidian"        # Obsidian
+	"org.libreoffice.LibreOffice" # LibreOffice
+	"org.mozilla.Thunderbird"     # Thunderbird
+
+	# ------------------------------------------- // Image/Graphics
+	"com.icons8.Lunacy"                  # Lunacy
+	"io.gitlab.theevilskeleton.Upscaler" # Image Upscaler
+	"org.blender.Blender"                # Blender
+	"org.gimp.GIMP"                      # GIMP
+	"org.inkscape.Inkscape"              # Inkscape
+	"org.kde.krita"                      # Krita
+	"org.freecadweb.FreeCAD"             # FreeCAD
+
+	# ------------------------------------------- // Photography
+	# (You can add more photography-related apps here as needed)
+
+	# ------------------------------------------- // Gaming
+	"org.gnome.Chess" # Chess
+
+	# ------------------------------------------- // Development
+	"com.getpostman.Postman"      # Postman
+	"com.slack.Slack"             # Slack
+	"com.visualstudio.code"       # Visual Studio Code
+	"io.beekeeperstudio.Studio"   # Beekeeper Studio
+	"io.dbeaver.DBeaverCommunity" # DBeaver Community
+	"rest.insomnia.Insomnia"      # Insomnia
+	"com.github.zadam.trilium"    # Trilium
+	"org.qbittorrent.qBittorrent" # qBittorrent
+)
+# Function to install Flatpak applications
+installFlatpakApps() {
+	for app in "${Applications[@]}"; do
+		echo "Installing $app..."
+		flatpak install flathub "$app" -y
+		echo "---------------------------------------------"
+	done
+}
+# Main execution
+installFlatpakApps
+echo "All Flatpak applications installed successfully."
+
 # ---------------------------------------- #
 # To set microsoft edge as default Browser #
 # ---------------------------------------- #
@@ -358,7 +357,6 @@ xdg-mime default com.microsoft.Edge.desktop application/x-extension-shtml
 xdg-mime default com.microsoft.Edge.desktop application/x-extension-xht
 xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
 
-
 # ------------------------------- #
 # Switch to a gdm Display Manager #
 # ------------------------------- #
@@ -366,9 +364,6 @@ sudo pacman -S gdm
 sudo systemctl disable sddm.service
 sudo systemctl enable gdm.service
 sudo systemctl start gdm.service
-
-
-
 
 # -------------------------- #
 # Increase the Size of tmpfs #
@@ -379,7 +374,7 @@ sudo systemctl start gdm.service
 mount | grep /run/user/1000 # Check if it's a tmpfs.
 sudo chown 1000:1000 /run/user/1000
 sudo chmod 700 /run/user/1000
-echo 'tmpfs /run/user/1000 tmpfs size=4G,mode=700,uid=1000,gid=1000 0 0' | sudo tee -a /etc/fstab;
+echo 'tmpfs /run/user/1000 tmpfs size=4G,mode=700,uid=1000,gid=1000 0 0' | sudo tee -a /etc/fstab
 d /run/user/1000 0700 softeng softeng 4G
 sudo systemd-tmpfiles --create
 mkdir -p /run/user/$(id -u)
@@ -387,10 +382,6 @@ export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # check if it's a tmpfs
 df -h /run/user/1000 /run/user/1000
-
-
-
-
 
 # ------------------------- #
 # update the packages again #
