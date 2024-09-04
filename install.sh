@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
-cd "$(dirname "$0")"
-export base="$(pwd)"
+# shellcheck disable=SC1090
+# shellcheck disable=SC2034
+
+export base
+base="$(pwd)"
 # -------------------------------------------------------
 # The CONFARCH Project.
 # Arch Linux enhancement configuration
@@ -12,8 +15,8 @@ export base="$(pwd)"
 #---------------------------------#
 # Include variables and functions #
 #---------------------------------#
-source ./include/Global_functions
-source ./include/welcome
+source="$(pwd)"/sources/global_functions.sh
+source="$(pwd)"/sources/welcome.sh
 
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
@@ -34,7 +37,7 @@ welcome
 # the system is not Arch Linux or an Arch-based distribution,
 # and then it exits the script with a status code of 1.
 if ! command -v pacman >/dev/null 2>&1; then
-	printf "\e[31m[$0]: pacman not found, it seems that the system is not ArchLinux or Arch-based distros. Aborting...\e[0m\n"
+	echo -e "\e[31m[$0]: pacman not found, it seems that the system is not ArchLinux or Arch-based distros. Aborting...\e[0m\n"
 	exit 1
 else
 	echo "pacman is found. Continuing with the script..."
@@ -74,14 +77,14 @@ echo 'ntfs and fuse has been installed'
 ## storage: Access to storage devices.
 ## lp: Manage printers.
 ## uucp: Access to serial ports and devices connected via serial ports.
-sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp $(whoami)
+sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp "$(whoami)"
 
 # set XDG variables
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_CONFIG_HOME="$HOME/.config"
 # print XDG variables
-echo $XDG_CACHE_HOME
-echo $XDG_CONFIG_HOME
+echo "$XDG_CACHE_HOME"
+echo "$XDG_CONFIG_HOME"
 
 # set WLR_VSYNC
 export WLR_VSYNC=1
@@ -104,13 +107,15 @@ sudo plymouth-set-default-theme -R details
 # Install Arch Package Managers #
 # ----------------------------- #
 # Check if yay is installed and install it if not
+# Yay (Yet Another Yaourt)
+# Yay is an AUR helper written in Go, designed to interact with both the official Arch repositories and the AUR (Arch User Repository).
 i_yay() {
 	if ! command -v yay &>/dev/null; then
 		echo "yay is not installed. Installing yay..."
 		# Install yay
 		sudo pacman -S --needed base-devel git
 		# Clone the yay repository from the AUR
-		git clone https://aur.archlinux.org/yay.git && cd yay
+		git clone https://aur.archlinux.org/yay.git && cd yay || exit
 		# Build and install yay & Change back to the previous directory
 		makepkg -si && cd ..
 		# Remove the yay directory
@@ -120,16 +125,45 @@ i_yay() {
 		echo "yay is already installed. Continuing with the script..."
 	fi
 }
+# --------------------------------------------------------------------------
+# Pikaur
+# Pikaur is another AUR helper that’s known for its simplicity and speed.
+# --------------------------------------------------------------------------
+i_pikaur() {
+	# Clone the pikaur repository from the AUR
+	git clone https://aur.archlinux.org/pikaur.git
+	# Navigate into the pikaur directory
+	cd pikaur || exit
+	# Build and install pikaur
+	makepkg -si
+}
 
+# --------------------------------------------------------------------------
+# Paru
+# Paru is another popular AUR helper that’s similar to Yay but written in Rust.
+# --------------------------------------------------------------------------
 i_paru() { # paru
-	git clone https://aur.archlinux.org/paru.git && cd paru
+	git clone https://aur.archlinux.org/paru.git
+	cd paru || exit
+	makepkg -si
+}
+
+# --------------------------------------------------------------------------
+# Trizen
+# Trizen is an AUR helper written in Perl and has a similar syntax to Pacman.
+# --------------------------------------------------------------------------
+i_trizen() {
+	# Clone the trizen repository from the AUR
+	git clone https://aur.archlinux.org/trizen.git
+	# Navigate into the trizen directory
+	cd trizen || exit
+	# Build and install trizen
 	makepkg -si
 }
 
 # -------------------- #
 # Install Apps & Tools #
 # -------------------- #
-
 i_git() { # git
 	sudo pacman -S --noconfirm git
 	# Set git configurations
@@ -162,7 +196,7 @@ i_zsh() {
 	# Install ZSH & oh-my-zsh
 	sudo pacman -S --noconfirm zsh fzf
 	# Install Plugins
-	cd ~/.oh-my-zsh/custom/plugins/
+	cd ~/.oh-my-zsh/custom/plugins/ || exit
 	# Install zsh-autocomplete
 	git clone https://github.com/marlonrichert/zsh-autocomplete.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autocomplete
 	# Install zsh-autosuggestions
@@ -174,7 +208,7 @@ i_zsh() {
 	# Set ZSH as default
 	chsh -s /bin/zsh
 	# Update ZSH
-	exec zsh
+	exec zsh || exec bash
 	# Reload the configuration file (optional)
 	source ~/.zshrc
 }
@@ -333,9 +367,9 @@ xdg-settings get default-web-browser
 # --------------------------- #
 # List all installed browsers #
 # --------------------------- #
-ls /usr/share/applications | grep edge
-ls /var/lib/flatpak/exports/share/applications | grep edge
-ls /var/lib/snapd/desktop/applications | grep edge
+# ls /usr/share/applications | grep edge
+# ls /var/lib/flatpak/exports/share/applications | grep edge
+# ls /var/lib/snapd/desktop/applications | grep edge
 # --------------------------------- #
 # To open a link in default browser #
 # --------------------------------- #
@@ -377,8 +411,9 @@ sudo chmod 700 /run/user/1000
 echo 'tmpfs /run/user/1000 tmpfs size=4G,mode=700,uid=1000,gid=1000 0 0' | sudo tee -a /etc/fstab
 d /run/user/1000 0700 softeng softeng 4G
 sudo systemd-tmpfiles --create
-mkdir -p /run/user/$(id -u)
-export XDG_RUNTIME_DIR=/run/user/$(id -u)
+mkdir -p /run/user/"$(id -u)"
+export XDG_RUNTIME_DIR
+XDG_RUNTIME_DIR=/run/user/"$(id -u)"
 
 # check if it's a tmpfs
 df -h /run/user/1000 /run/user/1000
