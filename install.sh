@@ -60,9 +60,8 @@ echo 'ntfs and fuse has been installed'
 # add this line to /etc/fstab
 # /dev/disk/by-partlabel/[partition] /mnt/[partition] auto auto,nofail,nodev,uid=1000,gid=1000,utf8,umask=022,exec,x-gvfs-show 0 0
 
-# ----------------------------------------------
+# ----------------------------------------------------------
 # Here will some Configuration
-# ----------------------------------------------
 # ----------------------------------------------------------
 # This Command is used to add the current user to additional groups,
 # specifically the video and input groups,
@@ -79,29 +78,39 @@ echo 'ntfs and fuse has been installed'
 ## uucp: Access to serial ports and devices connected via serial ports.
 sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp "$(whoami)"
 
-# set XDG variables
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_CONFIG_HOME="$HOME/.config"
-# print XDG variables
-echo "$XDG_CACHE_HOME"
-echo "$XDG_CONFIG_HOME"
+# --------------------------------------
+# Declare and set environment variables
+# --------------------------------------
+export XDG_RUNTIME_DIR
+export XDG_CACHE_HOME
+export XDG_CONFIG_HOME
+export XDG_DATA_HOME
+export WLR_VSYNC
 
-# set WLR_VSYNC
-export WLR_VSYNC=1
+XDG_CACHE_HOME="$HOME/.cache"
+XDG_CONFIG_HOME="$HOME/.config"
+XDG_DATA_HOME="$HOME/.local/share"
+XDG_RUNTIME_DIR="/run/user/$(id -u)"
+WLR_VSYNC=1
 
+# ------------------------------
+# Disable Gnome Check-alive
+# ------------------------------
 echo 'Disable Gnome Check-alive'
 gsettings set org.gnome.mutter check-alive-timeout 0
 
 # ------------------ #
 # set plymouth theme #
 # ------------------ #
-sudo pacman -S plymouth
-sudo plymouth-set-default-theme -R arch-logo
-sudo mkinitcpio -p linux
-sudo systemctl daemon-reload
-systemctl status plymouth.service
-ls /usr/share/plymouth/themes/
-sudo plymouth-set-default-theme -R details
+set_playmouth_theme() {
+	sudo pacman -S plymouth
+	sudo plymouth-set-default-theme -R arch-logo
+	sudo mkinitcpio -p linux
+	sudo systemctl daemon-reload
+	systemctl status plymouth.service
+	ls /usr/share/plymouth/themes/
+	sudo plymouth-set-default-theme -R details
+}
 
 # ----------------------------- #
 # Install Arch Package Managers #
