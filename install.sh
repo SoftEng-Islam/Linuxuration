@@ -15,7 +15,6 @@ export base="$(pwd)"
 source ./include/Global_functions
 source ./include/welcome
 
-
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
@@ -34,7 +33,6 @@ welcome
 # If pacman is not found, it prints an error message indicating that
 # the system is not Arch Linux or an Arch-based distribution,
 # and then it exits the script with a status code of 1.
-
 if ! command -v pacman >/dev/null 2>&1; then
 	printf "\e[31m[$0]: pacman not found, it seems that the system is not ArchLinux or Arch-based distros. Aborting...\e[0m\n"
 	exit 1
@@ -54,6 +52,11 @@ echo 'Install ntfs and fuse to Support MS Partition File System'
 sudo pacman -S --noconfirm fuse3 ntfs-3g
 sudo modprobe fuse
 echo 'ntfs and fuse has been installed'
+# use lsblk to get information about your disk
+# change [partition] to your partition name like: /mnt/Data
+# add this line to /etc/fstab
+# /dev/disk/by-partlabel/[partition] /mnt/[partition] auto auto,nofail,nodev,uid=1000,gid=1000,utf8,umask=022,exec,x-gvfs-show 0 0
+
 
 # ----------------------------------------------
 # Here will some Configuration
@@ -81,15 +84,22 @@ export XDG_CONFIG_HOME="$HOME/.config"
 echo $XDG_CACHE_HOME
 echo $XDG_CONFIG_HOME
 
+# set WLR_VSYNC
 export WLR_VSYNC=1
 
 echo 'Disable Gnome Check-alive'
 gsettings set org.gnome.mutter check-alive-timeout 0
 
-
-
-
-
+# ------------------ #
+# set plymouth theme #
+# ------------------ #
+sudo pacman -S plymouth
+sudo plymouth-set-default-theme -R arch-logo
+sudo mkinitcpio -p linux
+sudo systemctl daemon-reload
+systemctl status plymouth.service
+ls /usr/share/plymouth/themes/
+sudo plymouth-set-default-theme -R details
 
 # ----------------------------- #
 # Install Arch Package Managers #
@@ -377,6 +387,7 @@ export XDG_RUNTIME_DIR=/run/user/$(id -u)
 
 # check if it's a tmpfs
 df -h /run/user/1000 /run/user/1000
+
 
 
 

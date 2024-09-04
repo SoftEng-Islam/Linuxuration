@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
-# ---------------------------------------------- #
-# Here are some fixes for Network & WIFI & Internet  #
-# ---------------------------------------------- #
-# https://wiki.archlinux.org/index.php/NetworkManager
-# https://wiki.archlinux.org/index.php/WireGuard
-# ---------------------------------------------- #
+# ------------------------------------------------- #
+# Here are some fixes for Network & WIFI & Internet #
+# ------------------------------------------------- #
+#* https://wiki.archlinux.org/index.php/NetworkManager
+#* https://wiki.archlinux.org/index.php/WireGuard
+# ------------------------------------------------- #
 # Features:
-# Repair host.conf & hosts
-# Repair iptables
-# Repair firewalld
-# Repair dnsmasq
-# Repair NetworkManager
-# Repair systemd-resolved
-# Repair nm
-# Repair nm-applet
-# Repair nm-wireguard
-# Repair nm-connection-editor
-# Repair nm-openvpn
+#. Repair host.conf & hosts
+#. Repair iptables
+#. Repair firewalld
+#. Repair dnsmasq
+#. Repair NetworkManager
+#. Repair systemd-resolved
+#. Repair nm
+#. Repair nm-applet
+#. Repair nm-wireguard
+#. Repair nm-connection-editor
+#. Repair nm-openvpn
 # ---------------------------------------------- #
 
+# Create log file:
 sudo touch /var/log/network_repair.log
 LOGFILE="/var/log/network_repair.log"
 
 log() {
 	echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | sudo tee -a $LOGFILE
 }
-
 error_exit() {
 	log "Error: $1"
 	exit 1
@@ -38,15 +38,23 @@ log "Updating the system..."
 sudo pacman --needed --noconfirm -Syu || error_exit "Failed to update the system"
 sudo pacman --needed --noconfirm -S linux-firmware || error_exit "Failed to install linux-firmware"
 
-# Install Cloudflare WARP
+# ----------------------- #
+# Install Cloudflare WARP #
+# ----------------------- #
 # This might help you bypass your ISP’s restrictions and provide a faster internet
 # There will be a button on the right sidebar to toggle WARP if it’s installed
+echo "Installing Cloudflare WARP..."
 yay -S --needed --noconfirm cloudflare-warp-bin && sudo systemctl enable warp-svc --now
+echo "Cloudflare WARP has been installed and the service is running."
+# Disable it if you faced issues
+# sudo systemctl disable warp-svc --now
 
 # -------------------------- #
 # Install Important Packages #
 # -------------------------- #
 log "Installing important packages..."
+# Array of Packages that related to networks to Install
+echo "Installing important network packages..."
 packages=(
 	firewalld # Firewall service
 	networkmanager
@@ -72,6 +80,7 @@ packages=(
 )
 # There a conflect with iptables & nftables
 sudo pacman -S --noconfirm "${packages[@]}"
+echo "Networks packages installed!"
 
 # Disable NetworkManager to prevent interference during configuration
 log "Disabling NetworkManager..."
@@ -105,19 +114,11 @@ nameserver 208.67.220.220
 EOF
 sudo chattr +i /etc/resolv.conf
 
-# Verify Network Connectivity
-#log "Verifying network connectivity..."
-#ping -c 4 8.8.8.8 || error_exit "Network connectivity test failed"
-
-# Verify DNS Resolution
-#log "Verifying DNS resolution..."
-#ping -c 4 google.com || error_exit "DNS resolution test failed"
-
 # Verify Router/Gateway
 log "Verifying router/gateway..."
 ip route | grep default || error_exit "Default route (gateway) not found"
 GATEWAY=$(ip route | grep default | awk '{print $3}')
-ping -c 4 $GATEWAY || error_exit "Gateway test failed"
+ping -c 4 "$GATEWAY" || error_exit "Gateway test failed"
 
 # Configure Firewall
 log "Configuring firewall..."
@@ -187,8 +188,6 @@ EOF
 # Apply the changes
 sudo sysctl -p /etc/sysctl.conf
 
-sudo sysctl -p
-
 # Increase Buffer Size
 log "Increasing buffer size..."
 sudo sysctl -w net.core.rmem_max=16777216
@@ -203,26 +202,25 @@ sudo iptables -L
 sudo modprobe ip_tables
 sudo modprobe iptable_filter
 
-# Configure iptables for NAT
-# log "Configuring iptables for NAT..."
-sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
-sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
-sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
-
 # Enable IP Forwarding
 sudo sysctl -w net.ipv4.ip_forward=1
 
 # log "Enabling and starting necessary services..."
 services=(dnsmasq iptables ip6tables firewalld NetworkManager systemd-resolved)
 for service in "${services[@]}"; do
-	sudo systemctl enable --now $service
-	sudo systemctl restart $service
+	sudo systemctl enable --now "$service"
+	sudo systemctl restart "$service"
 done
+
+# Configure iptables for NAT
+# log "Configuring iptables for NAT..."
+sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
+sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
 
 log "Network and Wi-Fi setup completed successfully."
 
 # ----------------------------------------------------
-#!/bin/bash
 source ../../include/global_functions
 
 # Check if yay is installed
@@ -231,55 +229,47 @@ check_yay
 # Confirm the installation
 confirm "Do you want to install Cloudflare WARP and enable its service?"
 
-# Install Cloudflare WARP
-echo "Installing Cloudflare WARP..."
-yay -S --noconfirm cloudflare-warp-bin
-if [[ $? -ne 0 ]]; then
-	echo "Failed to install Cloudflare WARP. Exiting."
-	exit 1
-fi
-
-# Enable and start the WARP service
-echo "Enabling and starting the WARP service..."
-sudo systemctl enable warp-svc --now
-if [[ $? -ne 0 ]]; then
-	echo "Failed to enable and start the WARP service. Exiting."
-	exit 1
-fi
-
-echo "Cloudflare WARP has been installed and the service is running."
-
-# ----------------------------------------------------
-#!/bin/bash
-# =========================================================
+# -----------------------------------------------------------
 # This script can install hashcat & hcxdumptool & hcxtools
-# =========================================================
-
 # -----------------------------------------------------------
 # Install hcxdumptool
 # https://github.com/ZerBea/hcxdumptool
 # Small tool to capture packets from wlan devices.
 # -----------------------------------------------------------
-cd ~/Downloads/
-git clone https://github.com/ZerBea/hcxdumptool.git
-cd hcxdumptool
-make -j $(nproc)
-sudo make install
+i_hcxdumptool() {
+	cd ~/Downloads/ || exit
+	git clone https://github.com/ZerBea/hcxdumptool.git
+	cd hcxdumptool || exit
+	make -j "$(nproc)"
+	sudo make install
+}
 
 # -----------------------------------------------------------
 # Install hcxtools
 # https://github.com/ZerBea/hcxtools
 # A small set of tools to convert packets from capture files to hash files for use with Hashcat or John the Ripper.
 # -----------------------------------------------------------
-cd ~/Downloads/
-git clone https://github.com/ZerBea/hcxtools.git
-cd hcxtools
-make -j $(nproc)
-sudo make install
+i_hcxtools() {
+	cd ~/Downloads/ || echo "can't find ~/Downloads/ directory"
+	git clone https://github.com/ZerBea/hcxtools.git
+	cd hcxtools || exit
+	make -j "$(nproc)"
+	sudo make install
+}
 
 # -----------------------------------------------------------
 # Install Hashcat
 # https://hashcat.net/hashcat/
 # https://github.com/hashcat/hashcat
 # World's fastest and most advanced password recovery utility
+# -----------------------------------------------------------
+
+# -----------------------------------------------------------
+# To Verify Network Connectivity
+#log "Verifying network connectivity..."
+#ping -c 4 8.8.8.8 || error_exit "Network connectivity test failed"
+
+# Verify DNS Resolution
+#log "Verifying DNS resolution..."
+#ping -c 4 google.com || error_exit "DNS resolution test failed"
 # -----------------------------------------------------------
