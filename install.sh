@@ -334,9 +334,14 @@ i_zsh() { # Install ZSH & oh-my-zsh
 i_vsCode() { # Install Microsoft Visual Studio Code
 	yay -S visual-studio-code-bin
 }
+# To install Zed on most Linux distributions, run this shell script:
+# https://zed.dev/blog/zed-on-linux
+curl -f https://zed.dev/install.sh | sh
+echo "export PATH=$HOME/.local/bin:$PATH" >>~/.zshrc
+source ~/.zshrc
 
 # =============================================================
-# Just Install Some Programming Languages & Famous Development Tools
+# Install Programming Languages & Famous Development Tools
 # and Frameworks, Tools that related to Web Development Stack.
 # =============================================================
 # NodeJS

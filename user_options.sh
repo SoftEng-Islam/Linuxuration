@@ -46,23 +46,3 @@ python=1
 flutter=1
 java=1
 c=1
-
-# -------------------------------------------------------------
-# Check if the User want to Install or Improve Hyprland/themes
-# -------------------------------------------------------------
-if [ "$1" == 'hyprland' ]; then
-	# Install Hyprland and Some Deps
-fi
-
-# ----------------------------------------------------------
-# Check if the User want to Install or Improve Gnome/themes
-# ----------------------------------------------------------
-if [ "$1" == 'gnome' ]; then
-	# Install Gnome and Some Deps
-fi
-
-# To install Zed on most Linux distributions, run this shell script:
-# https://zed.dev/blog/zed-on-linux
-curl -f https://zed.dev/install.sh | sh
-echo 'export PATH=$HOME/.local/bin:$PATH' >>~/.zshrc
-source ~/.zshrc
