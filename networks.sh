@@ -196,27 +196,29 @@ sudo sysctl -w net.core.wmem_max=16777216
 # Save iptables Rules
 sudo touch /etc/iptables/iptables.rules
 sudo chmod 644 /etc/iptables/iptables.rules
-# sudo iptables-save >/etc/iptables/iptables.rules
 sudo iptables-save | sudo tee /etc/iptables/iptables.rules
 sudo iptables -L
 sudo modprobe ip_tables
 sudo modprobe iptable_filter
-
-# Enable IP Forwarding
-sudo sysctl -w net.ipv4.ip_forward=1
-
-# log "Enabling and starting necessary services..."
-services=(dnsmasq iptables ip6tables firewalld NetworkManager systemd-resolved)
-for service in "${services[@]}"; do
-	sudo systemctl enable --now "$service"
-	sudo systemctl restart "$service"
-done
 
 # Configure iptables for NAT
 # log "Configuring iptables for NAT..."
 sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
 sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
+
+# Enable IP Forwarding
+sudo sysctl -w net.ipv4.ip_forward=1
+
+sudo systemctl stop systemd-resolved
+sudo systemctl disable systemd-resolved
+# Enable and Start Services
+# log "Enabling and starting necessary services..."
+services=(dnsmasq iptables ip6tables firewalld NetworkManager)
+for service in "${services[@]}"; do
+	sudo systemctl enable --now "$service"
+	sudo systemctl restart "$service"
+done
 
 log "Network and Wi-Fi setup completed successfully."
 

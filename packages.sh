@@ -455,3 +455,18 @@ else
 fi
 
 echo "The suggested packages has been installed successfully."
+
+picom
+gnome-color-manager
+appmenu-gtk-module
+wl-clipboard
+git
+cmake
+sdl2
+sdl2_image
+sdl2_mixer
+sdl2_ttf
+openssl
+boost
+python
+mailcap

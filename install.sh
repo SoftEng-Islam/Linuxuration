@@ -93,11 +93,39 @@ XDG_DATA_HOME="$HOME/.local/share"
 XDG_RUNTIME_DIR="/run/user/$(id -u)"
 WLR_VSYNC=1
 
+# --------------------------------- #
+# Install Git and set Configuration #
+# --------------------------------- #
+i_git() { # git
+	sudo pacman -S --noconfirm git
+	# Set git configurations
+	git 'config' --global core.autocrlf false
+	git 'config' --global core.compression 9
+	git 'config' --global http.postBuffer 924288000
+	git 'config' --global http.lowSpeedLimit 0
+	git 'config' --global http.lowSpeedTime 999999
+	git 'config' --global submodule.fetchJobs 4
+	git 'config' --global core.packedGitWindowSize 128m
+	git 'config' --global core.packedGitLimit 512m
+	git 'config' --global advice.addIgnoredFile false
+}
+
 # ------------------------------
 # Disable Gnome Check-alive
 # ------------------------------
 echo 'Disable Gnome Check-alive'
 gsettings set org.gnome.mutter check-alive-timeout 0
+
+# -------------------------- #
+# Install GTK themes & icons #
+# -------------------------- #
+# Cursor Icons
+# System & apps Icons
+# GTK Themes
+git clone https://github.com/JaKooLit/GTK-themes-icons.git --depth 1
+cd GTK-themes-icons || exit
+chmod +x auto-extract.sh
+./auto-extract.sh
 
 # ------------------ #
 # set plymouth theme #
@@ -146,7 +174,6 @@ i_pikaur() {
 	# Build and install pikaur
 	makepkg -si
 }
-
 # --------------------------------------------------------------------------
 # Paru
 # Paru is another popular AUR helper that’s similar to Yay but written in Rust.
@@ -156,7 +183,6 @@ i_paru() { # paru
 	cd paru || exit
 	makepkg -si
 }
-
 # --------------------------------------------------------------------------
 # Trizen
 # Trizen is an AUR helper written in Perl and has a similar syntax to Pacman.
@@ -173,19 +199,6 @@ i_trizen() {
 # -------------------- #
 # Install Apps & Tools #
 # -------------------- #
-i_git() { # git
-	sudo pacman -S --noconfirm git
-	# Set git configurations
-	git 'config' --global core.autocrlf false
-	git 'config' --global core.compression 9
-	git 'config' --global http.postBuffer 924288000
-	git 'config' --global http.lowSpeedLimit 0
-	git 'config' --global http.lowSpeedTime 999999
-	git 'config' --global submodule.fetchJobs 4
-	git 'config' --global core.packedGitWindowSize 128m
-	git 'config' --global core.packedGitLimit 512m
-	git 'config' --global advice.addIgnoredFile false
-}
 
 i_xdman() { # xdman(Download Manager)
 	sudo pacman -S --noconfirm jdk-openjdk yt-dlp
@@ -265,7 +278,7 @@ i_nodeJS() { # NodeJS
 # python
 
 # ---------------------
-# Overclocing
+# Overclocing tools
 # ---------------------
 yay -S corectrl
 
