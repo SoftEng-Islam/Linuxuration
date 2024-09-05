@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 
 function prevent_sudo_or_root() {
-	case $(whoami) in
-	root)
-		echo -e "\e[31m[$0]: This script is NOT to be executed with sudo or as root. Aborting...\e[0m"
+	# Check if running as root. If root, script will exit
+	if [[ $EUID -eq 0 ]]; then
+		echo "This script should not be executed as root! Exiting......."
 		exit 1
-		;;
-	esac
+	fi
 }
 
 # Function to confirm action

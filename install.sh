@@ -1,6 +1,46 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 # shellcheck disable=SC2034
+XDG_BIN_HOME=${XDG_BIN_HOME:-$HOME/.local/bin}
+XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
+XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
+
+# ------------------------------------
+# set colors into vars
+# ------------------------------------
+# Colors:
+Black='\033[30m'
+Red='\033[31m'
+Green='\033[32m'
+Yellow='\033[33m'
+Blue='\033[34m'
+Magenta='\033[35m'
+Cyan='\033[36m'
+White='\033[37m'
+
+# Bright (Bold) Colors:
+B_Black='\033[90m'
+B_Red='\033[91m'
+B_Green='\033[92m'
+B_Yellow='\033[93m'
+B_Blue='\033[94m'
+B_Magenta='\033[95m'
+B_Cyan='\033[96m'
+B_White='\033[97m'
+
+NC='\033[0m'
+BOLD='\033[1m'
+Italic='\033[3m'
+Underline='\033[4m'
+Strikethrough='\033[9m'
+
+RESET="\033[0m" # Reset color
+
+# Unicode Characters
+# `echo -e "\u2764"   # Outputs a heart symbol (❤)`
+heart='\u2764'
 
 export base
 base="$(pwd)"
@@ -22,16 +62,27 @@ source="$(pwd)"/sources/welcome.sh
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
 prevent_sudo_or_root
-# clear
 
-# ---------------------------------------------------
+# ---------------------
 # Show Welcome Message
-# ---------------------------------------------------
+# ---------------------
+function welcome() {
+	echo -e "$(
+		cat <<EOF
+			${B_Magenta}===================================================================${RESET}
+			${B_Magenta}1 ${RESET} ${Red}Welcome${RESET} \e[1;32m$(whoami)\e[0m ${heart}
+			${B_Magenta}2 ${RESET} Today's date is: ${B_Yellow}$(date)${RESET}
+			${B_Magenta}3 ${RESET} \e[3;90mfeel free to message me on\e[0m \e[1;34mTwitter\e[0m: \e[4;96mhttps://x.com/SoftEng_Islam\e[0m
+			${B_Magenta}===================================================================${RESET} \n
+EOF
+	)"
+}
+# run the Function
 welcome
 
-# ------------------------------------- #
+# ---------------------------- #
 # Check if pacman is available #
-# ------------------------------------- #
+# ---------------------------- #
 # check if the pacman package manager is available on the system.
 # If pacman is not found, it prints an error message indicating that
 # the system is not Arch Linux or an Arch-based distribution,
@@ -47,6 +98,34 @@ fi
 # Update the Packages #
 # ------------------- #
 update_packages
+
+# Check if base-devel is installed
+if pacman -Q base-devel &>/dev/null; then
+	echo "base-devel is already installed."
+else
+	echo "Install base-devel.........."
+
+	if sudo pacman -S --noconfirm --needed base-devel; then
+		echo "base-devel has been installed successfully."
+	else
+		echo "Error: base-devel not found nor cannot be installed."
+		echo "Please install base-devel manually before running this script... Exiting"
+		exit 1
+	fi
+fi
+
+# Initialize variables to store user responses
+aur_helper="yes"
+bluetooth="yes"
+dots="yes"
+gtk_themes="yes"
+nvidia="yes"
+rog="yes"
+sddm=""
+thunar=""
+xdph=""
+zsh="yes"
+ntfs="yes"
 
 # -------------------------------------------- #
 # Microsoft Partition FileSystem Format 'NTFS' #
@@ -140,6 +219,18 @@ set_playmouth_theme() {
 	sudo plymouth-set-default-theme -R details
 }
 
+# -------------------------------------------------------
+# Nautilus backspace
+# Extensions for returning back to Nautilus by pressing the combination of keys assigned via Gsettings
+# -------------------------------------------------------
+i_nautilus_backspace() {
+	sudo pacman -Sy python-nautilus
+	git clone https://github.com/SoftEng-Islam/nautilus-backspace.git
+	cd nautilus-backspace || exit
+	sudo make
+	sudo make schemas
+}
+
 # ----------------------------- #
 # Install Arch Package Managers #
 # ----------------------------- #
@@ -199,7 +290,6 @@ i_trizen() {
 # -------------------- #
 # Install Apps & Tools #
 # -------------------- #
-
 i_xdman() { # xdman(Download Manager)
 	sudo pacman -S --noconfirm jdk-openjdk yt-dlp
 	yay -S --noconfirm youtube-dl xdman --noconfirm
@@ -210,12 +300,17 @@ i_FDM() {
 i_motrix() { # motrix(Download Manager)
 	yay -S --noconfirm motrix
 }
-i_brower() { # browsers (Ms Edge, Chrome, Firefox)
-	yay -S --noconfirm microsoft-edge-stable-bin google-chrome
+
+# Install Browsers
+i_chrome() { # Install Google Chrome
+	yay -S --noconfirm google-chrome
+}
+i_msedge() { # Install Microsoft Edge
+	yay -S --noconfirm microsoft-edge-stable-bin
 }
 
-i_zsh() {
-	# Install ZSH & oh-my-zsh
+# Install and Configure Terminals
+i_zsh() { # Install ZSH & oh-my-zsh
 	sudo pacman -S --noconfirm zsh fzf
 	# Install Plugins
 	cd ~/.oh-my-zsh/custom/plugins/ || exit
@@ -234,7 +329,9 @@ i_zsh() {
 	# Reload the configuration file (optional)
 	source ~/.zshrc
 }
-i_vsCode() { # Microsoft Visual Studio Code
+
+# Install Editors
+i_vsCode() { # Install Microsoft Visual Studio Code
 	yay -S visual-studio-code-bin
 }
 
@@ -242,7 +339,6 @@ i_vsCode() { # Microsoft Visual Studio Code
 # Just Install Some Programming Languages & Famous Development Tools
 # and Frameworks, Tools that related to Web Development Stack.
 # =============================================================
-
 # NodeJS
 i_nodeJS() { # NodeJS
 	# installs nvm (Node Version Manager)

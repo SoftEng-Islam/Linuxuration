@@ -419,7 +419,21 @@ allPackages=(
 
 	# unSorted
 	gedit vlc ffmpeg gstreamer gst-plugins-good gst-plugins-ugly libdvdcss gnome gnome-shell-extensions wayland xorg-server xf86-input-libinput mesa xf86-video-amdgpu linux-headers mesa lib32-mesa alacritty
-
+	picom
+	gnome-color-manager
+	appmenu-gtk-module
+	wl-clipboard
+	git
+	cmake
+	sdl2
+	sdl2_image
+	sdl2_mixer
+	sdl2_ttf
+	openssl
+	boost
+	python
+	mailcap
+	python-nautilus
 )
 
 # Loop through each package in the allPackages Array
@@ -455,18 +469,3 @@ else
 fi
 
 echo "The suggested packages has been installed successfully."
-
-picom
-gnome-color-manager
-appmenu-gtk-module
-wl-clipboard
-git
-cmake
-sdl2
-sdl2_image
-sdl2_mixer
-sdl2_ttf
-openssl
-boost
-python
-mailcap
