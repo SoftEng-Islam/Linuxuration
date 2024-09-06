@@ -105,7 +105,7 @@ if pacman -Q base-devel &>/dev/null; then
 else
 	echo "Install base-devel.........."
 
-	if sudo pacman -S --noconfirm --needed base-devel; then
+	if sudo pacman -S --noconfirm --needed base-devel linux-firmware; then
 		echo "base-devel has been installed successfully."
 	else
 		echo "Error: base-devel not found nor cannot be installed."
@@ -330,6 +330,14 @@ i_zsh() { # Install ZSH & oh-my-zsh
 	source ~/.zshrc
 }
 
+# -----------------------------------------------------
+# Install GStreamer Plugins
+# This should provide support for most media formats
+# -----------------------------------------------------
+i_GStreamer() {
+	sudo pacman -S gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer gst-libav
+}
+
 # Install Editors
 i_vsCode() { # Install Microsoft Visual Studio Code
 	yay -S visual-studio-code-bin
@@ -381,6 +389,7 @@ i_nodeJS() { # NodeJS
 # ---------------------
 # Overclocking tools
 # ---------------------
+sudo pacman -S vulkan-tools qt5-wayland xf86-video-amdgpu
 yay -S corectrl
 
 # ------------------------------------------- #

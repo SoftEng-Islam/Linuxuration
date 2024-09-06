@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2034
 # -----------------------------------------------
 # variable to hold user preferances
 # 1= true or Enable or Install or add
@@ -6,17 +7,19 @@
 # -----------------------------------------------
 
 # System
-gnome=1    # Install Or Improve Gnome
-hyprland=1 # Install Or Improve Hyprland
-themes=1   # Install Themes
-icons=1    # Install Icons
-bibata=1   # Cursor Icons
-plymouth=1 # Install plymouth-themes
-fonts=1    # Install Fonts
-drivers=0  # Install Drivers
-wineHQ=1   # Install WineHQ
-ZSH=1      # Install ZSH & OH-MY-ZSH
-Pomodoro=1 # Install Pomodoro
+gnome=1      # Install Or Improve Gnome
+hyprland=1   # Install Or Improve Hyprland
+gtk_themes=1 # Install GTK Themes
+dotFiles=1   # Install Dotfiles and configs for Hyprland
+icons=1      # Install Icons
+bibata=1     # Cursor Icons
+plymouth=1   # Install plymouth-themes
+fonts=1      # Install Fonts
+ZSH=1        # Install ZSH & OH-MY-ZSH
+wineHQ=1     # Install WineHQ
+Pomodoro=1   # Install Pomodoro
+drivers=0    # Install Drivers
+networks=1   # Install Network Tools and inhancements
 
 # Apps
 LibreOffice=1      # Install LibreOffice
@@ -34,15 +37,15 @@ Zed=1              # Install Zed Editor
 # ------------------------------------------------
 # Install Programming Languages for Developers
 # ------------------------------------------------
-nodejs=1
-php=1
-rust=1
-dart=1
-ruby=1
-go=1
+c=1
 cpp=1
 csharp=1
+rust=1
 python=1
-flutter=1
+go=1
+ruby=1
 java=1
-c=1
+php=1
+nodejs=1
+dart=1
+flutter=1
