@@ -55,9 +55,8 @@ base="$(pwd)"
 #---------------------------------#
 # Include variables and functions #
 #---------------------------------#
-source="$(pwd)"/sources/global_functions.sh
-source="$(pwd)"/sources/welcome.sh
-
+source "$(pwd)"/sources/global_functions.sh
+source ./config.conf # Here your configuration file (you can Edit it)
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
