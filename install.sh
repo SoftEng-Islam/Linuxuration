@@ -1,16 +1,25 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 # shellcheck disable=SC2034
+
+export base
+base="$(pwd)"
+# ------------------------------------------------------ #
+#* The CONFARCH Project.                                 #
+#* Arch Linux enhancement configuration                  #
+#! --------------------- Warning ----------------------- #
+#? Please don't use this script, still under development #
+# ------------------------------------------------------ #
+
 XDG_BIN_HOME=${XDG_BIN_HOME:-$HOME/.local/bin}
 XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
 
-# ------------------------------------
-# set colors into vars
-# ------------------------------------
-# Colors:
+# ---------------------------- #
+# Assign Colors into variables #
+# ---------------------------- #
 Black='\033[30m'
 Red='\033[31m'
 Green='\033[32m'
@@ -19,7 +28,6 @@ Blue='\033[34m'
 Magenta='\033[35m'
 Cyan='\033[36m'
 White='\033[37m'
-
 # Bright (Bold) Colors:
 B_Black='\033[90m'
 B_Red='\033[91m'
@@ -30,41 +38,32 @@ B_Magenta='\033[95m'
 B_Cyan='\033[96m'
 B_White='\033[97m'
 
+# text format
 NC='\033[0m'
 BOLD='\033[1m'
 Italic='\033[3m'
 Underline='\033[4m'
 Strikethrough='\033[9m'
-
 RESET="\033[0m" # Reset color
 
 # Unicode Characters
 # `echo -e "\u2764"   # Outputs a heart symbol (❤)`
 heart='\u2764'
 
-export base
-base="$(pwd)"
-# -------------------------------------------------------
-# The CONFARCH Project.
-# Arch Linux enhancement configuration
-# -------------------------------------------------------
-# --------------------- Warning -------------------------
-# Please don't use this script, still under development
-# -------------------------------------------------------
-
 #---------------------------------#
 # Include variables and functions #
 #---------------------------------#
 source "$(pwd)"/sources/global_functions.sh
 source ./config.conf # Here your configuration file (you can Edit it)
+
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
 prevent_sudo_or_root
 
-# ---------------------
-# Show Welcome Message
-# ---------------------
+# ------------------- #
+# The Welcome Message #
+# ------------------- #
 function welcome() {
 	echo -e "$(
 		cat <<EOF
@@ -113,31 +112,6 @@ else
 	fi
 fi
 
-# Initialize variables to store user responses
-aur_helper="yes"
-bluetooth="yes"
-dots="yes"
-gtk_themes="yes"
-nvidia="yes"
-rog="yes"
-sddm=""
-thunar=""
-xdph=""
-zsh="yes"
-ntfs="yes"
-
-# -------------------------------------------- #
-# Microsoft Partition FileSystem Format 'NTFS' #
-# -------------------------------------------- #
-echo 'Install ntfs and fuse to Support MS Partition File System'
-sudo pacman -S --noconfirm fuse3 ntfs-3g
-sudo modprobe fuse
-echo 'ntfs and fuse has been installed'
-# use lsblk to get information about your disk
-# change [partition] to your partition name like: /mnt/Data
-# add this line to /etc/fstab
-# /dev/disk/by-partlabel/[partition] /mnt/[partition] auto auto,nofail,nodev,uid=1000,gid=1000,utf8,umask=022,exec,x-gvfs-show 0 0
-
 # ----------------------------------------------------------
 # Here will some Configuration
 # ----------------------------------------------------------
@@ -170,6 +144,18 @@ XDG_CONFIG_HOME="$HOME/.config"
 XDG_DATA_HOME="$HOME/.local/share"
 XDG_RUNTIME_DIR="/run/user/$(id -u)"
 WLR_VSYNC=1
+
+# -------------------------------------------- #
+# Microsoft Partition FileSystem Format 'NTFS' #
+# -------------------------------------------- #
+echo 'Install ntfs and fuse to Support MS Partition File System'
+sudo pacman -S --noconfirm fuse3 ntfs-3g
+sudo modprobe fuse
+echo 'ntfs and fuse has been installed'
+# use lsblk to get information about your disk
+# change [partition] to your partition name like: /mnt/Data
+# add this line to /etc/fstab
+# /dev/disk/by-partlabel/[partition] /mnt/[partition] auto auto,nofail,nodev,uid=1000,gid=1000,utf8,umask=022,exec,x-gvfs-show 0 0
 
 # --------------------------------- #
 # Install Git and set Configuration #

@@ -434,6 +434,7 @@ allPackages=(
 	python
 	mailcap
 	python-nautilus
+	bc cpio graphviz python-sphinx python-pyyaml texlive-latexextra
 )
 
 # Loop through each package in the allPackages Array
@@ -466,6 +467,15 @@ if [ ${#pacman_to_install[@]} -gt 0 ]; then
 	sudo pacman -S --noconfirm "${pacman_to_install[@]}"
 else
 	echo "No missing packages to install via Pacman."
+fi
+
+# Install the missing packages via Yay
+if [ ${#yay_to_install[@]} -gt 0 ]; then
+	# shellcheck disable=SC2145
+	echo "Installing the following packages via Yay: ${yay_to_install[@]}"
+	yay -S --noconfirm "${yay_to_install[@]}"
+else
+	echo "No missing packages to install via Yay."
 fi
 
 echo "The suggested packages has been installed successfully."
