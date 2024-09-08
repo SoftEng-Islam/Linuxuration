@@ -134,6 +134,9 @@ sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp "$(whoami)"
 # You can disable it via sysctl.
 sudo sysctl kernel.split_lock_mitigate=0
 
+# Set performance governor
+sudo cpupower frequency-set -g performance
+
 # AMD P-State Core Performance Boost
 # Enable boost for all cores
 echo 1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/boost
@@ -155,6 +158,20 @@ XDG_CONFIG_HOME="$HOME/.config"
 XDG_DATA_HOME="$HOME/.local/share"
 XDG_RUNTIME_DIR="/run/user/$(id -u)"
 WLR_VSYNC=1
+
+# Enable Wayland support for different applications
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+	export WAYLAND=1
+	export QT_QPA_PLATFORM='wayland;xcb'
+	export GDK_BACKEND='wayland,x11'
+	export MOZ_DBUS_REMOTE=1
+	export MOZ_ENABLE_WAYLAND=1
+	export _JAVA_AWT_WM_NONREPARENTING=1
+	export BEMENU_BACKEND=wayland
+	export CLUTTER_BACKEND=wayland
+	export ECORE_EVAS_ENGINE=wayland_egl
+	export ELM_ENGINE=wayland_egl
+fi
 
 # -------------------------------------------- #
 # Microsoft Partition FileSystem Format 'NTFS' #
