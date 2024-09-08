@@ -129,6 +129,11 @@ fi
 ## uucp: Access to serial ports and devices connected via serial ports.
 sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp "$(whoami)"
 
+# Disabling Split Lock Mitigate
+# In some cases, split lock mitigate can slow down performance in some applications and games.
+# You can disable it via sysctl.
+sudo sysctl kernel.split_lock_mitigate=0
+
 # --------------------------------------
 # Declare and set environment variables
 # --------------------------------------
