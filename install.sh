@@ -134,6 +134,13 @@ sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp "$(whoami)"
 # You can disable it via sysctl.
 sudo sysctl kernel.split_lock_mitigate=0
 
+# AMD P-State Core Performance Boost
+# Enable boost for all cores
+echo 1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/boost
+
+# disable boost for all cores
+# echo 0 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/boost
+
 # --------------------------------------
 # Declare and set environment variables
 # --------------------------------------
