@@ -105,11 +105,13 @@ allPackages=(
 	zram-generator # Compressed RAM with ZRAM
 
 	# General Utilities
-	syncthing   # Continuous file synchronization
-	ranger      # Terminal file manager
-	ncdu        # Disk usage analyzer
-	bleachbit   # System cleaner
-	gparted     # Partition editor
+	syncthing # Continuous file synchronization
+	ranger    # Terminal file manager
+	ncdu      # Disk usage analyzer
+	bleachbit # System cleaner
+	gparted dosfstools jfsutils f2fs-tools btrfs-progs exfatprogs ntfs-3g
+	udftools xfsprogs nilfs-utils polkit gpart mtools xorg-xhost # Partition editor
+
 	timeshift   # System restore tool
 	resolvconf  # DNS resolution manager
 	gnome-disks # Manage disk drives and media
@@ -477,5 +479,5 @@ if [ ${#yay_to_install[@]} -gt 0 ]; then
 else
 	echo "No missing packages to install via Yay."
 fi
-
+# Install the missing packages via paru
 echo "The suggested packages has been installed successfully."

@@ -102,8 +102,7 @@ if pacman -Q base-devel &>/dev/null; then
 	echo "base-devel is already installed."
 else
 	echo "Install base-devel.........."
-
-	if sudo pacman -S --noconfirm --needed base-devel linux-firmware; then
+	if sudo pacman -S --noconfirm --needed base-devel linux-firmware linux-headers; then
 		echo "base-devel has been installed successfully."
 	else
 		echo "Error: base-devel not found nor cannot be installed."
