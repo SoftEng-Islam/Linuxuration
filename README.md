@@ -20,21 +20,20 @@ The repository "confArch" by SoftEng-Islam is designed for enhancing Arch Linux 
 - Network and Connectivity Configuration: Ensuring reliable network access.
 - Additional Software Installation: Browsers, communication tools, and productivity software.
 
-## Tools & Scripts
+## Our Env
 
-OS - Arch
-Window Manager/DE - Hyprland
-File Manager - nautilus .
-Browser - Edge
-Terminal - Kitty
-Shell - zsh
-Editor - Neovim
-Top Bar - Waybar
-Launcher - Wofi
-Music Player - Youtube Music
-Audio Visualizer - Cava
-Theme - Tokyo Night
-Font - JetBrainsMono Nerd Font
+- OS - Arch
+- Window Manager/DE - Hyprland
+- File Manager - nautilus
+- Browser - Edge
+- Terminal - Kitty
+- Shell - zsh
+- Editor - Neovim
+- Top Bar - Waybar
+- Launcher - Ulauncher
+- Audio Visualizer - Cava
+- Theme - Tokyo Night
+- Font - JetBrains
 
 ## Table of Contents
 

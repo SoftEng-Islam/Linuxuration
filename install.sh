@@ -1,25 +1,35 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC1090
 # shellcheck disable=SC2034
-
-export base
-base="$(pwd)"
 # ------------------------------------------------------ #
 #* The CONFARCH Project.                                 #
 #* Arch Linux enhancement configuration                  #
 #! --------------------- Warning ----------------------- #
 #? Please don't use this script, still under development #
 # ------------------------------------------------------ #
+# Table of Content #
+# ---------------- #
+# 1. Declare Variables.
+# ____ relative Path
+# ____ Colors
+# ____ text format
+# 2. Import Global Functions.
+# ____ prevent_sudo_or_root
+# ____ welcome message
+# ____ update_packages
+# 3. Show Welcome Message.
+# 4. Configurations.
+# 5. Functions.
+# 6. Install Applications & Tools.
+# ------------------------------------------------------ #
 
-XDG_BIN_HOME=${XDG_BIN_HOME:-$HOME/.local/bin}
-XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
-XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
-XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
-XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
+# -------------------- #
+# 1. Declare Variables #
+# -------------------- #
+# store the relative path into `base` variable
+export base && base="$(pwd)"
 
-# ---------------------------- #
-# Assign Colors into variables #
-# ---------------------------- #
+# Colors #
 Black='\033[30m'
 Red='\033[31m'
 Green='\033[32m'
@@ -50,20 +60,26 @@ RESET="\033[0m" # Reset color
 # `echo -e "\u2764"   # Outputs a heart symbol (❤)`
 heart='\u2764'
 
-#---------------------------------#
-# Include variables and functions #
-#---------------------------------#
-source "$(pwd)"/sources/global_functions.sh
+XDG_BIN_HOME=${XDG_BIN_HOME:-$HOME/.local/bin}
+XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
+XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
+
+# -------------------------- #
+# 2. Import Global Functions #
+# -------------------------- #
 source ./config.conf # Here your configuration file (you can Edit it)
+source "$(pwd)"/sources/global_functions.sh
 
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
-prevent_sudo_or_root
+prevent_sudo_or_root # The whole function exist in global_functions.sh file
 
-# ------------------- #
-# The Welcome Message #
-# ------------------- #
+# -------------------- #
+# Show Welcome Message #
+# -------------------- #
 function welcome() {
 	echo -e "$(
 		cat <<EOF
@@ -299,6 +315,12 @@ i_trizen() {
 	# Build and install trizen
 	makepkg -si
 }
+
+# ----------------- #
+# Install Ulauncher #
+# ----------------- #
+git clone https://aur.archlinux.org/ulauncher.git
+cd ulauncher && makepkg -is
 
 # -------------------- #
 # Install Apps & Tools #
