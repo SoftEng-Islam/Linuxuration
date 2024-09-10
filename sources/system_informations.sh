@@ -57,7 +57,7 @@ lspci | grep -i vga | cut -d: -f3 | sed 's/^[ \t]*//'                           
 date                                                                                       # Date(Time)
 hostname -I | awk '{print $1}'                                                             # Local IPv4
 curl -s ifconfig.me                                                                        # External IPv4
-systemctl list-units --type=service --state=running | grep running                         # Services
+systemctl list-units --type=service --state=running | grep running                         # Running Services
 free -h | grep Mem | awk '{print $3 " / " $2}'                                             # Memory (RAM)
 xdpyinfo | grep dimensions | awk '{print $2}'                                              # Resolution
 ip -o -4 addr show | awk '{print $2, $4}'                                                  # Network

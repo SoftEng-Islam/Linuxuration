@@ -193,6 +193,23 @@ if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 	export ECORE_EVAS_ENGINE=wayland_egl
 	export ELM_ENGINE=wayland_egl
 fi
+# ------------------ #
+# Mouse Acceleration #
+# ------------------ #
+disable_mouse-acceleration() {
+	sudo tee /etc/udev/rules.d/90-mouse-acceleration.rules <<EOF >/dev/null
+ACTION=="add", SUBSYSTEM=="input", ENV{ID_INPUT_MOUSE}=="1", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
+EOF
+	sudo udevadm control --reload-rules
+	sudo udevadm trigger
+	# libinput list-devices | grep Accel
+}
+enable_mouse-acceleration() {
+	sudo rm -rf /etc/udev/rules.d/90-mouse-acceleration.rules
+	sudo udevadm control --reload-rules
+	sudo udevadm trigger
+	# libinput list-devices | grep Accel
+}
 
 # -------------------------------------------- #
 # Microsoft Partition FileSystem Format 'NTFS' #
