@@ -10,13 +10,13 @@
 # Table of Content #
 # ---------------- #
 # 1. Declare Variables.
-# ____ relative Path
-# ____ Colors
-# ____ text format
-# 2. Import Global Functions.
-# ____ prevent_sudo_or_root
-# ____ welcome message
-# ____ update_packages
+#		relative Path
+#		Colors
+#		text format
+#		Define the XDG
+# 2. Import Global Scripts.
+#		prevent_sudo_or_root
+#		update_packages
 # 3. Show Welcome Message.
 # 4. Configurations.
 # 5. Functions.
@@ -67,9 +67,9 @@ XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
 
-# -------------------------- #
-# 2. Import Global Functions #
-# -------------------------- #
+# ------------------------ #
+# 2. Import Global Scripts #
+# ------------------------ #
 source ./config.conf # Here your configuration file (you can Edit it)
 source "$(pwd)"/sources/global_functions.sh
 
@@ -84,16 +84,20 @@ prevent_sudo_or_root # The whole function exist in global_functions.sh file
 function welcome() {
 	echo -e "$(
 		cat <<EOF
-			${B_Magenta}===================================================================${RESET}
-			${B_Magenta}1 ${RESET} ${Red}Welcome${RESET} \e[1;32m$(whoami)\e[0m ${heart}
-			${B_Magenta}2 ${RESET} Today's date is: ${B_Yellow}$(date)${RESET}
-			${B_Magenta}3 ${RESET} \e[3;90mfeel free to message me on\e[0m \e[1;34mTwitter\e[0m: \e[4;96mhttps://x.com/SoftEng_Islam\e[0m
-			${B_Magenta}===================================================================${RESET} \n
+		${B_Magenta}===================================================================${RESET}
+		${B_Magenta}1 ${RESET} ${Red}Welcome${RESET} \e[1;32m$(whoami)\e[0m ${heart}
+		${B_Magenta}2 ${RESET} Today's date is: ${B_Yellow}$(date)${RESET}
+		${B_Magenta}3 ${RESET} \e[3;90mfeel free to message me on\e[0m \e[1;34mTwitter\e[0m: \e[4;96mhttps://x.com/SoftEng_Islam\e[0m
+		${B_Magenta}===================================================================${RESET} \n
 EOF
 	)"
 }
-# run the Function
+# Run welcome() Function
 welcome
+
+# ------------------------------------------------------ #
+# Get and Show some Information about the current device #
+# ------------------------------------------------------ #
 
 # ---------------------------- #
 # Check if pacman is available #
