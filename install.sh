@@ -60,6 +60,7 @@ RESET="\033[0m" # Reset color
 # `echo -e "\u2764"   # Outputs a heart symbol (❤)`
 heart='\u2764'
 
+# Define the XDG base directories using environment variables.
 XDG_BIN_HOME=${XDG_BIN_HOME:-$HOME/.local/bin}
 XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}

@@ -223,7 +223,7 @@ sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
 log "Network and Wi-Fi setup completed successfully."
 
 # ----------------------------------------------------
-source ../../include/global_functions
+source global_functions.sh
 
 # Check if yay is installed
 check_yay
