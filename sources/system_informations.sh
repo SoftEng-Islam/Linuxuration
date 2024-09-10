@@ -30,6 +30,7 @@ VALUE_COLOR="\033[0;37m" # White for parameter values
 RESET="\033[0m"          # Reset color
 # --------------------------------------------------------
 
+# Can you sort and improve comments and add missing comments?
 lsmod | grep amdgpu
 echo "$XDG_SESSION_TYPE"
 lspci -k | grep -EA3 'VGA|3D|Display'
