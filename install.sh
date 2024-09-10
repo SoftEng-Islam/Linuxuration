@@ -70,9 +70,9 @@ XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
 # ------------------------ #
 # 2. Import Global Scripts #
 # ------------------------ #
-source ./config.conf # Here your configuration file (you can Edit it)
+source "$(pwd)"/config.conf # Here your configuration file (you can Edit it)
 source "$(pwd)"/sources/global_functions.sh
-
+source "$(pwd)"/sources/system_informations.sh
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
@@ -118,7 +118,9 @@ fi
 # ------------------- #
 update_packages
 
-# Check if base-devel is installed
+# -------------------------------- #
+# Check if base-devel is installed #
+# -------------------------------- #
 if pacman -Q base-devel &>/dev/null; then
 	echo "base-devel is already installed."
 else
@@ -133,7 +135,7 @@ else
 fi
 
 # ----------------------------------------------------------
-# Here will some Configuration
+# Modify System Configurations
 # ----------------------------------------------------------
 # This Command is used to add the current user to additional groups,
 # specifically the video and input groups,
@@ -150,24 +152,29 @@ fi
 ## uucp: Access to serial ports and devices connected via serial ports.
 sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp "$(whoami)"
 
-# Disabling Split Lock Mitigate
+# ----------------------------- #
+# Disabling Split Lock Mitigate #
+# ----------------------------- #
 # In some cases, split lock mitigate can slow down performance in some applications and games.
 # You can disable it via sysctl.
 sudo sysctl kernel.split_lock_mitigate=0
 
-# Set performance governor
+# ------------------------ #
+# Set Performance Governor #
+# ------------------------ #
 sudo cpupower frequency-set -g performance
 
-# AMD P-State Core Performance Boost
-# Enable boost for all cores
+# ---------------------------------- #
+# AMD P-State Core Performance Boost #
+# Enable boost for all cores         #
+# ---------------------------------- #
 echo 1 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/boost
-
-# disable boost for all cores
+# Disable boost for all cores
 # echo 0 | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/boost
 
-# --------------------------------------
-# Declare and set environment variables
-# --------------------------------------
+# ------------------------------------- #
+# Declare and set environment variables #
+# ------------------------------------- #
 export XDG_RUNTIME_DIR
 export XDG_CACHE_HOME
 export XDG_CONFIG_HOME
@@ -180,7 +187,9 @@ XDG_DATA_HOME="$HOME/.local/share"
 XDG_RUNTIME_DIR="/run/user/$(id -u)"
 WLR_VSYNC=1
 
-# Enable Wayland support for different applications
+# ------------------------------------------------- #
+# Enable Wayland support for different applications #
+# ------------------------------------------------- #
 if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 	export WAYLAND=1
 	export QT_QPA_PLATFORM='wayland;xcb'
@@ -193,9 +202,9 @@ if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 	export ECORE_EVAS_ENGINE=wayland_egl
 	export ELM_ENGINE=wayland_egl
 fi
-# ------------------ #
-# Mouse Acceleration #
-# ------------------ #
+# ----------------------------------- #
+# Disable & Enable Mouse Acceleration #
+# ----------------------------------- #
 disable_mouse-acceleration() {
 	sudo tee /etc/udev/rules.d/90-mouse-acceleration.rules <<EOF >/dev/null
 ACTION=="add", SUBSYSTEM=="input", ENV{ID_INPUT_MOUSE}=="1", ENV{LIBINPUT_ACCEL_PROFILE}="flat"
@@ -223,6 +232,12 @@ echo 'ntfs and fuse has been installed'
 # add this line to /etc/fstab
 # /dev/disk/by-partlabel/[partition] /mnt/[partition] auto auto,nofail,nodev,uid=1000,gid=1000,utf8,umask=022,exec,x-gvfs-show 0 0
 
+# ------------------------------
+# Disable Gnome Check-alive
+# ------------------------------
+echo 'Disable Gnome Check-alive'
+gsettings set org.gnome.mutter check-alive-timeout 0
+
 # --------------------------------- #
 # Install Git and set Configuration #
 # --------------------------------- #
@@ -239,12 +254,6 @@ i_git() { # git
 	git 'config' --global core.packedGitLimit 512m
 	git 'config' --global advice.addIgnoredFile false
 }
-
-# ------------------------------
-# Disable Gnome Check-alive
-# ------------------------------
-echo 'Disable Gnome Check-alive'
-gsettings set org.gnome.mutter check-alive-timeout 0
 
 # -------------------------- #
 # Install GTK themes & icons #
