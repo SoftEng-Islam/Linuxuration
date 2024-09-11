@@ -30,57 +30,158 @@ VALUE_COLOR="\033[0;37m" # White for parameter values
 RESET="\033[0m"          # Reset color
 # --------------------------------------------------------
 
-# Can you sort and improve comments and add missing comments?
+# Check loaded kernel modules related to AMD GPUs
 lsmod | grep amdgpu
+
+# Display the current session type (Wayland or X11)
 echo "$XDG_SESSION_TYPE"
+
+# Show detailed information about graphics devices and their drivers
 lspci -k | grep -EA3 'VGA|3D|Display'
+
+# Alternative to show graphics devices and their drivers
 lspci -k | grep -A 2 -E "(VGA|3D)"
-whoami                                                                                     # Show Current User
-cat /etc/os-release | grep -w NAME | cut -d= -f2                                           # show OS(Distro)
-uname -r                                                                                   # Print Kernal Release
-uptime -p                                                                                  # Uptime
-wmctrl -m | grep Name | cut -d: -f2                                                        # Window Manager
-echo "$XDG_CURRENT_DESKTOP"                                                                # Desktop Environment
-echo "$SHELL"                                                                              # Type of shell
-ps -p $$ | tail -1 | awk '{print $4}'                                                      # Terminal
-pacman -Q | wc -l                                                                          # Packages
-lscpu | grep 'Model name' | cut -d: -f2 | sed 's/^[ \t]*//'                                # CPU
-sensors | grep 'Package id 0:' | awk '{print $4}'                                          # CPU Temp
-top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}' # CPU Usage
-lscpu | grep 'MHz' | head -1 | awk '{print $3 " MHz"}'                                     # CPU Frequency
-lscpu | grep 'Model name' | cut -d: -f2 | sed 's/^[ \t]*//'                                # CPU Model
-lscpu | grep 'Vendor ID' | cut -d: -f2 | sed 's/^[ \t]*//'                                 # CPU Vendor
-lscpu | grep '^CPU(s):' | awk '{print $2}'                                                 # CPU Cores
-lscpu | grep 'Core(s) per socket' | awk '{print $4}'                                       # CPU Cores Per Socket
-lscpu | grep 'Thread(s) per core' | awk '{print $4}'                                       # CPU Threads Per Core
-lspci | grep -i vga | cut -d: -f3 | sed 's/^[ \t]*//'                                      # GPU
-date                                                                                       # Date(Time)
-hostname -I | awk '{print $1}'                                                             # Local IPv4
-curl -s ifconfig.me                                                                        # External IPv4
-systemctl list-units --type=service --state=running | grep running                         # Running Services
-free -h | grep Mem | awk '{print $3 " / " $2}'                                             # Memory (RAM)
-xdpyinfo | grep dimensions | awk '{print $2}'                                              # Resolution
-ip -o -4 addr show | awk '{print $2, $4}'                                                  # Network
-free -h | grep Swap | awk '{print $3 " / " $2}'                                            # Swap
-df -h --total | grep total | awk '{print $3 " / " $2}'                                     # Disk Space
-df -h / | awk '{print $3 " / " $2}' | tail -n 1                                            # Storage /
-df -h /home | awk '{print $3 " / " $2}' | tail -n 1                                        # Storage /home
-uname -m                                                                                   # Architecture
-uname -a                                                                                   # Kernel Version and Info
-ps aux --sort=-%mem | head -n 10                                                           # Current Running Processes
-lsblk                                                                                      # Disk Partitions and Usage
-checkupdates                                                                               # Available Updates
-mount | column -t                                                                          # Mounted File Systems
-ss -tuln                                                                                   # Open Ports and Services
-upower -i "$(upower -e | grep BAT)"                                                        # Battery Status
-sensors                                                                                    # Temperature Sensors
-ps aux --sort=-%mem | head -n 10                                                           # Top Memory Consuming Processes
-ps aux --sort=-%cpu | head -n 10                                                           # Top CPU Consuming Processes
-who -b                                                                                     # System Boot Time
-netstat -tuln                                                                              # Active Network Connections
-sudo ufw status                                                                            # Firewall Status
-cut -d: -f1 /etc/passwd                                                                    # List of Users
-getent group                                                                               # Groups and Users in Each Group
+
+# Display the currently running display manager (gdm, sddm, etc.)
+systemd-analyze blame | grep -E 'gdm|sddm|lightdm|xdm|lxdm' | head -n1 | awk '{print $2}' | sed 's/\.service//'
+
+# Show the current user
+whoami
+
+# Display the operating system and distribution name
+cat /etc/os-release | grep -w NAME | cut -d= -f2
+
+# Print the kernel release version
+uname -r
+
+# Show the system uptime
+uptime -p
+
+# Display the window manager name
+wmctrl -m | grep Name | cut -d: -f2
+
+# Show the current desktop environment
+echo "$XDG_CURRENT_DESKTOP"
+
+# Display the current shell
+echo "$SHELL"
+
+# Show the terminal type
+ps -p $$ | tail -1 | awk '{print $4}'
+
+# Count the number of installed packages
+pacman -Q | wc -l
+
+# Display CPU model name
+lscpu | grep 'Model name' | cut -d: -f2 | sed 's/^[ \t]*//'
+
+# Show CPU temperature
+sensors | grep 'Package id 0:' | awk '{print $4}'
+
+# Display CPU usage percentage
+top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}'
+
+# Show CPU frequency
+lscpu | grep 'MHz' | head -1 | awk '{print $3 " MHz"}'
+
+# Show CPU model
+lscpu | grep 'Model name' | cut -d: -f2 | sed 's/^[ \t]*//'
+
+# Display CPU vendor
+lscpu | grep 'Vendor ID' | cut -d: -f2 | sed 's/^[ \t]*//'
+
+# Show the number of CPU cores
+lscpu | grep '^CPU(s):' | awk '{print $2}'
+
+# Display the number of cores per socket
+lscpu | grep 'Core(s) per socket' | awk '{print $4}'
+
+# Show the number of threads per core
+lscpu | grep 'Thread(s) per core' | awk '{print $4}'
+
+# Show the GPU information
+lspci | grep -i vga | cut -d: -f3 | sed 's/^[ \t]*//'
+
+# Print the current date and time
+date
+
+# Show local IPv4 address
+hostname -I | awk '{print $1}'
+
+# Show external IPv4 address
+curl -s ifconfig.me
+
+# List currently running services
+systemctl list-units --type=service --state=running | grep running
+
+# Display used and total memory (RAM)
+free -h | grep Mem | awk '{print $3 " / " $2}'
+
+# Show screen resolution
+xdpyinfo | grep dimensions | awk '{print $2}'
+
+# Display network interfaces and their addresses
+ip -o -4 addr show | awk '{print $2, $4}'
+
+# Show used and total swap space
+free -h | grep Swap | awk '{print $3 " / " $2}'
+
+# Display total disk space used and available
+df -h --total | grep total | awk '{print $3 " / " $2}'
+
+# Show used and available space on root partition
+df -h / | awk '{print $3 " / " $2}' | tail -n 1
+
+# Show used and available space on /home partition
+df -h /home | awk '{print $3 " / " $2}' | tail -n 1
+
+# Display system architecture
+uname -m
+
+# Show detailed kernel version and system information
+uname -a
+
+# List top 10 memory consuming processes
+ps aux --sort=-%mem | head -n 10
+
+# Show disk partitions and usage
+lsblk
+
+# Check for available updates
+checkupdates
+
+# List mounted file systems
+mount | column -t
+
+# Display open network ports and services
+ss -tuln
+
+# Show battery status
+upower -i "$(upower -e | grep BAT)"
+
+# Display temperature sensor readings
+sensors
+
+# List top 10 memory consuming processes (duplicate)
+ps aux --sort=-%mem | head -n 10
+
+# List top 10 CPU consuming processes
+ps aux --sort=-%cpu | head -n 10
+
+# Show system boot time
+who -b
+
+# Display active network connections
+netstat -tuln
+
+# Show firewall status
+sudo ufw status
+
+# List system users
+cut -d: -f1 /etc/passwd
+
+# Show groups and users in each group
+getent group
 
 # Function to get & show system information
 get_system_info() {
