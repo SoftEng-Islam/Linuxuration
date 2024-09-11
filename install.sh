@@ -2,7 +2,7 @@
 # shellcheck disable=SC1090
 # shellcheck disable=SC2034
 # ------------------------------------------------------ #
-#* The CONFARCH Project.                                 #
+#* The confArch Project.                                 #
 #* Arch Linux enhancement configuration                  #
 #! --------------------- Warning ----------------------- #
 #? Please don't use this script, still under development #
@@ -49,16 +49,15 @@ B_Cyan='\033[96m'
 B_White='\033[97m'
 
 # text format
-NC='\033[0m'
-BOLD='\033[1m'
-Italic='\033[3m'
-Underline='\033[4m'
-Strikethrough='\033[9m'
+nc='\033[0m'
+bold='\033[1m'
+italic='\033[3m'
+underline='\033[4m'
+strikeThrough='\033[9m'
 RESET="\033[0m" # Reset color
 
 # Unicode Characters
-# `echo -e "\u2764"   # Outputs a heart symbol (❤)`
-heart='\u2764'
+heart='\u2764' # `echo -e "\u2764" Outputs a heart symbol (❤)`
 
 # Define the XDG base directories using environment variables.
 XDG_BIN_HOME=${XDG_BIN_HOME:-$HOME/.local/bin}
@@ -72,7 +71,7 @@ XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
 # ------------------------ #
 source "$(pwd)"/config.conf # Here your configuration file (you can Edit it)
 source "$(pwd)"/sources/global_functions.sh
-source "$(pwd)"/sources/system_informations.sh
+source "$(pwd)"/sources/system_information.sh
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
@@ -267,9 +266,9 @@ chmod +x auto-extract.sh
 ./auto-extract.sh
 
 # ------------------ #
-# set plymouth theme #
+# Set Plymouth Theme #
 # ------------------ #
-set_playmouth_theme() {
+set_plymouth_theme() {
 	sudo pacman -S plymouth
 	sudo plymouth-set-default-theme -R arch-logo
 	sudo mkinitcpio -p linux
@@ -550,58 +549,69 @@ i_flatpak() {
 	installFlatpakApps
 	echo "All Flatpak applications installed successfully."
 }
-
-# To set microsoft edge as default Browser
-xdg-settings set default-web-browser com.microsoft.Edge.desktop
-# to get whats you default browser?
-xdg-settings get default-web-browser
-# List all installed browsers #
-# ls /usr/share/applications | grep edge
-# ls /var/lib/flatpak/exports/share/applications | grep edge
-# ls /var/lib/snapd/desktop/applications | grep edge
-# To open a link in default browser #
-xdg-open https://www.google.com
-# To open a link in specific browser
-google-chrome https://www.google.com
-# Update MIME Types (Optional)
-# * To ensure that all relevant MIME types are associated with Microsoft Edge, you can use the xdg-mime command:
-xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/http
-xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/https
-xdg-mime default com.microsoft.Edge.desktop text/html
-xdg-mime default com.microsoft.Edge.desktop application/xhtml+xml
-xdg-mime default com.microsoft.Edge.desktop application/xml
-xdg-mime default com.microsoft.Edge.desktop application/x-extension-htm
-xdg-mime default com.microsoft.Edge.desktop application/x-extension-html
-xdg-mime default com.microsoft.Edge.desktop application/x-extension-shtml
-xdg-mime default com.microsoft.Edge.desktop application/x-extension-xht
-xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
-
 # ------------------------------- #
-# Switch to a gdm Display Manager #
+# Function to set default Browser #
 # ------------------------------- #
-sudo pacman -S gdm
-sudo systemctl disable sddm.service
-sudo systemctl enable gdm.service
-sudo systemctl start gdm.service
+set_default_browser() {
+	# To set microsoft edge as default Browser
+	xdg-settings set default-web-browser com.microsoft.Edge.desktop
+	xdg-settings get default-web-browser # to get whats you default browser?
+	# List all installed browsers #
+	# ls /usr/share/applications | grep edge
+	# ls /var/lib/flatpak/exports/share/applications | grep edge
+	# ls /var/lib/snapd/desktop/applications | grep edge
+	xdg-open https://www.google.com      # To open a link in default browser
+	google-chrome https://www.google.com # To open a link in specific browser
+	# Update MIME Types (Optional)
+	# * To ensure that all relevant MIME types are associated with Microsoft Edge, you can use the xdg-mime command:
+	xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/http
+	xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/https
+	xdg-mime default com.microsoft.Edge.desktop text/html
+	xdg-mime default com.microsoft.Edge.desktop application/xhtml+xml
+	xdg-mime default com.microsoft.Edge.desktop application/xml
+	xdg-mime default com.microsoft.Edge.desktop application/x-extension-htm
+	xdg-mime default com.microsoft.Edge.desktop application/x-extension-html
+	xdg-mime default com.microsoft.Edge.desktop application/x-extension-shtml
+	xdg-mime default com.microsoft.Edge.desktop application/x-extension-xht
+	xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
+}
+
+# ----------------------- #
+# Install Display Manager #
+# ----------------------- #
+display_manager=(
+	"gdm"
+	"sddm"
+	"lightdm"
+)
+i_display_manager() {
+	# we must get the current display manager after this we can install others
+	sudo pacman -S gdm
+	sudo systemctl disable sddm.service
+	sudo systemctl enable gdm.service
+	sudo systemctl start gdm.service
+}
 
 # -------------------------- #
 # Increase the Size of tmpfs #
 # -------------------------- #
 #* This will allow you to have a larger temporary directory, which can be useful for tools that use temporary files.
 #* This will fix ERROR: Failed to write file “/run/user/1000/.flatpak/....”: write() failed: No space left on device
-
-mount | grep /run/user/1000 # Check if it's a tmpfs.
-sudo chown 1000:1000 /run/user/1000
-sudo chmod 700 /run/user/1000
-echo 'tmpfs /run/user/1000 tmpfs size=4G,mode=700,uid=1000,gid=1000 0 0' | sudo tee -a /etc/fstab
-d /run/user/1000 0700 softeng softeng 4G
-sudo systemd-tmpfiles --create
-mkdir -p /run/user/"$(id -u)"
-export XDG_RUNTIME_DIR
-XDG_RUNTIME_DIR=/run/user/"$(id -u)"
-
-# check if it's a tmpfs
-df -h /run/user/1000 /run/user/1000
+increase_tmpfs() {
+	# You can't set any Number It deb in Your RAM
+	mount | grep /run/user/1000         # Check if it's a tmpfs.
+	sudo chown 1000:1000 /run/user/1000 # Set owner
+	sudo chmod 700 /run/user/1000       # change the Permissions
+	echo 'tmpfs /run/user/1000 tmpfs size=4G,mode=700,uid=1000,gid=1000 0 0' | sudo tee -a /etc/fstab
+	d /run/user/1000 0700 softeng softeng 4G
+	sudo systemd-tmpfiles --create
+	mkdir -p /run/user/"$(id -u)"
+	export XDG_RUNTIME_DIR
+	XDG_RUNTIME_DIR=/run/user/"$(id -u)"
+	# check if it's a tmpfs
+	df -h /run/user/1000 /run/user/1000
+	# you must reboot and recheck if your modifications still exist or its gone
+}
 
 # ------------------------- #
 # update the packages again #
