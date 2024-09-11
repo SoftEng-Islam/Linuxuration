@@ -346,11 +346,19 @@ i_trizen() {
 	makepkg -si
 }
 
+# configure fonts
+i_fonts() {
+	sudo mkdir -p /home/softeng/.local/share/flatpak/exports/share/fonts
+	sudo mkdir -p /var/lib/flatpak/exports/share/fonts
+	sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-jetbrains-mono ttf-jetbrains-mono-nerd
+	sudo fc-cache -fv
+}
+
 # ----------------- #
 # Install Ulauncher #
 # ----------------- #
-git clone https://aur.archlinux.org/ulauncher.git
-cd ulauncher && makepkg -is
+# git clone https://aur.archlinux.org/ulauncher.git
+# cd ulauncher && makepkg -is
 
 # -------------------- #
 # Install Apps & Tools #

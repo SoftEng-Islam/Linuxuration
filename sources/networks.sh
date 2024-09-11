@@ -16,46 +16,37 @@
 #. Repair nm-applet
 #. Repair nm-wireguard
 #. Repair nm-connection-editor
-#. Repair nm-openvpn
 # ---------------------------------------------- #
 
-# Create log file:
+# --------------- #
+# Create log file #
+# --------------- #
 sudo touch /var/log/network_repair.log
 LOGFILE="/var/log/network_repair.log"
-
-log() {
-	echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | sudo tee -a $LOGFILE
-}
+log() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | sudo tee -a $LOGFILE >/dev/null; }
 error_exit() {
 	log "Error: $1"
 	exit 1
 }
 
-# ----------------- #
-# Update The System #
-# ----------------- #
-log "Updating the system..."
-sudo pacman --needed --noconfirm -Syu || error_exit "Failed to update the system"
-sudo pacman --needed --noconfirm -S linux-firmware || error_exit "Failed to install linux-firmware"
-
 # ----------------------- #
 # Install Cloudflare WARP #
 # ----------------------- #
 # This might help you bypass your ISP’s restrictions and provide a faster internet
-# There will be a button on the right sidebar to toggle WARP if it’s installed
-echo "Installing Cloudflare WARP..."
-yay -S --needed --noconfirm cloudflare-warp-bin && sudo systemctl enable warp-svc --now
-echo "Cloudflare WARP has been installed and the service is running."
-# Disable it if you faced issues
-# sudo systemctl disable warp-svc --now
+i_cloudflare_warp() {
+	echo "Installing Cloudflare WARP..."
+	yay -S --needed --noconfirm cloudflare-warp-bin && sudo systemctl enable warp-svc --now
+	echo "Cloudflare WARP has been installed and the service is running."
+	# Disable it if you faced issues
+	# sudo systemctl disable warp-svc --now
+}
 
 # -------------------------- #
 # Install Important Packages #
 # -------------------------- #
 log "Installing important packages..."
-# Array of Packages that related to networks to Install
 echo "Installing important network packages..."
-packages=(
+packages=( # an Array of Packages that related to networks to Install
 	firewalld # Firewall service
 	networkmanager
 	wpa_supplicant
@@ -78,7 +69,7 @@ packages=(
 	nmap
 	bind
 )
-# There a conflect with iptables & nftables
+# There a conflict with iptables & nftables
 sudo pacman -S --noconfirm "${packages[@]}"
 echo "Networks packages installed!"
 
