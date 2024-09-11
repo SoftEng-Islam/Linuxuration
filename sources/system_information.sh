@@ -49,7 +49,7 @@ systemd-analyze blame | grep -E 'gdm|sddm|lightdm|xdm|lxdm' | head -n1 | awk '{p
 whoami
 
 # Display the operating system and distribution name
-cat /etc/os-release | grep -w NAME | cut -d= -f2
+cat </etc/os-release | grep -w NAME | cut -d= -f2
 
 # Print the kernel release version
 uname -r
@@ -186,7 +186,7 @@ getent group
 # Function to get & show system information
 get_system_info() {
 	echo "${PARAM_COLOR}User:${RESET} $(whoami)"
-	echo "${PARAM_COLOR}OS (Distro):${RESET} $(cat /etc/os-release | grep -w NAME | cut -d= -f2)"
+	echo "${PARAM_COLOR}OS (Distro):${RESET} $(cat </etc/os-release | grep -w NAME | cut -d= -f2)"
 	echo "${PARAM_COLOR}Kernel:${RESET} $(uname -r)"
 	echo "${PARAM_COLOR}Uptime:${RESET} $(uptime -p)"
 	echo "${PARAM_COLOR}Window Manager:${RESET} $(wmctrl -m | grep Name | cut -d: -f2)"
