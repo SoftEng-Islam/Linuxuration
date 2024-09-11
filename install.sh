@@ -579,13 +579,20 @@ set_default_browser() {
 # ----------------------- #
 # Install Display Manager #
 # ----------------------- #
-display_manager=(
+display_managers=(
 	"gdm"
 	"sddm"
 	"lightdm"
 )
 i_display_manager() {
-	# we must get the current display manager after this we can install others
+	# Get current display manager and store it in variable:
+	readdm_service=$(readlink /etc/systemd/system/display-manager.service)
+	display_manager=$(basename "$readdm_service" .service)
+	echo display_manager is: "$display_manager"
+
+	# other way to get display manager:
+	# systemd-analyze blame | grep -E 'gdm|sddm|lightdm|xdm|lxdm' | head -n1 | awk '{print $2}' | sed 's/\.service//'
+
 	sudo pacman -S gdm
 	sudo systemctl disable sddm.service
 	sudo systemctl enable gdm.service
@@ -608,8 +615,7 @@ increase_tmpfs() {
 	mkdir -p /run/user/"$(id -u)"
 	export XDG_RUNTIME_DIR
 	XDG_RUNTIME_DIR=/run/user/"$(id -u)"
-	# check if it's a tmpfs
-	df -h /run/user/1000 /run/user/1000
+	df -h /run/user/1000 /run/user/1000 # check if it's a tmpfs
 	# you must reboot and recheck if your modifications still exist or its gone
 }
 
@@ -623,5 +629,7 @@ update_packages
 # --------------------- #
 sudo rm -rf /tmp/*
 
-echo 'Scrip	Completed!'
+# regenerate your initramfs
+sudo mkinitcpio -P
+echo 'Installation	Completed!'
 echo 'Done!'

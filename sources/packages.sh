@@ -481,3 +481,5 @@ else
 fi
 # Install the missing packages via paru
 echo "The suggested packages has been installed successfully."
+
+sudo pacman -S linux-firmware linux-firmware-qlogic aic94xx-firmware wd719x-firmware
