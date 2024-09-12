@@ -93,9 +93,14 @@ order hosts,bind
 multi on
 EOF
 
-# Prevent Overwriting of /etc/resolv.conf
+# --------------------------------------- #
+# Prevent Overwriting of /etc/resolv.conf #
+# --------------------------------------- #
+# This prevents your system from overwriting your DNS settings with the system's DNS settings.
+# This is useful if you want to use a DNS server other than the system's DNS server.
 log "Preventing overwriting of /etc/resolv.conf..."
-sudo tee /etc/resolv.conf <<EOF >/dev/null
+prevent_overwriting_resolv() {
+	sudo tee /etc/resolv.conf <<EOF >/dev/null
 nameserver 8.8.8.8
 nameserver 8.8.4.4
 nameserver 1.1.1.1
@@ -103,7 +108,8 @@ nameserver 1.0.0.1
 nameserver 208.67.222.222
 nameserver 208.67.220.220
 EOF
-sudo chattr +i /etc/resolv.conf
+	sudo chattr +i /etc/resolv.conf
+}
 
 # Verify Router/Gateway
 log "Verifying router/gateway..."
