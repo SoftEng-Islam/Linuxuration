@@ -219,15 +219,6 @@ sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
 
 log "Network and Wi-Fi setup completed successfully."
 
-# ----------------------------------------------------
-source global_functions.sh
-
-# Check if yay is installed
-check_yay
-
-# Confirm the installation
-confirm "Do you want to install Cloudflare WARP and enable its service?"
-
 # -----------------------------------------------------------
 # This script can install hashcat & hcxdumptool & hcxtools
 # -----------------------------------------------------------
