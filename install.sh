@@ -219,6 +219,12 @@ enable_mouse-acceleration() {
 	# libinput list-devices | grep Accel
 }
 
+# mouse speed
+libinput list-devices # Get Devices
+# Set mouse speed (sensitivity): If you're aiming to change the sensitivity dynamically, you can use a tool like xinput:
+xinput --set-prop "YSPRINGTECH USB OPTICAL MOUSE" "libinput Accel Speed" 0
+# Replace 0.5 with a value between -1 (slowest) and 1 (fastest) based on your preference.
+
 # -------------------------------------------- #
 # Microsoft Partition FileSystem Format 'NTFS' #
 # -------------------------------------------- #
