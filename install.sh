@@ -507,14 +507,17 @@ i_audio() {
 	systemctl --user status pipewire
 	systemctl --user start pulseaudio
 	systemctl --user start pipewire
-
+	sudo pacman -S pavucontrol
+	# pavucontrol
 }
 
-# ---------------------
-# Overclocking tools
-# ---------------------
-sudo pacman -S vulkan-tools qt5-wayland xf86-video-amdgpu
-yay -S corectrl
+# ---------------------- #
+# Overclocking & drivers #
+# ---------------------- #
+i_oc() {
+	sudo pacman -S vulkan-tools qt5-wayland xf86-video-amdgpu
+	yay -S corectrl
+}
 
 # ------------------------------------------- #
 # Install Flatpak Applications and Extensions #
