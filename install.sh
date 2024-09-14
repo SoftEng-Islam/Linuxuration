@@ -225,6 +225,12 @@ libinput list-devices # Get Devices
 xinput --set-prop "YSPRINGTECH USB OPTICAL MOUSE" "libinput Accel Speed" 0
 # Replace 0.5 with a value between -1 (slowest) and 1 (fastest) based on your preference.
 
+xinput --set-prop "YSPRINGTECH USB OPTICAL MOUSE" "libinput Accel Profile Enabled" 1, 0
+xinput --set-prop "YSPRINGTECH USB OPTICAL MOUSE" "libinput Accel Speed" -1
+xinput --set-prop "YSPRINGTECH USB OPTICAL MOUSE" "libinput Middle Emulation Enabled" 1
+xinput --set-prop "YSPRINGTECH USB OPTICAL MOUSE" "libinput Scroll Method Enabled" 0, 1, 0
+xinput --set-prop "YSPRINGTECH USB OPTICAL MOUSE" "libinput Natural Scrolling Enabled" 1
+
 # -------------------------------------------- #
 # Microsoft Partition FileSystem Format 'NTFS' #
 # -------------------------------------------- #
@@ -464,6 +470,45 @@ i_nodeJS() { # NodeJS
 # C++
 # C#
 # python
+
+# ---------------------------- #
+# Install Wine & windows Tools #
+# ---------------------------- #
+i_wine() {
+	sudo pacman -S wine wine-mono wine-gecko winetricks
+	# AMD Drivers Install vulkan for better performance in games:
+	sudo pacman -S vulkan-radeon lib32-vulkan-radeon
+	# Install mesa for OpenGL support (already installed in most cases):
+	sudo pacman -S mesa lib32-mesa
+	# For DirectX 12 and Vulkan translation, consider installing DXVK:
+	sudo pacman -S dxvk
+
+	# Enable DXVK in Wine:
+	# WINEPREFIX=~/.wine winecfg
+	# Go to the Libraries tab, add d3d11 and dxgi, and set them to "native."
+
+	# For better FPS, enable esync or fsync if supported:
+	export WINEESYNC=1
+	export WINEFSYNC=1
+	# export DXVK_HUD=1  # Shows FPS and other useful info during the game
+
+}
+
+# ----------------------------- #
+# Install Audio Driver and Libs #
+# ----------------------------- #
+i_audio() {
+	# For PulseAudio:
+	sudo pacman -S lib32-pulseaudio lib32-alsa-plugins
+	# For PipeWire (if you're using PipeWire instead of PulseAudio):
+	sudo pacman -S lib32-pipewire lib32-alsa-plugins lib32-dbus lib32-jack lib32-libavtp lib32-libsamplerate lib32-libpulse lib32-speexdsp
+	# Check Audio Configuration in PipeWire/PulseAudio
+	systemctl --user status pulseaudio
+	systemctl --user status pipewire
+	systemctl --user start pulseaudio
+	systemctl --user start pipewire
+
+}
 
 # ---------------------
 # Overclocking tools
