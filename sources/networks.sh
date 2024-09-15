@@ -141,47 +141,54 @@ EOF
 # ------------------------------- #
 # Disable Wi-Fi power-saving mode #
 # ------------------------------- #
-log "Disabling Wi-Fi power-saving mode..."
-sudo tee /etc/NetworkManager/NetworkManager.conf <<EOF >>/dev/null
+if [[ "$disable_wifi_saving" == true ]]; then
+	log "Disabling Wi-Fi power-saving mode..."
+	sudo tee /etc/NetworkManager/NetworkManager.conf <<EOF >>/dev/null
 [connection]
 wifi.powersave = 2
 EOF
+fi
 
-# --------------------------
-# Disabling IPv6
-# --------------------------
-#log "Disabling IPv6..."
-#sudo tee /etc/sysctl.d/ipv6.conf <<EOF >/dev/null
-#net.ipv6.conf.all.disable_ipv6 = 1
-#net.ipv6.conf.eth0.disable_ipv6 = 1
-#EOF
+# -------------- #
+# Disabling IPv6 #
+# -------------- #
+if [[ "$disable_ipv6" == true ]]; then
+	log "Disabling IPv6..."
+	sudo tee /etc/sysctl.d/ipv6.conf <<EOF >/dev/null
+net.ipv6.conf.all.disable_ipv6 = 1
+net.ipv6.conf.eth0.disable_ipv6 = 1
+EOF
+fi
 
-# ----------------------
-# Firewall Policies
-# ----------------------
-log "Configuring firewall policies..."
-sudo firewall-cmd --permanent --get-policies
-# Remove Existing Policies
-sudo firewall-cmd --permanent --delete-policy=egress-shared
-sudo firewall-cmd --permanent --delete-policy=ingress-shared
-# Add New Policies
-sudo firewall-cmd --permanent --new-policy=egress-shared
-sudo firewall-cmd --permanent --policy=egress-shared --set-target=ACCEPT
-sudo firewall-cmd --permanent --policy=egress-shared --add-ingress-zone=nm-shared
-sudo firewall-cmd --permanent --policy=egress-shared --add-egress-zone=trusted
-sudo firewall-cmd --permanent --policy=egress-shared --add-masquerade
+# ----------------------------- #
+# Configuring Firewall Policies #
+# ----------------------------- #
+if [[ "$firewall_policies" == true ]]; then
+	log "Configuring firewall policies..."
+	sudo firewall-cmd --permanent --get-policies
+	# Remove Existing Policies
+	sudo firewall-cmd --permanent --delete-policy=egress-shared
+	sudo firewall-cmd --permanent --delete-policy=ingress-shared
+	# Add New Policies
+	sudo firewall-cmd --permanent --new-policy=egress-shared
+	sudo firewall-cmd --permanent --policy=egress-shared --set-target=ACCEPT
+	sudo firewall-cmd --permanent --policy=egress-shared --add-ingress-zone=nm-shared
+	sudo firewall-cmd --permanent --policy=egress-shared --add-egress-zone=trusted
+	sudo firewall-cmd --permanent --policy=egress-shared --add-masquerade
 
-sudo firewall-cmd --permanent --new-policy=ingress-shared
-sudo firewall-cmd --permanent --policy=ingress-shared --set-target=ACCEPT
-sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
-sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
-sudo firewall-cmd --reload
+	sudo firewall-cmd --permanent --new-policy=ingress-shared
+	sudo firewall-cmd --permanent --policy=ingress-shared --set-target=ACCEPT
+	sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
+	sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
+	sudo firewall-cmd --reload
+fi
 
-# ----------------------
-# Adjust TCP/IP Settings
-# ----------------------
-log "Adjusting TCP/IP settings..."
-sudo tee /etc/sysctl.d/99-sysctl.conf <<EOF >/dev/null
+# ---------------------- #
+# Adjust TCP/IP Settings #
+# ---------------------- #
+if [[ "$adjusting_TCP_IP" == true ]]; then
+	log "Adjusting TCP/IP settings..."
+	sudo tee /etc/sysctl.d/99-sysctl.conf <<EOF >/dev/null
 net.ipv4.ip_forward = 1
 net.ipv4.tcp_window_scaling = 1
 net.core.rmem_max = 16777216
@@ -194,25 +201,31 @@ net.ipv4.tcp_keepalive_time = 300
 net.ipv4.tcp_syncookies = 1
 net.ipv4.tcp_tw_reuse = 1
 EOF
+	# Apply the changes
+	sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
 
-# Apply the changes
-sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
-
-# Set TCP Retries
-sudo tee /etc/sysctl.conf <<EOF >/dev/null
+	# --------------- #
+	# Set TCP Retries #
+	# --------------- #
+	sudo tee /etc/sysctl.conf <<EOF >/dev/null
 net.ipv4.tcp_retries1 = 5
 net.ipv4.tcp_retries2 = 15
 EOF
-# Apply the changes
-sudo sysctl -p /etc/sysctl.conf
+	# Apply the changes
+	sudo sysctl -p /etc/sysctl.conf
 
-# Increase Buffer Size
-log "Increasing buffer size..."
-sudo sysctl -w net.core.rmem_max=16777216
-sudo sysctl -w net.core.wmem_max=16777216
+	# Enable IP Forwarding using sysctl
+	sudo sysctl -w net.ipv4.ip_forward=1
+fi
 
-# Enable IP Forwarding
-sudo sysctl -w net.ipv4.ip_forward=1
+# -------------------- #
+# Increase Buffer Size #
+# -------------------- #
+if [[ "$increase_buffer" == true ]]; then
+	log "Increasing buffer size..."
+	sudo sysctl -w net.core.rmem_max=16777216
+	sudo sysctl -w net.core.wmem_max=16777216
+fi
 
 sudo systemctl stop systemd-resolved
 # dnsmasq is the Alternative for systemd-resolved
