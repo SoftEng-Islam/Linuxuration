@@ -20,12 +20,18 @@ error_exit() {
 # --------------------------------------- #
 # Change these variables to true or false #
 # --------------------------------------- #
-install_cloudflare_warp=true    # Install Cloudflare WARP
-install_networks_packages=true  # Install Important Packages
-restore_hosts=true              # restore default /etc/hosts
-restore_host_conf=true          # restore default /etc/host.conf
-prevent_overwriting_resolv=true # prevent overwriting of /etc/resolv.conf
-disable_firewalld=true          # Disable Firewall
+install_cloudflare_warp=true        # Install Cloudflare WARP
+install_networks_packages=true      # Install Important Packages
+restore_hosts=true                  # restore default /etc/hosts
+restore_host_conf=true              # restore default /etc/host.conf
+prevent_overwriting_resolv=true     # prevent overwriting of /etc/resolv.conf
+disable_firewalld=true              # Disable Firewall
+save_iptables_rules=true            # Save iptables rules
+install_hcxdumptool=true            # Install hcxdumptool
+install_hcxtools=true               # Install hcxtools
+verify_router_gateway=true          # Verify Router Gateway
+verifying_network_connectivity=true # Verifying Network Connectivity
+verifying_dns_resolution=true       # Verifying DNS Resolution
 # ----------------------- #
 # Install Cloudflare WARP #
 # ----------------------- #
@@ -319,7 +325,7 @@ fi
 # --------------------- #
 # Verify DNS Resolution #
 # --------------------- #
-if [[ "verifying_dns_resolution" == true ]]; then
+if [[ "$verifying_dns_resolution" == true ]]; then
 	log "Verifying DNS resolution..."
 	ping -c 4 google.com || error_exit "DNS resolution test failed"
 fi
