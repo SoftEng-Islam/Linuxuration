@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# ------------------------------------------------- #
-# Here are some fixes for Network & WIFI & Internet #
-# ------------------------------------------------- #
+# ----------------------------------------- #
+# Enhancments for Network & WIFI & Internet #
+# ----------------------------------------- #
 #* https://wiki.archlinux.org/index.php/NetworkManager
 #* https://wiki.archlinux.org/index.php/WireGuard
-# ------------------------------------------------- #
+# ------------------------------------------ #
 
 # --------------- #
 # Create log file #
@@ -17,100 +17,110 @@ error_exit() {
 	exit 1
 }
 
+# --------------------------------------- #
+# Change these variables to true or false #
+# --------------------------------------- #
+install_cloudflare_warp=true    # Install Cloudflare WARP
+install_networks_packages=true  # Install Important Packages
+restore_hosts=true              # restore default /etc/hosts
+restore_host_conf=true          # restore default /etc/host.conf
+prevent_overwriting_resolv=true # prevent overwriting of /etc/resolv.conf
+disable_firewalld=true          # Disable Firewall
 # ----------------------- #
 # Install Cloudflare WARP #
 # ----------------------- #
 # This might help you bypass your ISP’s restrictions and provide a faster internet
-i_cloudflare_warp() {
+if [[ "$install_cloudflare_warp" == true ]]; then
 	echo "Installing Cloudflare WARP..."
-	yay -S --needed --noconfirm cloudflare-warp-bin && sudo systemctl enable warp-svc --now
+	yay -S --needed --noconfirm cloudflare-warp-bin
+	sudo systemctl enable warp-svc --now
 	echo "Cloudflare WARP has been installed and the service is running."
 	# Disable it if you faced issues
 	# sudo systemctl disable warp-svc --now
-}
+fi
 
 # -------------------------- #
 # Install Important Packages #
 # -------------------------- #
 log "Installing important packages..."
 echo "Installing important network packages..."
-packages=( # an Array of Packages that related to networks to Install
-	firewalld # Firewall service
-	networkmanager
-	wpa_supplicant
-	dhclient
-	iw
-	wireless_tools
-	dialog
-	dnsmasq
-	hostapd
-	nm-connection-editor
-	connman
-	dhcpcd
-	network-manager-applet
-	netctl
-	networkmanager-openvpn
-	wireguard-tools
-	qrencode
-	xdg-utils
-	traceroute
-	nmap
-	bind
-)
-# There a conflict with iptables & nftables
-sudo pacman -S --noconfirm "${packages[@]}"
-echo "Networks packages installed!"
+if [[ "$install_networks_packages" == true ]]; then
+	packages=( # an Array of Packages that related to networks to Install
+		"firewalld" # Firewall service
+		"networkmanager"
+		"wpa_supplicant"
+		"dhclient"
+		"iw"
+		"wireless_tools"
+		"dialog"
+		"dnsmasq"
+		"hostapd"
+		"nm-connection-editor"
+		"dhcpcd"
+		"network-manager-applet"
+		"netctl"
+		"networkmanager-openvpn"
+		"wireguard-tools"
+		"qrencode"
+		"xdg-utils"
+		"traceroute"
+		"nmap"
+		"bind"
+		"nftables"
+		"linux-atm"
+		"ifplugd"
+		"openvswitch"
+		"cppzmq"
+		"pacrunner"
+	)
+	sudo pacman -S --noconfirm "${packages[@]}"
+	echo "Networks packages installed!"
+fi
 
-# ------------------------------------------------------------------
-# Disable NetworkManager to prevent interference during configuration
-# ------------------------------------------------------------------
+# ------------------------------------------------------------------- #
+# Disable NetworkManager to prevent interference during configuration #
+# ------------------------------------------------------------------- #
 log "Disabling NetworkManager..."
 sudo systemctl disable --now NetworkManager
+# To Enable run this command:
+# sudo systemctl enable --now NetworkManager
 
 # ------------------------------- #
 # Restore Default /etc/hosts File #
 # ------------------------------- #
-log "Restoring default /etc/hosts file..."
-sudo tee /etc/hosts <<EOF >/dev/null
+if [[ "$restore_hosts" == true ]]; then
+	log "Restoring default /etc/hosts file..."
+	sudo tee /etc/hosts <<EOF >/dev/null
 127.0.0.1   localhost
 ::1         localhost
 127.0.1.1   $(hostname).localdomain $(hostname)
 EOF
+fi
 
-# Restore Default /etc/host.conf File
-log "Restoring default /etc/host.conf file..."
-sudo tee /etc/host.conf <<EOF >/dev/null
+# ----------------------------------- #
+# Restore Default /etc/host.conf File #
+# ----------------------------------- #
+if [[ "$restore_host_conf" == true ]]; then
+	log "Restoring default /etc/host.conf file..."
+	sudo tee /etc/host.conf <<EOF >/dev/null
 # The "order" line is only used by old versions of the C library.
 order hosts,bind
 multi on
 EOF
+fi
 
 # --------------------------------------- #
 # Prevent Overwriting of /etc/resolv.conf #
 # --------------------------------------- #
 # This prevents your system from overwriting your DNS settings with the system's DNS settings.
 # This is useful if you want to use a DNS server other than the system's DNS server.
-log "Preventing overwriting of /etc/resolv.conf..."
-prevent_overwriting_resolv() {
+if [[ "$prevent_overwriting_resolv" == true ]]; then
+	log "Preventing overwriting of /etc/resolv.conf..."
 	sudo tee /etc/resolv.conf <<EOF >/dev/null
 	nameserver 127.0.0.1
-# nameserver 8.8.8.8
-# nameserver 8.8.4.4
-# nameserver 1.1.1.1
-# nameserver 1.0.0.1
-# nameserver 208.67.222.222
-# nameserver 208.67.220.220
 EOF
 	sudo chattr +i /etc/resolv.conf
-}
-
-# --------------------- #
-# Verify Router/Gateway #
-# --------------------- #
-log "Verifying router/gateway..."
-ip route | grep default || error_exit "Default route (gateway) not found"
-GATEWAY=$(ip route | grep default | awk '{print $3}')
-ping -c 4 "$GATEWAY" || error_exit "Gateway test failed"
+fi
 
 # --------------------- #
 # Configure Firewall    #
@@ -207,33 +217,50 @@ sudo rm -rf /etc/resolv.conf
 sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
 # Enable DNS
 # dhcp-range=interface:wlan0,38.0.101.76,89.0.142.86,24h
-server=8.8.8.8
-server=8.8.4.4
+server 8.8.8.8
+server 8.8.4.4
+server 1.1.1.1
+server 1.0.0.1
+server 208.67.222.222
+server 208.67.220.220
 EOF
 
-# Disable firewalld
-sudo systemctl disable --now firewalld
-
-# log "Enabling and starting necessary services..."
-services=(NetworkManager dnsmasq) # iptables
+# -------------------------------------------------- #
+# Restart necessary services & enable and start them #
+# -------------------------------------------------- #
+log "Enabling and starting necessary services..."
+services=(NetworkManager dnsmasq)
 for service in "${services[@]}"; do
 	sudo systemctl enable --now "$service"
 	sudo systemctl restart "$service"
 done
 
-# Save iptables Rules
-sudo touch /etc/iptables/iptables.rules
-sudo chmod 644 /etc/iptables/iptables.rules
-sudo iptables-save | sudo tee /etc/iptables/iptables.rules
-sudo iptables -L
-sudo modprobe ip_tables
-sudo modprobe iptable_filter
+# ----------------- #
+# Disable firewalld #
+# ----------------- #
+if [[ "$disable_firewalld" == true ]]; then
+	sudo systemctl disable --now firewalld
+fi
 
-# Configure iptables for NAT
-# log "Configuring iptables for NAT..."
-sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
-sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
-sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
+# ------------------- #
+# Save iptables Rules #
+# ------------------- #
+if [[ "$save_iptables_rules" == true ]]; then
+	log "Saving iptables rules..."
+	sudo touch /etc/iptables/iptables.rules
+	sudo chmod 644 /etc/iptables/iptables.rules
+	sudo iptables-save | sudo tee /etc/iptables/iptables.rules
+	sudo iptables -L
+	sudo modprobe ip_tables
+	sudo modprobe iptable_filter
+	# -------------------------- #
+	# Configure iptables for NAT #
+	# -------------------------- #
+	log "Configuring iptables for NAT..."
+	sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
+	sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
+	sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
+fi
 
 log "Network and Wi-Fi setup completed successfully."
 
@@ -244,26 +271,26 @@ log "Network and Wi-Fi setup completed successfully."
 # https://github.com/ZerBea/hcxdumptool
 # Small tool to capture packets from wlan devices.
 # -----------------------------------------------------------
-i_hcxdumptool() {
+if [[ "$install_hcxdumptool" == true ]]; then
 	cd ~/Downloads/ || exit
 	git clone https://github.com/ZerBea/hcxdumptool.git
 	cd hcxdumptool || exit
 	make -j "$(nproc)"
 	sudo make install
-}
+fi
 
 # -----------------------------------------------------------
 # Install hcxtools
 # https://github.com/ZerBea/hcxtools
 # A small set of tools to convert packets from capture files to hash files for use with Hashcat or John the Ripper.
 # -----------------------------------------------------------
-i_hcxtools() {
+if [[ "$install_hcxtools" == true ]]; then
 	cd ~/Downloads/ || echo "can't find ~/Downloads/ directory"
 	git clone https://github.com/ZerBea/hcxtools.git
 	cd hcxtools || exit
 	make -j "$(nproc)"
 	sudo make install
-}
+fi
 
 # -----------------------------------------------------------
 # Install Hashcat
@@ -272,12 +299,27 @@ i_hcxtools() {
 # World's fastest and most advanced password recovery utility
 # -----------------------------------------------------------
 
-# -----------------------------------------------------------
-# To Verify Network Connectivity
-#log "Verifying network connectivity..."
-#ping -c 4 8.8.8.8 || error_exit "Network connectivity test failed"
-
-# Verify DNS Resolution
-#log "Verifying DNS resolution..."
-#ping -c 4 google.com || error_exit "DNS resolution test failed"
-# -----------------------------------------------------------
+# --------------------- #
+# Verify Router/Gateway #
+# --------------------- #
+if [[ "$verify_router_gateway" == true ]]; then
+	log "Verifying router/gateway..."
+	echo "Verifying router/gateway..."
+	ip route | grep default || error_exit "Default route (gateway) not found"
+	GATEWAY=$(ip route | grep default | awk '{print $3}')
+	ping -c 4 "$GATEWAY" || error_exit "Gateway test failed"
+fi
+# ------------------------------ #
+# To Verify Network Connectivity #
+# ------------------------------ #
+if [[ "$verifying_network_connectivity" == true ]]; then
+	log "Verifying network connectivity..."
+	ping -c 4 8.8.8.8 || error_exit "Network connectivity test failed"
+fi
+# --------------------- #
+# Verify DNS Resolution #
+# --------------------- #
+if [[ "verifying_dns_resolution" == true ]]; then
+	log "Verifying DNS resolution..."
+	ping -c 4 google.com || error_exit "DNS resolution test failed"
+fi
