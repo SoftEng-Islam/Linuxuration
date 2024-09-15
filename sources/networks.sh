@@ -5,18 +5,6 @@
 #* https://wiki.archlinux.org/index.php/NetworkManager
 #* https://wiki.archlinux.org/index.php/WireGuard
 # ------------------------------------------------- #
-# Features:
-#. Repair host.conf & hosts
-#. Repair iptables
-#. Repair firewalld
-#. Repair dnsmasq
-#. Repair NetworkManager
-#. Repair systemd-resolved
-#. Repair nm
-#. Repair nm-applet
-#. Repair nm-wireguard
-#. Repair nm-connection-editor
-# ---------------------------------------------- #
 
 # --------------- #
 # Create log file #
@@ -73,11 +61,15 @@ packages=( # an Array of Packages that related to networks to Install
 sudo pacman -S --noconfirm "${packages[@]}"
 echo "Networks packages installed!"
 
+# ------------------------------------------------------------------
 # Disable NetworkManager to prevent interference during configuration
+# ------------------------------------------------------------------
 log "Disabling NetworkManager..."
 sudo systemctl disable --now NetworkManager
 
-# Restore Default /etc/hosts File
+# ------------------------------- #
+# Restore Default /etc/hosts File #
+# ------------------------------- #
 log "Restoring default /etc/hosts file..."
 sudo tee /etc/hosts <<EOF >/dev/null
 127.0.0.1   localhost
@@ -101,22 +93,28 @@ EOF
 log "Preventing overwriting of /etc/resolv.conf..."
 prevent_overwriting_resolv() {
 	sudo tee /etc/resolv.conf <<EOF >/dev/null
-nameserver 8.8.8.8
-nameserver 8.8.4.4
-nameserver 1.1.1.1
-nameserver 1.0.0.1
-nameserver 208.67.222.222
-nameserver 208.67.220.220
+	nameserver 127.0.0.1
+# nameserver 8.8.8.8
+# nameserver 8.8.4.4
+# nameserver 1.1.1.1
+# nameserver 1.0.0.1
+# nameserver 208.67.222.222
+# nameserver 208.67.220.220
 EOF
 	sudo chattr +i /etc/resolv.conf
 }
 
-# Verify Router/Gateway
+# --------------------- #
+# Verify Router/Gateway #
+# --------------------- #
 log "Verifying router/gateway..."
 ip route | grep default || error_exit "Default route (gateway) not found"
 GATEWAY=$(ip route | grep default | awk '{print $3}')
 ping -c 4 "$GATEWAY" || error_exit "Gateway test failed"
 
+# --------------------- #
+# Configure Firewall    #
+# --------------------- #
 # Configure Firewall
 log "Configuring firewall..."
 sudo tee /etc/NetworkManager/conf.d/00-local.conf <<EOF >/dev/null
@@ -124,27 +122,32 @@ sudo tee /etc/NetworkManager/conf.d/00-local.conf <<EOF >/dev/null
 firewall-backend=none
 EOF
 
-# Wi-Fi and Internet Configuration
+# ------------------------------- #
+# Disable Wi-Fi power-saving mode #
+# ------------------------------- #
 log "Disabling Wi-Fi power-saving mode..."
 sudo tee /etc/NetworkManager/NetworkManager.conf <<EOF >>/dev/null
 [connection]
 wifi.powersave = 2
 EOF
 
+# --------------------------
+# Disabling IPv6
+# --------------------------
 #log "Disabling IPv6..."
 #sudo tee /etc/sysctl.d/ipv6.conf <<EOF >/dev/null
 #net.ipv6.conf.all.disable_ipv6 = 1
 #net.ipv6.conf.eth0.disable_ipv6 = 1
 #EOF
 
+# ----------------------
 # Firewall Policies
+# ----------------------
 log "Configuring firewall policies..."
 sudo firewall-cmd --permanent --get-policies
-
 # Remove Existing Policies
 sudo firewall-cmd --permanent --delete-policy=egress-shared
 sudo firewall-cmd --permanent --delete-policy=ingress-shared
-
 # Add New Policies
 sudo firewall-cmd --permanent --new-policy=egress-shared
 sudo firewall-cmd --permanent --policy=egress-shared --set-target=ACCEPT
@@ -158,7 +161,9 @@ sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
 sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
 sudo firewall-cmd --reload
 
+# ----------------------
 # Adjust TCP/IP Settings
+# ----------------------
 log "Adjusting TCP/IP settings..."
 sudo tee /etc/sysctl.d/99-sysctl.conf <<EOF >/dev/null
 net.ipv4.ip_forward = 1
@@ -194,10 +199,23 @@ sudo sysctl -w net.core.wmem_max=16777216
 sudo sysctl -w net.ipv4.ip_forward=1
 
 sudo systemctl stop systemd-resolved
-sudo systemctl disable systemd-resolved
-# Enable and Start Services
+# dnsmasq is the Alternative for systemd-resolved
+sudo systemctl disable --now systemd-resolved
+sudo chattr -i /etc/resolv.conf
+sudo rm -rf /etc/resolv.conf
+
+sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
+# Enable DNS
+# dhcp-range=interface:wlan0,38.0.101.76,89.0.142.86,24h
+server=8.8.8.8
+server=8.8.4.4
+EOF
+
+# Disable firewalld
+sudo systemctl disable --now firewalld
+
 # log "Enabling and starting necessary services..."
-services=(dnsmasq iptables ip6tables firewalld NetworkManager)
+services=(NetworkManager dnsmasq) # iptables
 for service in "${services[@]}"; do
 	sudo systemctl enable --now "$service"
 	sudo systemctl restart "$service"

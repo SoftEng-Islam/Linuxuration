@@ -308,54 +308,56 @@ i_nautilus_backspace() {
 # Check if yay is installed and install it if not
 # Yay (Yet Another Yaourt)
 # Yay is an AUR helper written in Go, designed to interact with both the official Arch repositories and the AUR (Arch User Repository).
-i_yay() {
-	if ! command -v yay &>/dev/null; then
-		echo "yay is not installed. Installing yay..."
-		# Install yay
-		sudo pacman -S --needed base-devel git
-		# Clone the yay repository from the AUR
-		git clone https://aur.archlinux.org/yay.git && cd yay || exit
-		# Build and install yay & Change back to the previous directory
-		makepkg -si && cd ..
-		# Remove the yay directory
-		rm -rf yay
-		echo "yay has been successfully installed."
-	else
-		echo "yay is already installed. Continuing with the script..."
-	fi
-}
-# --------------------------------------------------------------------------
-# Pikaur
-# Pikaur is another AUR helper that’s known for its simplicity and speed.
-# --------------------------------------------------------------------------
-i_pikaur() {
-	# Clone the pikaur repository from the AUR
-	git clone https://aur.archlinux.org/pikaur.git
-	# Navigate into the pikaur directory
-	cd pikaur || exit
-	# Build and install pikaur
-	makepkg -si
-}
-# --------------------------------------------------------------------------
-# Paru
-# Paru is another popular AUR helper that’s similar to Yay but written in Rust.
-# --------------------------------------------------------------------------
-i_paru() { # paru
-	git clone https://aur.archlinux.org/paru.git
-	cd paru || exit
-	makepkg -si
-}
-# --------------------------------------------------------------------------
-# Trizen
-# Trizen is an AUR helper written in Perl and has a similar syntax to Pacman.
-# --------------------------------------------------------------------------
-i_trizen() {
-	# Clone the trizen repository from the AUR
-	git clone https://aur.archlinux.org/trizen.git
-	# Navigate into the trizen directory
-	cd trizen || exit
-	# Build and install trizen
-	makepkg -si
+pacman_helpers() {
+	i_yay() {
+		if ! command -v yay &>/dev/null; then
+			echo "yay is not installed. Installing yay..."
+			# Install yay
+			sudo pacman -S --needed base-devel git
+			# Clone the yay repository from the AUR
+			git clone https://aur.archlinux.org/yay.git && cd yay || exit
+			# Build and install yay & Change back to the previous directory
+			makepkg -si && cd ..
+			# Remove the yay directory
+			rm -rf yay
+			echo "yay has been successfully installed."
+		else
+			echo "yay is already installed. Continuing with the script..."
+		fi
+	}
+	# --------------------------------------------------------------------------
+	# Pikaur
+	# Pikaur is another AUR helper that’s known for its simplicity and speed.
+	# --------------------------------------------------------------------------
+	i_pikaur() {
+		# Clone the pikaur repository from the AUR
+		git clone https://aur.archlinux.org/pikaur.git
+		# Navigate into the pikaur directory
+		cd pikaur || exit
+		# Build and install pikaur
+		makepkg -si
+	}
+	# --------------------------------------------------------------------------
+	# Paru
+	# Paru is another popular AUR helper that’s similar to Yay but written in Rust.
+	# --------------------------------------------------------------------------
+	i_paru() { # paru
+		git clone https://aur.archlinux.org/paru.git
+		cd paru || exit
+		makepkg -si
+	}
+	# --------------------------------------------------------------------------
+	# Trizen
+	# Trizen is an AUR helper written in Perl and has a similar syntax to Pacman.
+	# --------------------------------------------------------------------------
+	i_trizen() {
+		# Clone the trizen repository from the AUR
+		git clone https://aur.archlinux.org/trizen.git
+		# Navigate into the trizen directory
+		cd trizen || exit
+		# Build and install trizen
+		makepkg -si
+	}
 }
 
 # configure fonts
@@ -375,15 +377,17 @@ i_fonts() {
 # -------------------- #
 # Install Apps & Tools #
 # -------------------- #
-i_xdman() { # xdman(Download Manager)
-	sudo pacman -S --noconfirm jdk-openjdk yt-dlp
-	yay -S --noconfirm youtube-dl xdman --noconfirm
-}
-i_FDM() {
-	yay -S freedownloadmanager
-}
-i_motrix() { # motrix(Download Manager)
-	yay -S --noconfirm motrix
+downloaders() {
+	i_xdman() { # xdman(Download Manager)
+		sudo pacman -S --noconfirm jdk-openjdk yt-dlp
+		yay -S --noconfirm youtube-dl xdman --noconfirm
+	}
+	i_FDM() {
+		yay -S freedownloadmanager
+	}
+	i_motrix() { # motrix(Download Manager)
+		yay -S --noconfirm motrix
+	}
 }
 
 # Install Browsers
@@ -427,11 +431,13 @@ i_GStreamer() {
 i_vsCode() { # Install Microsoft Visual Studio Code
 	yay -S visual-studio-code-bin
 }
-# To install Zed on most Linux distributions, run this shell script:
-# https://zed.dev/blog/zed-on-linux
-curl -f https://zed.dev/install.sh | sh
-echo "export PATH=$HOME/.local/bin:$PATH" >>~/.zshrc
-source ~/.zshrc
+i_zed() { # Install Zed
+	# To install Zed on most Linux distributions, run this shell script:
+	# https://zed.dev/blog/zed-on-linux
+	curl -f https://zed.dev/install.sh | sh
+	echo "export PATH=$HOME/.local/bin:$PATH" >>~/.zshrc
+	source ~/.zshrc
+}
 
 # =============================================================
 # Install Programming Languages & Famous Development Tools
@@ -463,13 +469,6 @@ i_nodeJS() { # NodeJS
 	# Install pnpm
 	sudo pacman -S --noconfirm pnpm
 }
-# Rust
-# Dart
-# Ruby
-# GO
-# C++
-# C#
-# python
 
 # ---------------------------- #
 # Install Wine & windows Tools #
@@ -491,7 +490,6 @@ i_wine() {
 	export WINEESYNC=1
 	export WINEFSYNC=1
 	# export DXVK_HUD=1  # Shows FPS and other useful info during the game
-
 }
 
 # ----------------------------- #
