@@ -128,16 +128,6 @@ EOF
 	sudo chattr +i /etc/resolv.conf
 fi
 
-# --------------------- #
-# Configure Firewall    #
-# --------------------- #
-# Configure Firewall
-log "Configuring firewall..."
-sudo tee /etc/NetworkManager/conf.d/00-local.conf <<EOF >/dev/null
-[main]
-firewall-backend=none
-EOF
-
 # ------------------------------- #
 # Disable Wi-Fi power-saving mode #
 # ------------------------------- #
@@ -157,6 +147,17 @@ if [[ "$disable_ipv6" == true ]]; then
 	sudo tee /etc/sysctl.d/ipv6.conf <<EOF >/dev/null
 net.ipv6.conf.all.disable_ipv6 = 1
 net.ipv6.conf.eth0.disable_ipv6 = 1
+EOF
+fi
+
+# --------------------- #
+# Configure Firewall    #
+# --------------------- #
+if [[ "$configuring_firewall" == true ]]; then
+	log "Configuring firewall..."
+	sudo tee /etc/NetworkManager/conf.d/00-local.conf <<EOF >/dev/null
+[main]
+firewall-backend=none
 EOF
 fi
 
@@ -188,6 +189,8 @@ fi
 # ---------------------- #
 if [[ "$adjusting_TCP_IP" == true ]]; then
 	log "Adjusting TCP/IP settings..."
+	sudo rn -rf /etc/sysctl.d/99-sysctl.conf
+	sudo touch /etc/sysctl.d/99-sysctl.conf
 	sudo tee /etc/sysctl.d/99-sysctl.conf <<EOF >/dev/null
 net.ipv4.ip_forward = 1
 net.ipv4.tcp_window_scaling = 1
@@ -201,19 +204,13 @@ net.ipv4.tcp_keepalive_time = 300
 net.ipv4.tcp_syncookies = 1
 net.ipv4.tcp_tw_reuse = 1
 EOF
-	# Apply the changes
-	sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
-
-	# --------------- #
 	# Set TCP Retries #
-	# --------------- #
 	sudo tee /etc/sysctl.conf <<EOF >/dev/null
 net.ipv4.tcp_retries1 = 5
 net.ipv4.tcp_retries2 = 15
 EOF
 	# Apply the changes
-	sudo sysctl -p /etc/sysctl.conf
-
+	sudo sysctl -p /etc/sysctl.conf && sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
 	# Enable IP Forwarding using sysctl
 	sudo sysctl -w net.ipv4.ip_forward=1
 fi
@@ -227,13 +224,22 @@ if [[ "$increase_buffer" == true ]]; then
 	sudo sysctl -w net.core.wmem_max=16777216
 fi
 
-sudo systemctl stop systemd-resolved
+# ------------------------ #
+# Disable systemd-resolved #
+# ------------------------ #
 # dnsmasq is the Alternative for systemd-resolved
-sudo systemctl disable --now systemd-resolved
-sudo chattr -i /etc/resolv.conf
-sudo rm -rf /etc/resolv.conf
+if [[ "$disable_systemd_resolved" == true ]]; then
+	sudo systemctl stop systemd-resolved
+	sudo systemctl disable --now systemd-resolved
+	# sudo chattr -i /etc/resolv.conf
+	# sudo rm -rf /etc/resolv.conf
+fi
 
-sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
+# ---------------------- #
+# Configure dnsmasq.conf #
+# ---------------------- #
+if [[ "$configure_dnsmasq" == true ]]; then
+	sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
 # Enable DNS
 # dhcp-range=interface:wlan0,38.0.101.76,89.0.142.86,24h
 server 8.8.8.8
@@ -243,6 +249,7 @@ server 1.0.0.1
 server 208.67.222.222
 server 208.67.220.220
 EOF
+fi
 
 # -------------------------------------------------- #
 # Restart necessary services & enable and start them #
