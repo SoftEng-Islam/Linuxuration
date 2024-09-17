@@ -264,6 +264,8 @@ i_git() { # git
 	git 'config' --global core.packedGitWindowSize 128m
 	git 'config' --global core.packedGitLimit 512m
 	git 'config' --global advice.addIgnoredFile false
+	git 'config' --global http.version HTTP/1.1
+
 }
 
 # -------------------------- #
