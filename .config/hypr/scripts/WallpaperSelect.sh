@@ -1,6 +1,5 @@
 #!/bin/bash
 # This script for selecting wallpapers (SUPER W)
-
 # WALLPAPERS PATH
 wallDIR="$HOME/Pictures/wallpapers"
 scripts="$HOME/.config/hypr/scripts"
@@ -11,7 +10,7 @@ focused_monitor=$(hyprctl monitors | awk '/^Monitor/{name=$2} /focused: yes/{pri
 FPS=60
 TYPE="any"
 DURATION=2
-# BEZIER=".43,1.19,1,.4"
+BEZIER=".43,1.19,1,.4"
 SWWW_PARAMS="--transition-fps $FPS --transition-type $TYPE --transition-duration $DURATION"
 
 # Check if swaybg is running
@@ -24,9 +23,6 @@ mapfile -d '' PICS < <(find "${wallDIR}" -type f \( -iname "*.jpg" -o -iname "*.
 
 RANDOM_PIC="${PICS[$((RANDOM % ${#PICS[@]}))]}"
 RANDOM_PIC_NAME=". random"
-
-# Rofi command
-rofi_command="rofi -i -show -dmenu -config ~/.config/rofi/config-wallpaper.rasi"
 
 # Sorting Wallpapers
 menu() {
@@ -67,7 +63,7 @@ main() {
 
 	# Random choice case
 	if [[ "$choice" == "$RANDOM_PIC_NAME" ]]; then
-		swww img -o "$focused_monitor" "$RANDOM_PIC" $SWWW_PARAMS
+		swww img -o "$focused_monitor" "$RANDOM_PIC" "$SWWW_PARAMS"
 		sleep 0.5
 		"$scripts/WallustSwww.sh"
 		sleep 0.2
@@ -86,23 +82,14 @@ main() {
 	done
 
 	if [[ $pic_index -ne -1 ]]; then
-		swww img -o "$focused_monitor" "${PICS[$pic_index]}" $SWWW_PARAMS
+		swww img -o "$focused_monitor" "${PICS[$pic_index]}" "$SWWW_PARAMS"
 	else
 		echo "Image not found."
 		exit 1
 	fi
 }
-
-# Check if rofi is already running
-if pidof rofi >/dev/null; then
-	pkill rofi
-	sleep 1 # Allow some time for rofi to close
-fi
-
 main
-
 sleep 0.5
 "$scripts/WallustSwww.sh"
-
 sleep 0.2
 "$scripts/Refresh.sh"

@@ -46,7 +46,7 @@ no-effects() {
 	wallust run "$current_wallpaper" -s &
 	# Wait to complete
 	wait $!
-	# Refresh rofi, waybar, wallust palettes
+	# Refresh rofi, wallust palettes
 	"${SCRIPTSDIR}/Refresh.sh"
 	notify-send -u low -i "$iDIR/bell.png" "No wallpaper effects"
 	# copying wallpaper for rofi menu
@@ -82,8 +82,6 @@ main() {
 			wallust run "$wallpaper_output" -s &
 			# Wait for other commands to finish
 			wait $!
-			# Refresh rofi, waybar, wallust palettes
-			"${SCRIPTSDIR}/Refresh.sh"
 			notify-send -u low -i "$iDIR/bell.png" "$choice effects applied"
 		else
 			echo "Effect '$choice' not recognized."

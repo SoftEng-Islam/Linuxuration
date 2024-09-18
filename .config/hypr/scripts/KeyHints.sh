@@ -53,10 +53,6 @@ GDK_BACKEND=$BACKEND yad --width=$dynamic_width --height=$dynamic_height \
 	" W" "Choose wallpaper" "(Wallpaper Menu)" \
 	" Shift W" "Choose wallpaper effects" "(imagemagick + swww)" \
 	"CTRL ALT W" "Random wallpaper" "(via swww)" \
-	" B" "Hide/UnHide Waybar" "waybar" \
-	" CTRL B" "Choose waybar styles" "(waybar styles)" \
-	" ALT B" "Choose waybar layout" "(waybar layout)" \
-	" ALT R" "Reload Waybar swaync Rofi" "CHECK NOTIFICATION FIRST!!!" \
 	" SHIFT N" "Launch Notification Panel" "swaync Notification Center" \
 	" Print" "screenshot" "(grim)" \
 	" Shift Print" "screenshot region" "(grim + slurp)" \
@@ -77,4 +73,4 @@ GDK_BACKEND=$BACKEND yad --width=$dynamic_width --height=$dynamic_height \
 	" ALT V" "Clipboard Manager" "cliphist" \
 	" H" "Launch this app" "" \
 	" E" "View or EDIT Keybinds, Settings, Monitor" "" \
-	"" "" "" \
+	"" "" ""
