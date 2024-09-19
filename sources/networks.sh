@@ -25,8 +25,16 @@ install_networks_packages=true      # Install Important Packages
 restore_hosts=true                  # restore default /etc/hosts
 restore_host_conf=true              # restore default /etc/host.conf
 prevent_overwriting_resolv=true     # prevent overwriting of /etc/resolv.conf
+disable_wifi_saving=true            # Disable WiFi Saving
+disable_ipv6=false                  # Disable IPv6
+adjusting_TCP_IP=true               # Adjusting TCP IP
+increase_buffer=true                # Increase Buffer
 disable_firewalld=true              # Disable Firewall
+configuring_firewall=true           # Configuring Firewall
+firewall_policies=true              # Firewall Policies
 save_iptables_rules=true            # Save iptables rules
+disable_systemd_resolved=false      # Disable systemd-resolved
+configure_dnsmasq=false             # Configure dnsmasq
 install_hcxdumptool=true            # Install hcxdumptool
 install_hcxtools=true               # Install hcxtools
 verify_router_gateway=true          # Verify Router Gateway
@@ -314,7 +322,15 @@ fi
 # Restart necessary services & enable and start them #
 # -------------------------------------------------- #
 log "Enabling and starting necessary services..."
-services=(NetworkManager dnsmasq systemd-resolved iptables nftables firewalld)
+echo "Restarting necessary services..."
+services=( # Array of Services to Enable & Restart
+	"NetworkManager"
+	"dnsmasq"
+	"systemd-resolved"
+	# "firewalld"
+	# "nftables"
+	# "iptables"
+)
 for service in "${services[@]}"; do
 	sudo systemctl enable --now "$service"
 	sudo systemctl restart "$service"
