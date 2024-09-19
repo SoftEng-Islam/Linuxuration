@@ -33,19 +33,6 @@ verify_router_gateway=true          # Verify Router Gateway
 verifying_network_connectivity=true # Verifying Network Connectivity
 verifying_dns_resolution=true       # Verifying DNS Resolution
 
-# ----------------------- #
-# Install Cloudflare WARP #
-# ----------------------- #
-# This might help you bypass your ISP’s restrictions and provide a faster internet
-if [[ "$install_cloudflare_warp" == true ]]; then
-	echo "Installing Cloudflare WARP..."
-	yay -S --needed --noconfirm cloudflare-warp-bin
-	sudo systemctl enable warp-svc --now
-	echo "Cloudflare WARP has been installed and the service is running."
-	# Disable it if you faced issues
-	# sudo systemctl disable warp-svc --now
-fi
-
 # -------------------------- #
 # Install Important Packages #
 # -------------------------- #
@@ -83,6 +70,54 @@ if [[ "$install_networks_packages" == true ]]; then
 	sudo pacman -S --noconfirm "${packages[@]}"
 	echo "Networks packages installed!"
 fi
+
+# ----------------------- #
+# Install Cloudflare WARP #
+# ----------------------- #
+# This might help you bypass your ISP’s restrictions and provide a faster internet
+if [[ "$install_cloudflare_warp" == true ]]; then
+	echo "Installing Cloudflare WARP..."
+	yay -S --needed --noconfirm cloudflare-warp-bin
+	sudo systemctl enable warp-svc --now
+	echo "Cloudflare WARP has been installed and the service is running."
+	# Disable it if you faced issues
+	# sudo systemctl disable warp-svc --now
+fi
+
+# -----------------------------------------------------------
+# This script can install hashcat & hcxdumptool & hcxtools
+# -----------------------------------------------------------
+# Install hcxdumptool
+# https://github.com/ZerBea/hcxdumptool
+# Small tool to capture packets from wlan devices.
+# -----------------------------------------------------------
+if [[ "$install_hcxdumptool" == true ]]; then
+	cd ~/Downloads/ || exit
+	git clone https://github.com/ZerBea/hcxdumptool.git
+	cd hcxdumptool || exit
+	make -j "$(nproc)"
+	sudo make install
+fi
+
+# -----------------------------------------------------------
+# Install hcxtools
+# https://github.com/ZerBea/hcxtools
+# A small set of tools to convert packets from capture files to hash files for use with Hashcat or John the Ripper.
+# -----------------------------------------------------------
+if [[ "$install_hcxtools" == true ]]; then
+	cd ~/Downloads/ || echo "can't find ~/Downloads/ directory"
+	git clone https://github.com/ZerBea/hcxtools.git
+	cd hcxtools || exit
+	make -j "$(nproc)"
+	sudo make install
+fi
+
+# -----------------------------------------------------------
+# Install Hashcat
+# https://hashcat.net/hashcat/
+# https://github.com/hashcat/hashcat
+# World's fastest and most advanced password recovery utility
+# -----------------------------------------------------------
 
 # ------------------------------------------------------------------- #
 # Disable NetworkManager to prevent interference during configuration #
@@ -151,40 +186,6 @@ net.ipv6.conf.eth0.disable_ipv6 = 1
 EOF
 fi
 
-# --------------------- #
-# Configure Firewall    #
-# --------------------- #
-if [[ "$configuring_firewall" == true ]]; then
-	log "Configuring firewall..."
-	sudo tee /etc/NetworkManager/conf.d/00-local.conf <<EOF >/dev/null
-[main]
-firewall-backend=none
-EOF
-fi
-
-# ----------------------------- #
-# Configuring Firewall Policies #
-# ----------------------------- #
-if [[ "$firewall_policies" == true ]]; then
-	log "Configuring firewall policies..."
-	sudo firewall-cmd --permanent --get-policies
-	# Remove Existing Policies
-	sudo firewall-cmd --permanent --delete-policy=egress-shared
-	sudo firewall-cmd --permanent --delete-policy=ingress-shared
-	# Add New Policies
-	sudo firewall-cmd --permanent --new-policy=egress-shared
-	sudo firewall-cmd --permanent --policy=egress-shared --set-target=ACCEPT
-	sudo firewall-cmd --permanent --policy=egress-shared --add-ingress-zone=nm-shared
-	sudo firewall-cmd --permanent --policy=egress-shared --add-egress-zone=trusted
-	sudo firewall-cmd --permanent --policy=egress-shared --add-masquerade
-
-	sudo firewall-cmd --permanent --new-policy=ingress-shared
-	sudo firewall-cmd --permanent --policy=ingress-shared --set-target=ACCEPT
-	sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
-	sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
-	sudo firewall-cmd --reload
-fi
-
 # ---------------------- #
 # Adjust TCP/IP Settings #
 # ---------------------- #
@@ -225,46 +226,45 @@ if [[ "$increase_buffer" == true ]]; then
 	sudo sysctl -w net.core.wmem_max=16777216
 fi
 
-# ------------------------ #
-# Disable systemd-resolved #
-# ------------------------ #
-# dnsmasq is the Alternative for systemd-resolved
-if [[ "$disable_systemd_resolved" == true ]]; then
-	sudo systemctl stop systemd-resolved
-	sudo systemctl disable --now systemd-resolved
-	# sudo chattr -i /etc/resolv.conf
-	# sudo rm -rf /etc/resolv.conf
-fi
-
-# ---------------------- #
-# Configure dnsmasq.conf #
-# ---------------------- #
-if [[ "$configure_dnsmasq" == true ]]; then
-	sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
-server 8.8.8.8
-server 8.8.4.4
-server 1.1.1.1
-server 1.0.0.1
-server 208.67.222.222
-server 208.67.220.220
-EOF
-fi
-
-# -------------------------------------------------- #
-# Restart necessary services & enable and start them #
-# -------------------------------------------------- #
-log "Enabling and starting necessary services..."
-services=(NetworkManager dnsmasq systemd-resolved iptables nftables firewalld)
-for service in "${services[@]}"; do
-	sudo systemctl enable --now "$service"
-	sudo systemctl restart "$service"
-done
-
 # ----------------- #
 # Disable firewalld #
 # ----------------- #
 if [[ "$disable_firewalld" == true ]]; then
 	sudo systemctl disable --now firewalld
+fi
+
+# --------------------- #
+# Configure Firewall    #
+# --------------------- #
+if [[ "$configuring_firewall" == true ]]; then
+	log "Configuring firewall..."
+	sudo tee /etc/NetworkManager/conf.d/00-local.conf <<EOF >/dev/null
+[main]
+firewall-backend=none
+EOF
+fi
+
+# ----------------------------- #
+# Configuring Firewall Policies #
+# ----------------------------- #
+if [[ "$firewall_policies" == true ]]; then
+	log "Configuring firewall policies..."
+	sudo firewall-cmd --permanent --get-policies
+	# Remove Existing Policies
+	sudo firewall-cmd --permanent --delete-policy=egress-shared
+	sudo firewall-cmd --permanent --delete-policy=ingress-shared
+	# Add New Policies
+	sudo firewall-cmd --permanent --new-policy=egress-shared
+	sudo firewall-cmd --permanent --policy=egress-shared --set-target=ACCEPT
+	sudo firewall-cmd --permanent --policy=egress-shared --add-ingress-zone=nm-shared
+	sudo firewall-cmd --permanent --policy=egress-shared --add-egress-zone=trusted
+	sudo firewall-cmd --permanent --policy=egress-shared --add-masquerade
+
+	sudo firewall-cmd --permanent --new-policy=ingress-shared
+	sudo firewall-cmd --permanent --policy=ingress-shared --set-target=ACCEPT
+	sudo firewall-cmd --permanent --policy=ingress-shared --add-ingress-zone=trusted
+	sudo firewall-cmd --permanent --policy=ingress-shared --add-egress-zone=nm-shared
+	sudo firewall-cmd --reload
 fi
 
 # ------------------- #
@@ -287,42 +287,38 @@ if [[ "$save_iptables_rules" == true ]]; then
 	sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
 fi
 
-log "Network and Wi-Fi setup completed successfully."
-
-# -----------------------------------------------------------
-# This script can install hashcat & hcxdumptool & hcxtools
-# -----------------------------------------------------------
-# Install hcxdumptool
-# https://github.com/ZerBea/hcxdumptool
-# Small tool to capture packets from wlan devices.
-# -----------------------------------------------------------
-if [[ "$install_hcxdumptool" == true ]]; then
-	cd ~/Downloads/ || exit
-	git clone https://github.com/ZerBea/hcxdumptool.git
-	cd hcxdumptool || exit
-	make -j "$(nproc)"
-	sudo make install
+# ------------------------ #
+# Disable systemd-resolved #
+# ------------------------ #
+# dnsmasq is the Alternative for systemd-resolved
+if [[ "$disable_systemd_resolved" == true ]]; then
+	sudo systemctl stop systemd-resolved
+	sudo systemctl disable --now systemd-resolved
+	# sudo chattr -i /etc/resolv.conf
+	# sudo rm -rf /etc/resolv.conf
 fi
 
-# -----------------------------------------------------------
-# Install hcxtools
-# https://github.com/ZerBea/hcxtools
-# A small set of tools to convert packets from capture files to hash files for use with Hashcat or John the Ripper.
-# -----------------------------------------------------------
-if [[ "$install_hcxtools" == true ]]; then
-	cd ~/Downloads/ || echo "can't find ~/Downloads/ directory"
-	git clone https://github.com/ZerBea/hcxtools.git
-	cd hcxtools || exit
-	make -j "$(nproc)"
-	sudo make install
+# ---------------------- #
+# Configure dnsmasq.conf #
+# ---------------------- #
+if [[ "$configure_dnsmasq" == true ]]; then
+	sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
+server 8.8.8.8
+server 8.8.4.4
+server 1.1.1.1
+server 1.0.0.1
+EOF
 fi
 
-# -----------------------------------------------------------
-# Install Hashcat
-# https://hashcat.net/hashcat/
-# https://github.com/hashcat/hashcat
-# World's fastest and most advanced password recovery utility
-# -----------------------------------------------------------
+# -------------------------------------------------- #
+# Restart necessary services & enable and start them #
+# -------------------------------------------------- #
+log "Enabling and starting necessary services..."
+services=(NetworkManager dnsmasq systemd-resolved iptables nftables firewalld)
+for service in "${services[@]}"; do
+	sudo systemctl enable --now "$service"
+	sudo systemctl restart "$service"
+done
 
 # --------------------- #
 # Verify Router/Gateway #
@@ -348,3 +344,6 @@ if [[ "$verifying_dns_resolution" == true ]]; then
 	log "Verifying DNS resolution..."
 	ping -c 4 google.com || error_exit "DNS resolution test failed"
 fi
+
+log "Network and Wi-Fi setup completed successfully."
+echo "Done!"
