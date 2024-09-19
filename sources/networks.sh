@@ -47,34 +47,56 @@ verifying_dns_resolution=true       # Verifying DNS Resolution
 log "Installing important packages..."
 echo "Installing important network packages..."
 if [[ "$install_networks_packages" == true ]]; then
-	packages=( # an Array of Packages that related to networks to Install
-		"firewalld" # Firewall service
-		"networkmanager"
-		"wpa_supplicant"
-		"dhclient"
-		"iw"
-		"wireless_tools"
-		"dialog"
-		"dnsmasq"
-		"hostapd"
-		"nm-connection-editor"
-		"dhcpcd"
-		"network-manager-applet"
-		"netctl"
-		"networkmanager-openvpn"
-		"wireguard-tools"
-		"qrencode"
-		"xdg-utils"
-		"traceroute"
-		"nmap"
-		"bind"
-		"nftables"
-		"linux-atm"
-		"ifplugd"
-		"openvswitch"
-		"cppzmq"
-		"pacrunner"
+	# Enhanced Array of Network and WiFi Related Packages to Install
+	packages=(
+		# Network Management
+		"networkmanager"         # Main network management daemon for Linux
+		"network-manager-applet" # Graphical interface for NetworkManager
+		"nm-connection-editor"   # GUI to configure network connections for NetworkManager
+		"netctl"                 # Profile-based network connection manager
+		"ifplugd"                # Configure network when a cable is plugged/unplugged
+
+		# Wireless Tools and Management
+		"wpa_supplicant" # Client support for WPA and WPA2 networks
+		"iw"             # CLI for configuring wireless devices
+		"hostapd"        # Turns a Linux system into an access point
+		"dhclient"       # DHCP client for automatic IP assignment
+		# "dhcpcd"         # DHCP client for managing network configurations
+		# Removed dhcpcd to avoid redundancy
+
+		# VPN and Security Tools
+		"firewalld"              # Dynamic firewall management tool
+		"networkmanager-openvpn" # OpenVPN plugin for NetworkManager
+		"wireguard-tools"        # Tools for configuring WireGuard VPN
+		"nftables"               # Firewalling and network packet filtering framework
+		"openvswitch"            # Virtual switch for network virtualization
+
+		# DNS and DHCP Tools
+		"dnsmasq"   # DNS forwarder and DHCP server
+		"bind"      # DNS server software
+		"pacrunner" # Proxy auto-config daemon
+
+		# Utility Tools
+		"dialog"    # Display dialog boxes from shell scripts
+		"qrencode"  # Encode data in a QR Code
+		"xdg-utils" # Tools for managing X desktop environments
+
+		# Network Diagnostics and Monitoring
+		"traceroute" # Network diagnostic tool to trace the route to a host
+		"nmap"       # Network exploration and security auditing tool
+		"iftop"      # Real-time console-based network bandwidth monitoring
+		"iperf"      # Tool for measuring network bandwidth
+
+		# ATM Networking Tools
+		"linux-atm" # Utilities for ATM (Asynchronous Transfer Mode) networks
+
+		# Performance Monitoring
+		"vnstat" # Network traffic monitor for keeping logs of usage
+
+		# Miscellaneous
+		"cppzmq" # C++ binding for the ZeroMQ messaging library
 	)
+
 	sudo pacman -S --noconfirm "${packages[@]}"
 	echo "Networks packages installed!"
 fi
