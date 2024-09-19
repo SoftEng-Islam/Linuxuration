@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# ----------------------------------------- #
-# Enhancments for Network & WIFI & Internet #
-# ----------------------------------------- #
+# ------------------------------------------ #
+# Enhancements for Network & WIFI & Internet #
+# ------------------------------------------ #
 #* https://wiki.archlinux.org/index.php/NetworkManager
 #* https://wiki.archlinux.org/index.php/WireGuard
 # ------------------------------------------ #
@@ -9,12 +9,12 @@
 # --------------- #
 # Create log file #
 # --------------- #
-sudo touch /var/log/network_repair.log
-LOGFILE="/var/log/network_repair.log"
+sudo touch /var/log/networks.log
+LOGFILE="/var/log/networks.log"
 log() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | sudo tee -a $LOGFILE >/dev/null; }
+
 error_exit() {
-	log "Error: $1"
-	exit 1
+	log "Error: $1" && exit 1
 }
 
 # --------------------------------------- #
@@ -32,6 +32,7 @@ install_hcxtools=true               # Install hcxtools
 verify_router_gateway=true          # Verify Router Gateway
 verifying_network_connectivity=true # Verifying Network Connectivity
 verifying_dns_resolution=true       # Verifying DNS Resolution
+
 # ----------------------- #
 # Install Cloudflare WARP #
 # ----------------------- #
@@ -240,8 +241,6 @@ fi
 # ---------------------- #
 if [[ "$configure_dnsmasq" == true ]]; then
 	sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
-# Enable DNS
-# dhcp-range=interface:wlan0,38.0.101.76,89.0.142.86,24h
 server 8.8.8.8
 server 8.8.4.4
 server 1.1.1.1
@@ -255,7 +254,7 @@ fi
 # Restart necessary services & enable and start them #
 # -------------------------------------------------- #
 log "Enabling and starting necessary services..."
-services=(NetworkManager dnsmasq)
+services=(NetworkManager dnsmasq systemd-resolved iptables nftables firewalld)
 for service in "${services[@]}"; do
 	sudo systemctl enable --now "$service"
 	sudo systemctl restart "$service"
