@@ -472,6 +472,11 @@ i_nodeJS() { # NodeJS
 	sudo pacman -S --noconfirm pnpm
 }
 
+# Install rust Programming Language
+i_rust() {
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+}
+
 # ---------------------------- #
 # Install Wine & windows Tools #
 # ---------------------------- #

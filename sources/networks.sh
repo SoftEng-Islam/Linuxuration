@@ -20,7 +20,7 @@ error_exit() {
 # --------------------------------------- #
 # Change these variables to true or false #
 # --------------------------------------- #
-install_cloudflare_warp=true        # Install Cloudflare WARP
+install_cloudflare_warp=false       # Install Cloudflare WARP
 install_networks_packages=true      # Install Important Packages
 restore_hosts=true                  # restore default /etc/hosts
 restore_host_conf=true              # restore default /etc/host.conf
