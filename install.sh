@@ -414,8 +414,12 @@ i_tasks_apps() {
 # Pomodone: This app integrates the Pomodoro technique with task management. It can help you stay focused and track time.
 # Focus To-Do: Combines task tracking and Pomodoro timers, which can keep your study sessions productive.
 i_time_apps() {
+	sudo pacman -S psutils perl-tk biber mupdf-tools dblatex --noconfirm
+	# ----------------------
+	# Install gnome-pomodoro
+	sudo pacman -S gperftools groff mono r xterm blas-openblas gcc-fortran xorg-mkfontscale
+	yay -S gnome-pomodoro --noconfirm
 
-	sudo pacman -S dblatex --noconfirm
 }
 
 # ----------------- #
