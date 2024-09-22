@@ -221,7 +221,7 @@ fi
 # ---------------------- #
 if [[ "$adjusting_TCP_IP" == true ]]; then
 	log "Adjusting TCP/IP settings..."
-	sudo rn -rf /etc/sysctl.d/99-sysctl.conf
+	sudo rm -rf /etc/sysctl.d/99-sysctl.conf
 	sudo touch /etc/sysctl.d/99-sysctl.conf
 	sudo tee /etc/sysctl.d/99-sysctl.conf <<EOF >/dev/null
 net.ipv4.ip_forward = 1
@@ -236,13 +236,16 @@ net.ipv4.tcp_keepalive_time = 300
 net.ipv4.tcp_syncookies = 1
 net.ipv4.tcp_tw_reuse = 1
 EOF
+	sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
+
 	# Set TCP Retries #
 	sudo tee /etc/sysctl.conf <<EOF >/dev/null
-net.ipv4.tcp_retries1 = 5
-net.ipv4.tcp_retries2 = 15
+net.ipv4.ip_forward=1
+net.ipv4.tcp_retries1=5
+net.ipv4.tcp_retries2=15
 EOF
 	# Apply the changes
-	sudo sysctl -p /etc/sysctl.conf && sudo sysctl -p /etc/sysctl.d/99-sysctl.conf
+	sudo sysctl -p /etc/sysctl.conf
 	# Enable IP Forwarding using sysctl
 	sudo sysctl -w net.ipv4.ip_forward=1
 fi
@@ -303,14 +306,14 @@ fi
 if [[ "$save_iptables_rules" == true ]]; then
 	log "Saving iptables rules..."
 	sudo touch /etc/iptables/iptables.rules
-	sudo chmod 644 /etc/iptables/iptables.rules
+	sudo chmod 777 /etc/iptables/iptables.rules
 	sudo iptables-save | sudo tee /etc/iptables/iptables.rules
-	sudo iptables -L
+	sudo iptables-save | sudo tee /etc/iptables/rules.v4
+
+	# sudo iptables -L
 	sudo modprobe ip_tables
 	sudo modprobe iptable_filter
-	# -------------------------- #
 	# Configure iptables for NAT #
-	# -------------------------- #
 	log "Configuring iptables for NAT..."
 	sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 	sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
@@ -346,12 +349,11 @@ fi
 log "Enabling and starting necessary services..."
 echo "Restarting necessary services..."
 services=( # Array of Services to Enable & Restart
-	"NetworkManager"
 	"dnsmasq"
 	"systemd-resolved"
-	# "firewalld"
-	# "nftables"
-	# "iptables"
+	"NetworkManager"
+	"firewalld"
+	"iptables"
 )
 for service in "${services[@]}"; do
 	sudo systemctl enable --now "$service"
