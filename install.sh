@@ -422,6 +422,34 @@ i_time_apps() {
 
 }
 
+# -----------------
+# install Steam
+# -----------------
+i_steam() {
+	sudo pacman -S lib32-librsvg gnome-themes-standard gtk-engines lib32-libid3tag lib32-libva-mesa-driver lib32-mesa-vdpau lib32-fluidsynth --noconfirm
+	sudo pacman -S steam-native-runtime steam
+	# Enable 32-bit Libraries (if needed):
+	# Some games require 32-bit libraries. If you face issues with games, you may need to install additional libraries:
+	sudo pacman -S lib32-alsa-plugins lib32-alsa-lib lib32-libpulse lib32-openal lib32-libxcomposite
+	# Install Graphics Drivers (Optional):
+	# Make sure you have the appropriate drivers installed for your GPU. For example, for NVIDIA:
+	sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils
+	# For AMD:
+	sudo pacman -S mesa lib32-mesa
+	# -----------------------------------
+	# Install Necessary Dependencies
+	# Install Vulkan libraries:
+	sudo pacman -S vulkan-icd-loader lib32-vulkan-icd-loader
+	# For AMD GPUs:
+	sudo pacman -S mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
+	# For NVIDIA GPUs:
+	sudo pacman -S nvidia nvidia-utils lib32-nvidia-utils
+	# For Intel GPUs:
+	sudo pacman -S vulkan-intel lib32-vulkan-intel
+	# Install DXVK and VKD3D (if required):
+	sudo pacman -S dxvk vkd3d
+}
+
 # ----------------- #
 # Install Ulauncher #
 # ----------------- #
