@@ -101,6 +101,9 @@ if [[ "$install_networks_packages" == true ]]; then
 	echo "Networks packages installed!"
 fi
 
+sudo pacman -S ipcalc ipguard iproute2 iptables-nft iptux ipvsadm \
+	iperf ipmitool ipset iptraf-ng iputils ipxe iperf3 ipp-usb iptables iptstate ipv6calc ipython
+
 # ----------------------- #
 # Install Cloudflare WARP #
 # ----------------------- #
@@ -241,8 +244,8 @@ EOF
 	# Set TCP Retries #
 	sudo tee /etc/sysctl.conf <<EOF >/dev/null
 net.ipv4.ip_forward=1
-net.ipv4.tcp_retries1=5
-net.ipv4.tcp_retries2=15
+#net.ipv4.tcp_retries1=5
+#net.ipv4.tcp_retries2=15
 EOF
 	# Apply the changes
 	sudo sysctl -p /etc/sysctl.conf
@@ -349,11 +352,12 @@ fi
 log "Enabling and starting necessary services..."
 echo "Restarting necessary services..."
 services=( # Array of Services to Enable & Restart
-	"dnsmasq"
 	"systemd-resolved"
 	"NetworkManager"
+	"dnsmasq"
 	"firewalld"
 	"iptables"
+	"nftables"
 )
 for service in "${services[@]}"; do
 	sudo systemctl enable --now "$service"

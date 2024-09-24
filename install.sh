@@ -367,36 +367,28 @@ i_fonts() {
 	sudo mkdir -p /home/softeng/.local/share/flatpak/exports/share/fonts
 	sudo mkdir -p /var/lib/flatpak/exports/share/fonts
 	# sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-jetbrains-mono ttf-jetbrains-mono-nerd
-
 	# Set variables
 	FONT_URL="https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip"
 	FONT_DIR="/usr/share/fonts/JetBrainsMono"
-
 	# Create font directory
 	echo "Creating font directory: $FONT_DIR"
 	sudo mkdir -p "$FONT_DIR"
-
 	# Download JetBrains Mono
 	echo "Downloading JetBrains Mono from $FONT_URL..."
 	wget "$FONT_URL" -O /tmp/JetBrainsMono.zip
-
 	# Extract the font
 	echo "Extracting the font to /tmp..."
 	unzip /tmp/JetBrainsMono.zip -d /tmp/JetBrainsMono
-
 	# Install the font
 	echo "Installing JetBrains Mono to $FONT_DIR..."
 	sudo cp /tmp/JetBrainsMono/fonts/ttf/*.ttf "$FONT_DIR"
-
 	# Set proper permissions
 	echo "Setting correct permissions for $FONT_DIR..."
 	sudo chmod 644 "$FONT_DIR"/*.ttf
 	sudo fc-cache -fv
-
 	# Clean up
 	echo "Cleaning up temporary files..."
 	rm -rf /tmp/JetBrainsMono /tmp/JetBrainsMono.zip
-
 	# Done
 	echo "JetBrains Mono installed successfully!"
 }
@@ -411,19 +403,18 @@ i_tasks_apps() {
 # -------------------- #
 # Time Management Apps #
 # -------------------- #
-# Pomodone: This app integrates the Pomodoro technique with task management. It can help you stay focused and track time.
-# Focus To-Do: Combines task tracking and Pomodoro timers, which can keep your study sessions productive.
 i_time_apps() {
 	sudo pacman -S psutils perl-tk biber mupdf-tools dblatex --noconfirm
 	# ----------------------
 	# Install gnome-pomodoro
 	sudo pacman -S gperftools groff mono r xterm blas-openblas gcc-fortran xorg-mkfontscale
-	yay -S gnome-pomodoro --noconfirm
+	yay -S sct pigz docker-scan docker-buildx criu gnome-pomodoro tomato --noconfirm
+	sudo systemctl start docker
 
 }
 
 # -----------------
-# install Steam
+# Install Steam
 # -----------------
 i_steam() {
 	sudo pacman -S lib32-librsvg gnome-themes-standard gtk-engines lib32-libid3tag lib32-libva-mesa-driver lib32-mesa-vdpau lib32-fluidsynth --noconfirm
