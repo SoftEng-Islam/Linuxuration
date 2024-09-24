@@ -405,12 +405,9 @@ i_tasks_apps() {
 # -------------------- #
 i_time_apps() {
 	sudo pacman -S psutils perl-tk biber mupdf-tools dblatex --noconfirm
-	# ----------------------
-	# Install gnome-pomodoro
+	# Install Pomodoro Apps
 	sudo pacman -S gperftools groff mono r xterm blas-openblas gcc-fortran xorg-mkfontscale
-	yay -S sct pigz docker-scan docker-buildx criu gnome-pomodoro tomato --noconfirm
-	sudo systemctl start docker
-
+	yay -S sct pigz criu gnome-pomodoro pomodorolm-bin --noconfirm
 }
 
 # -----------------
