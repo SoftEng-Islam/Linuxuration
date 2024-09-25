@@ -403,11 +403,13 @@ i_tasks_apps() {
 # -------------------- #
 # Time Management Apps #
 # -------------------- #
-i_time_apps() {
-	sudo pacman -S psutils perl-tk biber mupdf-tools dblatex --noconfirm
-	# Install Pomodoro Apps
-	sudo pacman -S gperftools groff mono r xterm blas-openblas gcc-fortran xorg-mkfontscale
-	yay -S sct pigz criu gnome-pomodoro pomodorolm-bin --noconfirm
+i_time_apps() { # Install Pomodoro Apps
+	sudo pacman -S --noconfirm psutils \
+		perl-tk biber mupdf-tools \
+		dblatex gperftools groff mono r \
+		xterm blas-openblas gcc-fortran xorg-mkfontscale
+
+	yay -S --noconfirm sct pigz criu gnome-pomodoro pomodorolm-bin
 }
 
 # -----------------
