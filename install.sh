@@ -396,9 +396,9 @@ i_fonts() {
 # ---------------------- #
 # Task & To-Do List Apps #
 # ---------------------- #
-i_tasks_apps() {
+# i_tasks_apps() {
 
-}
+# }
 
 # -------------------- #
 # Time Management Apps #
