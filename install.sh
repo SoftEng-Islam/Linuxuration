@@ -2,8 +2,8 @@
 # shellcheck disable=SC1090
 # shellcheck disable=SC2034
 # ------------------------------------------------------ #
-#* The confArch Project.                                 #
-#* Arch Linux enhancement configuration                  #
+# The confArch Project.                                 #
+# Arch Linux enhancement configuration                  #
 #! --------------------- Warning ----------------------- #
 #? Please don't use this script, still under development #
 # ------------------------------------------------------ #

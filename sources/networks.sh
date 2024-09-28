@@ -6,13 +6,10 @@
 #* https://wiki.archlinux.org/index.php/WireGuard
 # ------------------------------------------ #
 
-# --------------- #
 # Create log file #
-# --------------- #
 sudo touch /var/log/networks.log
 LOGFILE="/var/log/networks.log"
 log() { echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | sudo tee -a $LOGFILE >/dev/null; }
-
 error_exit() {
 	log "Error: $1" && exit 1
 }
@@ -339,10 +336,10 @@ fi
 # ---------------------- #
 if [[ "$configure_dnsmasq" == true ]]; then
 	sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
-server 8.8.8.8
-server 8.8.4.4
-server 1.1.1.1
-server 1.0.0.1
+server=8.8.8.8
+server=8.8.4.4
+server=1.1.1.1
+server=1.0.0.1
 EOF
 fi
 
@@ -355,7 +352,6 @@ services=( # Array of Services to Enable & Restart
 	"systemd-resolved"
 	"NetworkManager"
 	"dnsmasq"
-	"firewalld"
 	"iptables"
 	"nftables"
 )
