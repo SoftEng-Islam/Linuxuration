@@ -82,7 +82,7 @@ preference_select() {
 
 	if [[ $CHOICE != "NONE" ]]; then
 		execute_command yay -Sy
-		execute_command yay -S --needed $CHOICE
+		execute_command yay -S --needed "$CHOICE"
 		python -O "$HOME"/dotfiles/ags/scripts/apps.py --"$app_type" $CHOICE
 	else
 		echo "Not installing a(n) $type..."
@@ -423,7 +423,7 @@ main() {
 main "$@"
 
 # ----------------------------------------------------------
-# Modify System Configurations
+# Extra Modifications on System Configurations
 # ----------------------------------------------------------
 # This Command is used to add the current user to additional groups,
 # specifically the video and input groups,
