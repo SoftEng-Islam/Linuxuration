@@ -1,8 +1,8 @@
 [pyprland]
 
 plugins = [
-  "scratchpads",
-  "magnify",
+	"scratchpads",
+	"magnify",
 ]
 
 [scratchpads.term]
