@@ -1,0 +1,9 @@
+{
+	"always_show_battery": false,
+	"show_taskbar": true,
+	"show_battery_percent": false,
+	"hide_empty_workspaces": false,
+	"weather": "",
+	"weather_location_id": "",
+	"current_theme": null
+}

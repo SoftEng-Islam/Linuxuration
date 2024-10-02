@@ -1,34 +1,62 @@
-"use strict";
-import Gdk from 'gi://Gdk';
-import GLib from 'gi://GLib';
-import App from 'resource:///com/github/Aylur/ags/app.js';
-import * as Utils from 'resource:///com/github/Aylur/ags/utils.js';
+import GLib from "gi://GLib";
 
-import { Bar } from "./modules/bar/bar.js";
-import { applauncher } from "./modules/applauncher/applauncher.js";
-import { NotificationPopups } from "./modules/notification-popups/notificationPopups.js";
+const main = "/tmp/asztal/main.js";
+const entry = `${App.configDir}/main.ts`;
+const bundler = GLib.getenv("AGS_BUNDLER") || "bun";
 
-import Dock from './modules/dock/main.js';
-import userOptions from "./user_options.js";
-// import { COMPILED_STYLE_DIR } from './init.js';
+const v = {
+	ags: pkg.version?.split(".").map(Number) || [],
+	expect: [1, 8, 1],
+};
 
-// const range = (length, start = 1) => Array.from({ length }, (_, i) => i + start);
-// function forMonitors(widget) {
-// 	const n = Gdk.Display.get_default()?.get_n_monitors() || 1;
-// 	return range(n, 0).map(widget).flat(1);
-// }
+try {
+	switch (bundler) {
+		case "bun":
+			await Utils.execAsync([
+				"bun",
+				"build",
+				entry,
+				"--outfile",
+				main,
+				"--external",
+				"resource://*",
+				"--external",
+				"gi://*",
+				"--external",
+				"file://*",
+			]);
+			break;
 
-// handleStyles(true);
-const Windows = () => [
-	Bar(),
-	applauncher,
-	NotificationPopups(),
-	Dock,
-];
-App.config({
-	// css: `${COMPILED_STYLE_DIR}/style.css`,
-	// style: "./style.css",
-	windows: Windows().flat(1),
-});
-export { };
+		case "esbuild":
+			await Utils.execAsync([
+				"esbuild",
+				"--bundle",
+				entry,
+				"--format=esm",
+				`--outfile=${main}`,
+				"--external:resource://*",
+				"--external:gi://*",
+				"--external:file://*",
+			]);
+			break;
 
+		default:
+			throw `"${bundler}" is not a valid bundler`;
+	}
+
+	if (v.ags[1] < v.expect[1] || v.ags[2] < v.expect[2]) {
+		print(
+			`my config needs at least v${v.expect.join(
+				"."
+			)}, yours is v${v.ags.join(".")}`
+		);
+		App.quit();
+	}
+
+	await import(`file://${main}`);
+} catch (error) {
+	console.error(error);
+	App.quit();
+}
+
+export {};
