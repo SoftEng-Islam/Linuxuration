@@ -305,6 +305,7 @@ fi
 # ------------------- #
 if [[ "$save_iptables_rules" == true ]]; then
 	log "Saving iptables rules..."
+	sudo rm -rf /etc/iptables/iptables.rules
 	sudo touch /etc/iptables/iptables.rules
 	sudo chmod 777 /etc/iptables/iptables.rules
 	sudo iptables-save | sudo tee /etc/iptables/iptables.rules
@@ -314,7 +315,7 @@ if [[ "$save_iptables_rules" == true ]]; then
 	sudo modprobe ip_tables
 	sudo modprobe iptable_filter
 	# Configure iptables for NAT #
-	log "Configuring iptables for NAT..."
+	# log "Configuring iptables for NAT..."
 	sudo iptables -t nat -A POSTROUTING -o wlan0 -j MASQUERADE
 	sudo iptables -A FORWARD -i wlan0 -o eno1 -m state --state RELATED,ESTABLISHED -j ACCEPT
 	sudo iptables -A FORWARD -i eno1 -o wlan0 -j ACCEPT
