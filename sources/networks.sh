@@ -308,8 +308,8 @@ if [[ "$save_iptables_rules" == true ]]; then
 	sudo rm -rf /etc/iptables/iptables.rules
 	sudo touch /etc/iptables/iptables.rules
 	sudo chmod 777 /etc/iptables/iptables.rules
-	sudo iptables-save | sudo tee /etc/iptables/iptables.rules
-	sudo iptables-save | sudo tee /etc/iptables/rules.v4
+	sudo iptables-legacy-save | sudo tee /etc/iptables/iptables.rules
+	sudo iptables-legacy-save | sudo tee /etc/iptables/rules.v4
 
 	# sudo iptables -L
 	sudo modprobe ip_tables
@@ -339,8 +339,6 @@ if [[ "$configure_dnsmasq" == true ]]; then
 	sudo tee /etc/dnsmasq.conf <<EOF >/dev/null
 server=8.8.8.8
 server=8.8.4.4
-server=1.1.1.1
-server=1.0.0.1
 EOF
 fi
 
@@ -350,7 +348,6 @@ fi
 log "Enabling and starting necessary services..."
 echo "Restarting necessary services..."
 services=( # Array of Services to Enable & Restart
-	"systemd-resolved"
 	"NetworkManager"
 	"dnsmasq"
 	"iptables"
