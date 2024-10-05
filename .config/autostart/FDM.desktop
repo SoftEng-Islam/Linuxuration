@@ -1,0 +1,8 @@
+[Desktop Entry]
+Comment=Free Download Manager
+Exec=/opt/freedownloadmanager/fdm --hidden
+Hidden=false
+Name=FDM
+NoDisplay=false
+Type=Application
+X-GNOME-Autostart-enabled=true
