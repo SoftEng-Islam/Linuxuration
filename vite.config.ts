@@ -6,12 +6,12 @@ import pugPlugin from "vite-plugin-pug";
 export default defineConfig({
 	plugins: [pugPlugin(), vue()],
 	optimizeDeps: {
-		include: ["@xterm/xterm"],
+		include: ["@xterm/xterm"]
 	},
 	clearScreen: false,
 	server: {
 		port: 1420,
-		strictPort: false,
+		strictPort: false
 	},
-	envPrefix: ["VITE_", "TAURI_"],
+	envPrefix: ["VITE_", "TAURI_"]
 });
