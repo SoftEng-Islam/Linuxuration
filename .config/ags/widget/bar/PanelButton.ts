@@ -6,13 +6,7 @@ type PanelButtonProps = ButtonProps & {
 	flat?: boolean;
 };
 
-export default ({
-	window = "",
-	flat,
-	child,
-	setup,
-	...rest
-}: PanelButtonProps) =>
+export default ({ window = "", flat, child, setup, ...rest }: PanelButtonProps) =>
 	Widget.Button({
 		child: Widget.Box({ child }),
 		setup: (self) => {
@@ -22,10 +16,7 @@ export default ({
 			self.toggleClassName(window);
 
 			self.hook(options.bar.flatButtons, () => {
-				self.toggleClassName(
-					"flat",
-					flat ?? options.bar.flatButtons.value
-				);
+				self.toggleClassName("flat", flat ?? options.bar.flatButtons.value);
 			});
 
 			self.hook(App, (_, win, visible) => {
@@ -44,5 +35,5 @@ export default ({
 
 			if (setup) setup(self);
 		},
-		...rest,
+		...rest
 	});

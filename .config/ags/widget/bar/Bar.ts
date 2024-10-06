@@ -30,7 +30,7 @@ const widget = {
 	workspaces: Workspaces,
 	screenrecord: ScreenRecord,
 	messages: Messages,
-	expander: () => Widget.Box({ expand: true }),
+	expander: () => Widget.Box({ expand: true })
 };
 
 export default (monitor: number) =>
@@ -44,19 +44,19 @@ export default (monitor: number) =>
 			css: "min-width: 2px; min-height: 2px;",
 			startWidget: Widget.Box({
 				hexpand: true,
-				children: start.bind().as((s) => s.map((w) => widget[w]())),
+				children: start.bind().as((s) => s.map((w) => widget[w]()))
 			}),
 			centerWidget: Widget.Box({
 				hpack: "center",
-				children: center.bind().as((c) => c.map((w) => widget[w]())),
+				children: center.bind().as((c) => c.map((w) => widget[w]()))
 			}),
 			endWidget: Widget.Box({
 				hexpand: true,
-				children: end.bind().as((e) => e.map((w) => widget[w]())),
-			}),
+				children: end.bind().as((e) => e.map((w) => widget[w]()))
+			})
 		}),
 		setup: (self) =>
 			self.hook(transparent, () => {
 				self.toggleClassName("transparent", transparent.value);
-			}),
+			})
 	});

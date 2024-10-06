@@ -14,9 +14,9 @@ export default (monitor: number) =>
 				expand: true,
 				child: Widget.Box({
 					class_name: "corner",
-					expand: true,
-				}),
-			}),
+					expand: true
+				})
+			})
 		}),
 		setup: (self) =>
 			self
@@ -25,5 +25,5 @@ export default (monitor: number) =>
 				})
 				.hook(transparent, () => {
 					self.toggleClassName("hidden", transparent.value);
-				}),
+				})
 	});
