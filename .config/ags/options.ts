@@ -6,12 +6,10 @@ import icons from "lib/icons";
 
 const options = mkOptions(OPTIONS, {
 	autotheme: opt(false),
-
 	wallpaper: {
 		resolution: opt<import("service/wallpaper").Resolution>(1920),
 		market: opt<import("service/wallpaper").Market>("random"),
 	},
-
 	theme: {
 		dark: {
 			primary: {
@@ -53,14 +51,11 @@ const options = mkOptions(OPTIONS, {
 		spacing: opt(9),
 		radius: opt(10),
 	},
-
 	transition: opt(200),
-
 	font: {
 		size: opt(13),
 		name: opt("JetBrains Mono"),
 	},
-
 	bar: {
 		flatButtons: opt(false),
 		position: opt<"top" | "bottom">("top"),
