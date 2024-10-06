@@ -1,4 +1,5 @@
 import { opt, mkOptions } from "lib/option";
+import App from 'resource:///com/github/Aylur/ags/app.js'
 import { distro } from "lib/variables";
 import { icon } from "lib/utils";
 import icons from "lib/icons";
@@ -97,7 +98,7 @@ const options = mkOptions(OPTIONS, {
 			action: opt(() => App.toggleWindow("launcher")),
 		},
 		date: {
-			format: opt("%H:%M - %A %e."),
+			format: opt("%I:%M %p - %A %e"),
 			action: opt(() => App.toggleWindow("datemenu")),
 		},
 		battery: {
