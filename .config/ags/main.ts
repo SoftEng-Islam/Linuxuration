@@ -7,6 +7,7 @@ import Launcher from "widget/launcher/Launcher";
 import NotificationPopups from "widget/notifications/NotificationPopups";
 import OSD from "widget/osd/OSD";
 import Overview from "widget/overview/Overview";
+// import Dock from "widget/dock/Dock";
 import PowerMenu from "widget/powermenu/PowerMenu";
 import ScreenCorners from "widget/bar/ScreenCorners";
 import SettingsDialog from "widget/settings/SettingsDialog";
@@ -34,6 +35,7 @@ App.config({
 		...forMonitors(OSD),
 		Launcher(),
 		Overview(),
+		// main(),
 		PowerMenu(),
 		SettingsDialog(),
 		Verification(),
