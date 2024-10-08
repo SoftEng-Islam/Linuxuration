@@ -574,13 +574,13 @@ set_plymouth_theme() {
 # Nautilus backspace
 # Extensions for returning back to Nautilus by pressing the combination of keys assigned via Gsettings
 # -------------------------------------------------------
-i_nautilus_backspace() {
+if [ "$nautilus_backspace" == true ]; then
 	sudo pacman -Sy python-nautilus
 	git clone https://github.com/SoftEng-Islam/nautilus-backspace.git
 	cd nautilus-backspace || exit
 	sudo make
 	sudo make schemas
-}
+fi
 
 # ----------------------------- #
 # Install Arch Package Managers #
@@ -588,110 +588,57 @@ i_nautilus_backspace() {
 # Check if yay is installed and install it if not
 # Yay (Yet Another Yaourt)
 # Yay is an AUR helper written in Go, designed to interact with both the official Arch repositories and the AUR (Arch User Repository).
-pacman_helpers() {
-	i_yay() {
-		if ! command -v yay &>/dev/null; then
-			echo "yay is not installed. Installing yay..."
-			# Install yay
-			sudo pacman -S --needed base-devel git
-			# Clone the yay repository from the AUR
-			git clone https://aur.archlinux.org/yay.git && cd yay || exit
-			# Build and install yay & Change back to the previous directory
-			makepkg -si && cd ..
-			# Remove the yay directory
-			rm -rf yay
-			echo "yay has been successfully installed."
-		else
-			echo "yay is already installed. Continuing with the script..."
-		fi
-	}
-	# --------------------------------------------------------------------------
-	# [Pikaur] is another AUR helper that’s known for its simplicity and speed.
-	# --------------------------------------------------------------------------
-	i_pikaur() {
-		# Clone the pikaur repository from the AUR
-		git clone https://aur.archlinux.org/pikaur.git
-		# Navigate into the pikaur directory
-		cd pikaur || exit
-		# Build and install pikaur
-		makepkg -si
-	}
-	# --------------------------------------------------------------------------
-	# [Paru] is another popular AUR helper that’s similar to Yay but written in Rust.
-	# --------------------------------------------------------------------------
-	i_paru() { # paru
-		git clone https://aur.archlinux.org/paru.git
-		cd paru || exit
-		makepkg -si
-	}
-	# --------------------------------------------------------------------------
-	# Trizen
-	# Trizen is an AUR helper written in Perl and has a similar syntax to Pacman.
-	# --------------------------------------------------------------------------
-	i_trizen() {
-		# Clone the trizen repository from the AUR
-		git clone https://aur.archlinux.org/trizen.git
-		# Navigate into the trizen directory
-		cd trizen || exit
-		# Build and install trizen
-		makepkg -si
-	}
-}
+if ! command -v yay &>/dev/null; then
+	echo "yay is not installed. Installing yay..."
+	# Install yay
+	sudo pacman -S --needed base-devel git
+	# Clone the yay repository from the AUR
+	git clone https://aur.archlinux.org/yay.git && cd yay || exit
+	# Build and install yay & Change back to the previous directory
+	makepkg -si && cd ..
+	# Remove the yay directory
+	rm -rf yay
+	echo "yay has been successfully installed."
+else
+	echo "yay is already installed. Continuing with the script..."
+fi
 
-# configure fonts
-i_fonts() {
-	sudo mkdir -p /home/softeng/.local/share/flatpak/exports/share/fonts
-	sudo mkdir -p /var/lib/flatpak/exports/share/fonts
-	# sudo pacman -S noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ttf-jetbrains-mono ttf-jetbrains-mono-nerd
-	# Set variables
-	FONT_URL="https://download.jetbrains.com/fonts/JetBrainsMono-2.304.zip"
-	FONT_DIR="/usr/share/fonts/JetBrainsMono"
-	# Create font directory
-	echo "Creating font directory: $FONT_DIR"
-	sudo mkdir -p "$FONT_DIR"
-	# Download JetBrains Mono
-	echo "Downloading JetBrains Mono from $FONT_URL..."
-	wget "$FONT_URL" -O /tmp/JetBrainsMono.zip
-	# Extract the font
-	echo "Extracting the font to /tmp..."
-	unzip /tmp/JetBrainsMono.zip -d /tmp/JetBrainsMono
-	# Install the font
-	echo "Installing JetBrains Mono to $FONT_DIR..."
-	sudo cp /tmp/JetBrainsMono/fonts/ttf/*.ttf "$FONT_DIR"
-	# Set proper permissions
-	echo "Setting correct permissions for $FONT_DIR..."
-	sudo chmod 644 "$FONT_DIR"/*.ttf
-	sudo fc-cache -fv
-	# Clean up
-	echo "Cleaning up temporary files..."
-	rm -rf /tmp/JetBrainsMono /tmp/JetBrainsMono.zip
-	# Done
-	echo "JetBrains Mono installed successfully!"
-}
+# [Pikaur] is another AUR helper that’s known for its simplicity and speed.
+if [ "$pikaur" == true ]; then
+	# Clone the pikaur repository from the AUR
+	git clone https://aur.archlinux.org/pikaur.git
+	# Navigate into the pikaur directory
+	cd pikaur || exit
+	# Build and install pikaur
+	makepkg -si
+fi
+#* [Paru] is another popular AUR helper that’s similar to Yay but written in Rust.
+if [ "$paru" == true ]; then
+	git clone https://aur.archlinux.org/paru.git
+	cd paru || exit
+	makepkg -si
+fi
+#* [Trizen] is an AUR helper written in Perl and has a similar syntax to Pacman.
+if [ "$trizen" == true ]; then
+	# Clone the trizen repository from the AUR
+	git clone https://aur.archlinux.org/trizen.git
+	# Navigate into the trizen directory
+	cd trizen || exit
+	# Build and install trizen
+	makepkg -si
+fi
 
-# ---------------------- #
-# Task & To-Do List Apps #
-# ---------------------- #
-# i_tasks_apps() {
-
-# }
-
-# -------------------- #
-# Time Management Apps #
-# -------------------- #
-i_time_apps() { # Install Pomodoro Apps
+# Time Management Apps & To-Do List
+if [ "$time" == true ]; then
 	sudo pacman -S --noconfirm psutils \
 		perl-tk biber mupdf-tools \
 		dblatex gperftools groff mono r \
 		xterm blas-openblas gcc-fortran xorg-mkfontscale
-
 	yay -S --noconfirm sct pigz criu gnome-pomodoro pomodorolm-bin
-}
+fi
 
-# -----------------
 # Install Steam
-# -----------------
-i_steam() {
+if [ "$steam" == true ]; then
 	sudo pacman -S lib32-librsvg gnome-themes-standard gtk-engines lib32-libid3tag lib32-libva-mesa-driver lib32-mesa-vdpau lib32-fluidsynth --noconfirm
 	sudo pacman -S steam-native-runtime steam
 	# Enable 32-bit Libraries (if needed):
@@ -714,37 +661,19 @@ i_steam() {
 	sudo pacman -S vulkan-intel lib32-vulkan-intel
 	# Install DXVK and VKD3D (if required):
 	sudo pacman -S dxvk vkd3d
-}
+fi
 
-# ----------------- #
-# Install Ulauncher #
-# ----------------- #
-# git clone https://aur.archlinux.org/ulauncher.git
-# cd ulauncher && makepkg -is
-
-# -------------------- #
-# Install Apps & Tools #
-# -------------------- #
-downloaders() {
-	i_xdman() { # xdman(Download Manager)
-		sudo pacman -S --noconfirm jdk-openjdk yt-dlp
-		yay -S --noconfirm youtube-dl xdman --noconfirm
-	}
-	i_FDM() {
-		yay -S freedownloadmanager
-	}
-	i_motrix() { # motrix(Download Manager)
-		yay -S --noconfirm motrix
-	}
-}
+# Install Apps & Tools
+if [ "$Downloaders" == true ]; then
+	sudo pacman -S --noconfirm jdk-openjdk yt-dlp
+	yay -S --noconfirm xdman-beta freedownloadmanager motrix
+fi
 
 # Install Browsers
-i_chrome() { # Install Google Chrome
+if [ "$Browsers" == true ]; then
 	yay -S --noconfirm google-chrome
-}
-i_msedge() { # Install Microsoft Edge
 	yay -S --noconfirm microsoft-edge-stable-bin
-}
+fi
 
 # Install and Configure Terminals
 i_zsh() { # Install ZSH & oh-my-zsh
@@ -771,21 +700,13 @@ i_zsh() { # Install ZSH & oh-my-zsh
 # Install GStreamer Plugins
 # This should provide support for most media formats
 # -----------------------------------------------------
-i_GStreamer() {
+if [ "$GStreamer" == true ]; then
 	sudo pacman -S gst-plugins-base gst-plugins-good gst-plugins-bad gst-plugins-ugly gstreamer gst-libav
-}
-
-# Install Editors
-i_vsCode() { # Install Microsoft Visual Studio Code
+fi
+# Install Microsoft Visual Studio Code
+if [ "$vsCode" == true ]; then
 	yay -S visual-studio-code-bin
-}
-i_zed() { # Install Zed
-	# To install Zed on most Linux distributions, run this shell script:
-	# https://zed.dev/blog/zed-on-linux
-	curl -f https://zed.dev/install.sh | sh
-	echo "export PATH=$HOME/.local/bin:$PATH" >>~/.zshrc
-	source ~/.zshrc
-}
+fi
 
 # =============================================================
 # Install Programming Languages & Famous Development Tools
@@ -868,131 +789,12 @@ i_audio() {
 }
 
 # ---------------------- #
-# Overclocking & drivers #
+#      Overclocking      #
 # ---------------------- #
-i_oc() {
+if [ "$overclocking" == true ]; then
 	sudo pacman -S vulkan-tools qt5-wayland xf86-video-amdgpu
 	yay -S corectrl
-}
-
-# ------------------------------------------- #
-# Install Flatpak Applications and Extensions #
-# ------------------------------------------- #
-i_flatpak() {
-	sudo pacman -S flatpak --noconfirm
-	# Add the Flathub remote
-	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	# Reboot your system (optional) Rebooting ensures that everything is properly set up, but its not strictly necessary.
-	# sudo reboot
-	# Increase the timeout settings for Flatpak
-	FLATPAK_CONF="/etc/flatpak/flatpak.conf"
-	echo "[Network]" | sudo tee -a $FLATPAK_CONF >/dev/null
-	echo "RequestTimeout=1000" | sudo tee -a $FLATPAK_CONF >/dev/null
-	echo "Timeout settings updated in $FLATPAK_CONF"
-	# List of Flatpak applications to install
-	Applications=(
-		# ------------------------------------------- // Audio/Video
-		"com.github.rafostar.Clapper"      # Clapper
-		"com.github.unrud.VideoDownloader" # Video Downloader
-		"com.obsproject.Studio"            # OBS Studio
-		"net.base_art.Glide"               # Glide
-		"org.audacityteam.Audacity"        # Audacity
-		"org.kde.kdenlive"                 # Kdenlive
-		"org.gnome.eog"                    # Image Viewer
-
-		# ------------------------------------------- // System
-		"com.github.tchx84.Flatseal"       # Flatseal
-		"com.mattjakeman.ExtensionManager" # Extension Manager
-		"io.github.flattool.Warehouse"     # Warehouse
-		"io.gitlab.adhami3310.Impression"  # Impression
-		"io.missioncenter.MissionCenter"   # Mission Center
-		"net.nokyan.Resources"             # Resources
-		"org.filezillaproject.Filezilla"   # Filezilla
-		"org.gnome.Boxes"                  # Boxes
-		"org.gnome.Calculator"             # Calculator
-		"org.gnome.Connections"            # Connections
-		"org.gnome.Loupe"                  # Loupe
-		"org.gnome.Photos"                 # Photos
-		"fr.romainvigier.MetadataCleaner"  # Metadata Cleaner
-
-		# ------------------------------------------- // Browser
-		"com.google.Chrome"   # Google Chrome
-		"com.microsoft.Edge"  # Microsoft Edge
-		"org.mozilla.firefox" # Firefox
-
-		# ------------------------------------------- // Social
-		"com.discordapp.Discord" # Discord
-		"org.telegram.desktop"   # Telegram
-
-		# ------------------------------------------- // Productivity
-		"com.jgraph.drawio.desktop"   # draw.io
-		"md.obsidian.Obsidian"        # Obsidian
-		"org.libreoffice.LibreOffice" # LibreOffice
-		"org.mozilla.Thunderbird"     # Thunderbird
-
-		# ------------------------------------------- // Image/Graphics
-		"com.icons8.Lunacy"                  # Lunacy
-		"io.gitlab.theevilskeleton.Upscaler" # Image Upscaler
-		"org.blender.Blender"                # Blender
-		"org.gimp.GIMP"                      # GIMP
-		"org.inkscape.Inkscape"              # Inkscape
-		"org.kde.krita"                      # Krita
-		"org.freecadweb.FreeCAD"             # FreeCAD
-
-		# ------------------------------------------- // Photography
-		# (You can add more photography-related apps here as needed)
-
-		# ------------------------------------------- // Gaming
-		"org.gnome.Chess" # Chess
-
-		# ------------------------------------------- // Development
-		"com.getpostman.Postman"      # Postman
-		"com.slack.Slack"             # Slack
-		"com.visualstudio.code"       # Visual Studio Code
-		"io.beekeeperstudio.Studio"   # Beekeeper Studio
-		"io.dbeaver.DBeaverCommunity" # DBeaver Community
-		"rest.insomnia.Insomnia"      # Insomnia
-		"com.github.zadam.trilium"    # Trilium
-		"org.qbittorrent.qBittorrent" # qBittorrent
-	)
-	# Function to install Flatpak applications
-	installFlatpakApps() {
-		for app in "${Applications[@]}"; do
-			echo "Installing $app..."
-			flatpak install flathub "$app" -y
-			echo "---------------------------------------------"
-		done
-	}
-	# Main execution
-	installFlatpakApps
-	echo "All Flatpak applications installed successfully."
-}
-# ------------------------------- #
-# Function to set default Browser #
-# ------------------------------- #
-set_default_browser() {
-	# To set microsoft edge as default Browser
-	xdg-settings set default-web-browser com.microsoft.Edge.desktop
-	xdg-settings get default-web-browser # to get whats you default browser?
-	# List all installed browsers #
-	# ls /usr/share/applications | grep edge
-	# ls /var/lib/flatpak/exports/share/applications | grep edge
-	# ls /var/lib/snapd/desktop/applications | grep edge
-	xdg-open https://www.google.com      # To open a link in default browser
-	google-chrome https://www.google.com # To open a link in specific browser
-	# Update MIME Types (Optional)
-	# * To ensure that all relevant MIME types are associated with Microsoft Edge, you can use the xdg-mime command:
-	xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/http
-	xdg-mime default com.microsoft.Edge.desktop x-scheme-handler/https
-	xdg-mime default com.microsoft.Edge.desktop text/html
-	xdg-mime default com.microsoft.Edge.desktop application/xhtml+xml
-	xdg-mime default com.microsoft.Edge.desktop application/xml
-	xdg-mime default com.microsoft.Edge.desktop application/x-extension-htm
-	xdg-mime default com.microsoft.Edge.desktop application/x-extension-html
-	xdg-mime default com.microsoft.Edge.desktop application/x-extension-shtml
-	xdg-mime default com.microsoft.Edge.desktop application/x-extension-xht
-	xdg-mime default com.microsoft.Edge.desktop application/x-extension-xhtml
-}
+fi
 
 # ----------------------- #
 # Install Display Manager #
@@ -1007,10 +809,8 @@ i_display_manager() {
 	readdm_service=$(readlink /etc/systemd/system/display-manager.service)
 	display_manager=$(basename "$readdm_service" .service)
 	echo display_manager is: "$display_manager"
-
 	# other way to get display manager:
 	# systemd-analyze blame | grep -E 'gdm|sddm|lightdm|xdm|lxdm' | head -n1 | awk '{print $2}' | sed 's/\.service//'
-
 	sudo pacman -S gdm
 	sudo systemctl disable sddm.service
 	sudo systemctl enable gdm.service
