@@ -165,6 +165,25 @@ welcome
 # Get and Show some Information about the current device #
 # ------------------------------------------------------ #
 
+
+# ----------------------------------------------------------
+# Extra Modifications on System Configurations
+# ----------------------------------------------------------
+# This Command is used to add the current user to additional groups,
+# specifically the video and input groups,
+# on a Unix-like operating system
+# ----------------------------------------------------------
+# Explanation of Each Group:
+## video: Access to video devices.
+## input: Access to input devices like keyboards and mice.
+## audio: Access to audio devices.
+## network: Permissions to manage network connections.
+## wheel: Ability to use sudo for administrative tasks.
+## storage: Access to storage devices.
+## lp: Manage printers.
+## uucp: Access to serial ports and devices connected via serial ports.
+sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp "$(whoami)"
+
 # ---------------------------- #
 # Check if pacman is available #
 # ---------------------------- #
@@ -183,7 +202,6 @@ fi
 # Update the Packages #
 # ------------------- #
 update_packages
-
 # -------------------------------- #
 # Check if base-devel is installed #
 # -------------------------------- #
@@ -349,10 +367,7 @@ create_links() {
 	ln -s "$HOME"/dotfiles/hypr "$HOME"/.config/hypr
 	ln -s "$HOME"/dotfiles/swappy "$HOME"/.config/swappy
 }
-remove_gtk_buttons() {
-	echo ":: Remove window close and minimize buttons in GTK"
-	gsettings set org.gnome.desktop.wm.preferences button-layout ':'
-}
+
 
 setup_services() {
 	echo ":: Services"
@@ -412,33 +427,13 @@ main() {
 	ask_continue "Proceed with creating links?*" && create_links
 	ask_continue "Proceed with setting up colors?*" && setup_colors
 	ask_continue "Proceed with installing Vencord?" false && install_vencord
-	ask_continue "Proceed with removing GTK buttons?" false && remove_gtk_buttons
+	# ask_continue "Proceed with removing GTK buttons?" false && remove_gtk_buttons
 	ask_continue "Proceed with setting up services?*" && setup_services
 	ask_continue "Proceed with updating user directories?*" && update_user_dirs
 	ask_continue "Proceed with miscellaneous tasks?*" && misc_tasks
-
 	echo "Please restart your PC"
 }
-
 main "$@"
-
-# ----------------------------------------------------------
-# Extra Modifications on System Configurations
-# ----------------------------------------------------------
-# This Command is used to add the current user to additional groups,
-# specifically the video and input groups,
-# on a Unix-like operating system
-# ----------------------------------------------------------
-# Explanation of Each Group:
-## video: Access to video devices.
-## input: Access to input devices like keyboards and mice.
-## audio: Access to audio devices.
-## network: Permissions to manage network connections.
-## wheel: Ability to use sudo for administrative tasks.
-## storage: Access to storage devices.
-## lp: Manage printers.
-## uucp: Access to serial ports and devices connected via serial ports.
-sudo usermod -aG video,input,audio,network,wheel,storage,lp,uucp "$(whoami)"
 
 # ----------------------------- #
 # Disabling Split Lock Mitigate #
@@ -532,11 +527,6 @@ echo 'ntfs and fuse has been installed'
 # add this line to /etc/fstab
 # /dev/disk/by-partlabel/[partition] /mnt/[partition] auto auto,nofail,nodev,uid=1000,gid=1000,utf8,umask=022,exec,x-gvfs-show 0 0
 
-# ------------------------------
-# Disable Gnome Check-alive
-# ------------------------------
-echo 'Disable Gnome Check-alive'
-gsettings set org.gnome.mutter check-alive-timeout 0
 
 # --------------------------------- #
 # Install Git and set Configuration #
@@ -554,7 +544,6 @@ i_git() { # git
 	git 'config' --global core.packedGitLimit 512m
 	git 'config' --global advice.addIgnoredFile false
 	git 'config' --global http.version HTTP/1.1
-
 }
 
 # -------------------------- #
@@ -617,8 +606,7 @@ pacman_helpers() {
 		fi
 	}
 	# --------------------------------------------------------------------------
-	# Pikaur
-	# Pikaur is another AUR helper that’s known for its simplicity and speed.
+	# [Pikaur] is another AUR helper that’s known for its simplicity and speed.
 	# --------------------------------------------------------------------------
 	i_pikaur() {
 		# Clone the pikaur repository from the AUR
@@ -629,8 +617,7 @@ pacman_helpers() {
 		makepkg -si
 	}
 	# --------------------------------------------------------------------------
-	# Paru
-	# Paru is another popular AUR helper that’s similar to Yay but written in Rust.
+	# [Paru] is another popular AUR helper that’s similar to Yay but written in Rust.
 	# --------------------------------------------------------------------------
 	i_paru() { # paru
 		git clone https://aur.archlinux.org/paru.git
