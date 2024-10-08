@@ -9,3 +9,8 @@ echo 'Set Kitty as the Default Terminal:'
 export TERMINAL=kitty
 # Kitty's configuration file can be found at ~/.config/kitty/kitty.conf.
 # You can customize Kitty's appearance and behavior by editing this file.
+
+# Temporarily Disable Zsh Correction
+# unsetopt correct_all
+# # To re-enable corrections later, you can use:
+# setopt correct_all

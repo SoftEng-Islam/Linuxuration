@@ -2,9 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 export QT_QPA_PLATFORMTHEME=qt5ct
 export ZSH="$HOME/.oh-my-zsh"
-
 source ~/softeng.zsh-theme
-
 plugins=(
 	git
 	archlinux
@@ -16,13 +14,12 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
-
 # Check archlinux plugin commands here
 # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/archlinux
 
 # Display Pokemon-colorscripts
 # Project page: https://gitlab.com/phoneybadger/pokemon-colorscripts#on-other-distros-and-macos
-#pokemon-colorscripts --no-title -s -r
+# pokemon-colorscripts --no-title -s -r
 
 # Set-up icons for files/folders in terminal
 alias ls='eza -a --icons'
