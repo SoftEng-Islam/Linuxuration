@@ -5,7 +5,7 @@ import { icon } from "lib/utils";
 import icons from "lib/icons";
 
 const options = mkOptions(OPTIONS, {
-	autotheme: opt(false),
+	autotheme: opt(true),
 	wallpaper: {
 		resolution: opt<import("service/wallpaper").Resolution>(1920),
 		market: opt<import("service/wallpaper").Market>("random"),
@@ -43,7 +43,7 @@ const options = mkOptions(OPTIONS, {
 		scheme: opt<"dark" | "light">("dark"),
 		widget: { opacity: opt(80) },
 		border: {
-			width: opt(2),
+			width: opt(4),
 			opacity: opt(100),
 		},
 		shadows: opt(true),
@@ -51,7 +51,7 @@ const options = mkOptions(OPTIONS, {
 		spacing: opt(9),
 		radius: opt(10),
 	},
-	transition: opt(200),
+	transition: opt(100),
 	font: {
 		size: opt(13),
 		name: opt("JetBrains Mono"),
@@ -200,7 +200,6 @@ const options = mkOptions(OPTIONS, {
 			),
 		},
 	},
-
 	osd: {
 		progress: {
 			vertical: opt(true),
@@ -216,7 +215,6 @@ const options = mkOptions(OPTIONS, {
 			},
 		},
 	},
-
 	notifications: {
 		position: opt<Array<"top" | "bottom" | "left" | "right">>([
 			"top",
@@ -225,11 +223,10 @@ const options = mkOptions(OPTIONS, {
 		blacklist: opt(["Spotify"]),
 		width: opt(440),
 	},
-
 	hyprland: {
-		gaps: opt(2.4),
-		inactiveBorder: opt("#282828"),
-		gapsWhenOnly: opt(false),
+		gaps: opt(2),
+		inactiveBorder: opt("#77767B"),
+		gapsWhenOnly: opt(true),
 	},
 });
 
