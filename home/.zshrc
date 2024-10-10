@@ -7,9 +7,9 @@ plugins=(
 	git
 	archlinux
 	zsh-autosuggestions
-	zsh-syntax-highlighting
+	# zsh-syntax-highlighting
 	zsh-completions
-	zsh-autocomplete
+	# zsh-autocomplete
 	fzf
 )
 
