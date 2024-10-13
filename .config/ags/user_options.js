@@ -12,7 +12,7 @@ const userConfigOptions = {
 		format: "%I:%M%P"
 	},
 	dock: {
-		enabled: true,
+		enabled: false,
 		hiddenThickness: 1,
 		pinnedApps: ["firefox", "org.gnome.Nautilus"],
 		layer: "top",

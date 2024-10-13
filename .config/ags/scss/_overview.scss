@@ -3,7 +3,7 @@
 }
 .overview-search-box {
 	@include element_decel;
-	@include large-rounding;
+	@include normal-rounding;
 	@include elevation-border;
 	@include elevation2;
 	min-width: 13.636rem;
@@ -12,12 +12,14 @@
 	padding-right: 2.864rem;
 	// background-color: $background;
 	background-color: rgb(38, 35, 39);
+	border: 4px solid darkolivegreen;
 	color: $onBackground;
 	selection {
 		background-color: $secondary;
 		color: $onSecondary;
 	}
-	caret-color: transparent;
+	// caret-color: transparent;
+	caret-color: red;
 }
 
 .overview-search-box-extended {
@@ -94,7 +96,7 @@
 	@include elevation-border;
 	@include elevation2;
 	// padding: 1.341rem;
-	border: 4px solid rgb(44, 25, 31);
+	border: 4px solid rgb(203, 84, 10);
 	// background-color: $background;
 	background-color: rgb(27, 26, 32);
 	color: $onBackground;
@@ -108,7 +110,7 @@
 	padding-top: 0;
 	// background-color: $layer1;
 	background-color: rgb(29, 27, 27);
-	border: 4px solid purple;
+	border: 4px solid rgba(128, 0, 128, 0.364);
 }
 
 .overview-tasks-workspace-number {
