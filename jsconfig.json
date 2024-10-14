@@ -1,0 +1,10 @@
+{
+	"compilerOptions": {
+		"target": "ES6", // Define the target ECMAScript version
+		"module": "ESNext", // Specify module code generation
+		"checkJs": true // Enable type checking in JavaScript files
+	},
+	"include": [
+		"*.js" // Adjust the file path based on your folder structure
+	]
+}
