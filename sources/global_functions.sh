@@ -30,8 +30,6 @@ update_packages() {
 	sudo pacman -S --noconfirm linux-firmware
 	sudo mkinitcpio -P
 }
-
-# echo 'Install debtap by yay'
-# yay -S debtap
-# echo 'Initialize `debtap` (only needed the first time)'
-# debtap -u
+clear_system(){
+	sudo pacman -Scc
+}
