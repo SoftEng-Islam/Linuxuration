@@ -308,8 +308,8 @@ if [[ "$save_iptables_rules" == true ]]; then
 	sudo rm -rf /etc/iptables/iptables.rules
 	sudo touch /etc/iptables/iptables.rules
 	sudo chmod 777 /etc/iptables/iptables.rules
-	sudo iptables-legacy-save | sudo tee /etc/iptables/iptables.rules
-	sudo iptables-legacy-save | sudo tee /etc/iptables/rules.v4
+	sudo iptables-save | sudo tee /etc/iptables/iptables.rules
+	sudo iptables-save | sudo tee /etc/iptables/rules.v4
 
 	# sudo iptables -L
 	sudo modprobe ip_tables
@@ -351,7 +351,6 @@ services=( # Array of Services to Enable & Restart
 	"NetworkManager"
 	"dnsmasq"
 	"iptables"
-	"nftables"
 )
 for service in "${services[@]}"; do
 	sudo systemctl enable --now "$service"

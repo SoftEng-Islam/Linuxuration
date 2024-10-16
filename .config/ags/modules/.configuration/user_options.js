@@ -61,7 +61,7 @@ let configOptions = {
 	},
 	cheatsheet: {
 		keybinds: {
-			configPath: "" // Path to hyprland keybind config file. Leave empty for default (~/.config/hypr/hyprland/keybinds.conf)
+			configPath: "" // Path to hyprland keybind config file. Leave empty for default (~/.config/hypr/configs/keybinds.conf)
 		}
 	},
 	gaming: {

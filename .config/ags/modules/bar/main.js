@@ -98,7 +98,7 @@ export const Bar = async (monitor = 0) => {
 			transitionDuration: userOptions.animations.durationLarge,
 			children: {
 				normal: normalBarContent,
-				// 'focus': focusedBarContent,
+				'focus': focusedBarContent,
 				nothing: nothingContent
 			},
 			setup: (self) =>

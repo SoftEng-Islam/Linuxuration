@@ -88,20 +88,20 @@ apply_term() {
 }
 
 apply_hyprland() {
-    # Check if scripts/templates/hypr/hyprland/colors.conf exists
-    if [ ! -f "scripts/templates/hypr/hyprland/colors.conf" ]; then
+    # Check if scripts/templates/hypr/configs/colors.conf exists
+    if [ ! -f "scripts/templates/hypr/configs/colors.conf" ]; then
         echo "Template file not found for Hyprland colors. Skipping that."
         return
     fi
     # Copy template
     mkdir -p "$CACHE_DIR"/user/generated/hypr/hyprland
-    cp "scripts/templates/hypr/hyprland/colors.conf" "$CACHE_DIR"/user/generated/hypr/hyprland/colors.conf
+    cp "scripts/templates/hypr/configs/colors.conf" "$CACHE_DIR"/user/generated/hypr/configs/colors.conf
     # Apply colors
     for i in "${!colorlist[@]}"; do
-        sed -i "s/{{ ${colorlist[$i]} }}/${colorvalues[$i]#\#}/g" "$CACHE_DIR"/user/generated/hypr/hyprland/colors.conf
+        sed -i "s/{{ ${colorlist[$i]} }}/${colorvalues[$i]#\#}/g" "$CACHE_DIR"/user/generated/hypr/configs/colors.conf
     done
 
-    cp "$CACHE_DIR"/user/generated/hypr/hyprland/colors.conf "$XDG_CONFIG_HOME"/hypr/hyprland/colors.conf
+    cp "$CACHE_DIR"/user/generated/hypr/configs/colors.conf "$XDG_CONFIG_HOME"/hypr/configs/colors.conf
 }
 
 apply_hyprlock() {

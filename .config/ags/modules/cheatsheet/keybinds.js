@@ -6,7 +6,7 @@ import { IconTabContainer } from "../.commonwidgets/tabcontainer.js";
 const { Box, Label, Scrollable } = Widget;
 
 const HYPRLAND_KEYBIND_CONFIG_FILE = userOptions.cheatsheet.keybinds.configPath ?
-    userOptions.cheatsheet.keybinds.configPath : `${GLib.get_user_config_dir()}/hypr/hyprland/keybinds.conf`;
+    userOptions.cheatsheet.keybinds.configPath : `${GLib.get_user_config_dir()}/hypr/configs/keybinds.conf`;
 const KEYBIND_SECTIONS_PER_PAGE = 3;
 const getKeybindList = () => {
     let data = Utils.exec(`${App.configDir}/scripts/hyprland/get_keybinds.py --path ${HYPRLAND_KEYBIND_CONFIG_FILE}`);
