@@ -11,11 +11,11 @@ const userConfigOptions = {
 	time: {
 		format: "%I:%M%P"
 	},
-	cheatsheet: {
-		keybinds: {
-			configPath: "~/.config/hypr/configs/keybinds.conf" // Path to hyprland keybind config file. Leave empty for default (~/.config/hypr/configs/keybinds.conf)
-		}
-	},
+	// cheatsheet: {
+	// 	keybinds: {
+	// 		configPath: "~/.config/hypr/configs/keybinds.conf" // Path to hyprland keybind config file. Leave empty for default (~/.config/hypr/configs/keybinds.conf)
+	// 	}
+	// },
 	dock: {
 		enabled: false,
 		hiddenThickness: 1,

@@ -18,7 +18,7 @@ $bar_ws_width_focus_active: 2.045rem;
 	min-height: 2.727rem;
 	margin: 0.4rem 0.5rem 0 0.5rem;
 	padding: 0.2rem;
-	border: 3px solid rgba(129, 68, 252, 0.573);
+	border: 3px solid #8144fc92;
 }
 
 .bar-bg-focus {
@@ -44,8 +44,8 @@ $bar_ws_width_focus_active: 2.045rem;
 }
 
 .bar-group {
-	// background-color: $layer1;
-	background-color: #3c3941b1;
+	background-color: $layer1;
+	// background-color: #3c3941b1;
 	border: 1px solid rgba(128, 128, 128, 0.508);
 }
 
