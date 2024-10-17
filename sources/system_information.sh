@@ -3,8 +3,7 @@
 # Get and Show PC Information, like (RAM,CPU,OS, ETC...) #
 # ------------------------------------------------------ #
 # Declare Variables
-# 	Colors
-
+#--- Colors
 # Define colors
 BLACK="\033[0;30m"
 RED="\033[0;31m"
@@ -14,7 +13,6 @@ BLUE="\033[0;34m"
 PURPLE="\033[0;35m"
 CYAN="\033[0;36m"
 WHITE="\033[0;37m"
-
 BRIGHT_BLACK="\033[1;30m"
 BRIGHT_RED="\033[1;31m"
 BRIGHT_GREEN="\033[1;32m"
@@ -45,26 +43,7 @@ lspci -k | grep -A 2 -E "(VGA|3D)"
 # Display the currently running display manager (gdm, sddm, etc.)
 systemd-analyze blame | grep -E 'gdm|sddm|lightdm|xdm|lxdm' | head -n1 | awk '{print $2}' | sed 's/\.service//'
 
-# Show the current user
-whoami
 
-# Display the operating system and distribution name
-cat </etc/os-release | grep -w NAME | cut -d= -f2
-
-# Print the kernel release version
-uname -r
-
-# Show the system uptime
-uptime -p
-
-# Display the window manager name
-wmctrl -m | grep Name | cut -d: -f2
-
-# Show the current desktop environment
-echo "$XDG_CURRENT_DESKTOP"
-
-# Display the current shell
-echo "$SHELL"
 
 # Show the terminal type
 ps -p $$ | tail -1 | awk '{print $4}'
@@ -185,12 +164,19 @@ getent group
 
 # Function to get & show system information
 get_system_info() {
+	# Show the current user
 	echo "${PARAM_COLOR}User:${RESET} $(whoami)"
+	# Display the operating system and distribution name
 	echo "${PARAM_COLOR}OS (Distro):${RESET} $(cat </etc/os-release | grep -w NAME | cut -d= -f2)"
+	# Print the kernel release version
 	echo "${PARAM_COLOR}Kernel:${RESET} $(uname -r)"
+	# Show the system uptime
 	echo "${PARAM_COLOR}Uptime:${RESET} $(uptime -p)"
+	# Display the window manager name
 	echo "${PARAM_COLOR}Window Manager:${RESET} $(wmctrl -m | grep Name | cut -d: -f2)"
+	# Show the current desktop environment
 	echo "${PARAM_COLOR}Desktop Environment:${RESET} $XDG_CURRENT_DESKTOP"
+	# Display the current shell
 	echo "${PARAM_COLOR}Shell:${RESET} $SHELL"
 	echo "${PARAM_COLOR}Terminal:${RESET} $(ps -p $$ | tail -1 | awk '{print $4}')"
 	echo "${PARAM_COLOR}Packages:${RESET} $(pacman -Q | wc -l)"
@@ -204,47 +190,6 @@ get_system_info() {
 	echo "${PARAM_COLOR}External IPv4:${RESET} $(curl -s ifconfig.me)"
 	echo "${PARAM_COLOR}Memory (RAM):${RESET} $(free -h | grep Mem | awk '{print $3 " / " $2}')"
 }
-
 # Get system information and store it in an array
 IFS=$'\n' read -d '' -r -a results <<<"$(get_system_info)"
-
-# Display Arch Linux logo with system information
-echo '-------------------------------------------------------------------'
-echo -e "${PURPLE}               ."
-echo -e "${PURPLE}               #"
-echo -e "${PURPLE}              ###"
-echo -e "${PURPLE}             #####"
-echo -e "${PURPLE}             ######"
-echo -e "${PURPLE}             #######"
-echo -e "${PURPLE}            #########"
-echo -e "${PURPLE}           ###########"
-echo -e "${PURPLE}         ######.#####"
-echo -e "${PURPLE}        ####### #######"
-echo -e "${PURPLE}       #######   #######"
-echo -e "${PURPLE}      ######; - - ;#####"
-echo -e "${PURPLE}     #######|  *  |######"
-echo -e "${PURPLE}    ########.     .#######"
-echo -e "${PURPLE}   ######'           '######"
-echo -e "${PURPLE}  ;####                 ####;"
-echo -e "${PURPLE}  ##'                     '##"
-echo -e "${PURPLE} .'                         '."
-echo -e "${RESET}"
-echo '-------------------------------------------------------------------'
 echo -e "${results[0]}"
-echo -e "${results[2]}"
-echo -e "${results[3]}"
-echo -e "${results[4]}"
-echo -e "${results[5]}"
-echo -e "${results[6]}"
-echo -e "${results[7]}"
-echo -e "${results[8]}"
-echo -e "${results[9]}"
-echo -e "${results[10]}"
-echo -e "${results[11]}"
-echo -e "${results[12]}"
-echo -e "${results[13]}"
-echo -e "${results[14]}"
-echo -e "${results[15]}"
-echo -e "${results[16]}"
-echo -e "${results[17]}"
-echo -e "${results[18]}"
