@@ -139,6 +139,7 @@ XDG_STATE_HOME=${XDG_STATE_HOME:-$HOME/.local/state}
 source "$(pwd)"/config.conf # Here your configuration file (you can Edit it)
 source "$(pwd)"/sources/global_functions.sh
 source "$(pwd)"/sources/system_information.sh
+source "$(pwd)"/sources/copyer.sh
 # --------------------------------------------------- #
 # Check if running as root. If root, script will exit #
 # --------------------------------------------------- #
@@ -349,25 +350,9 @@ setup_sddm() {
 	sudo chmod -R 777 /usr/share/sddm/themes/corners/
 	"$HOME"/dotfiles/sddm/scripts/wallpaper.sh
 }
-copy_files() {
-	echo ":: Copying files"
-	mkdir -p "$HOME"/.config
-	"$HOME"/dotfiles/setup/copy.sh
-	if [ -d "$HOME/wallpaper" ]; then
-		echo ":: Error: directory wallpaper already exists in home"
-	else
-		cp -r "$HOME"/dotfiles/wallpapers "$HOME"/wallpaper
-	fi
-}
-create_links() {
-	echo ":: Creating links"
-	ln -f "$HOME"/dotfiles/electron-flags.conf "$HOME"/.config/electron-flags.conf
-	ln -s "$HOME"/dotfiles/ags "$HOME"/.config/ags
-	ln -s "$HOME"/dotfiles/alacritty "$HOME"/.config/alacritty
-	ln -s "$HOME"/dotfiles/hypr "$HOME"/.config/hypr
-	ln -s "$HOME"/dotfiles/swappy "$HOME"/.config/swappy
-}
 
+copy_files
+create_links
 
 setup_services() {
 	echo ":: Services"

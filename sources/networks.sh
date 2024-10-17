@@ -356,7 +356,6 @@ for service in "${services[@]}"; do
 	sudo systemctl enable --now "$service"
 	sudo systemctl restart "$service"
 done
-
 # --------------------- #
 # Verify Router/Gateway #
 # --------------------- #

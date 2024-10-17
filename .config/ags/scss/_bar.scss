@@ -13,12 +13,13 @@ $bar_ws_width_focus_active: 2.045rem;
 }
 
 .bar-bg {
-	@include normal-rounding;
+	@include small-rounding;
 	background-color: $layer0;
+	background: linear-gradient(rgb(49, 40, 40), rgb(19, 21, 19));
 	min-height: 2.727rem;
 	margin: 0.4rem 0.5rem 0 0.5rem;
 	padding: 0.2rem;
-	border: 3px solid #7531ffd5;
+	// border: 3px solid #7531ffd5;
 }
 
 .bar-bg-focus {
@@ -44,9 +45,9 @@ $bar_ws_width_focus_active: 2.045rem;
 }
 
 .bar-group {
-	background-color: $layer1;
-	// background-color: #3c3941b1;
-	border: 1px solid rgba(128, 128, 128, 0.508);
+	// background-color: $layer1;
+	background-color: #352f3eb1;
+	// border: 1px solid rgba(128, 128, 128, 0.508);
 }
 
 .bar-group-pad {
