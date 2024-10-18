@@ -47,8 +47,10 @@ get_system_info() {
 	echo "${PARAM_COLOR}Packages:${RESET} $(pacman -Q | wc -l)"
 	# Show CPU model
 	echo "${PARAM_COLOR}CPU:${RESET} $(lscpu | grep 'Model name' | cut -d: -f2 | sed 's/^[ \t]*//')"
+	# Show CPU Usage
 	echo "${PARAM_COLOR}CPU Usage:${RESET} $(top -bn1 | grep 'Cpu(s)' | sed 's/.*, *\([0-9.]*\)%* id.*/\1/' | awk '{print 100 - $1"%"}')"
-	echo "${PARAM_COLOR}CPU Frequency:${RESET} $(lscpu | grep 'max MHz' | awk '{print $4}')" MHz
+	# # Show CPU MAX Frequency
+	echo "${PARAM_COLOR}CPU MAX Frequency:${RESET} $(lscpu | grep 'max MHz' | awk '{print $4}')" MHz
 	echo "${PARAM_COLOR}GPU:${RESET} $(lspci | grep -i vga | cut -d: -f3 | sed 's/^[ \t]*//')"
 	echo "${PARAM_COLOR}CPU Temp:${RESET} $(sensors | grep 'Package id 0:' | awk '{print $4}')"
 	# Print the current date and time
@@ -64,26 +66,17 @@ get_system_info() {
 	echo "${PARAM_COLOR}System Users:${RESET} $(cut -d: -f1 /etc/passwd)"
 	# Display the current session type (Wayland or X11)
 	echo "${PARAM_COLOR}Session type:${RESET} $(XDG_SESSION_TYPE)"
-	# Show groups and users in each group
-	#* getent group
-	# Display active network connections
-	#* netstat -tuln
-	# Check loaded kernel modules related to AMD GPUs
-	#* lsmod | grep amdgpu
-	# List mounted file systems
-	mount | column -t
+	# Show system boot time
+	echo "${PARAM_COLOR}System Boot Time:${RESET} $(who -b)"
 	# Show detailed information about graphics devices and their drivers
-	lspci -k | grep -EA3 'VGA|3D|Display'
-	# Alternative to show graphics devices and their drivers
-	lspci -k | grep -A 2 -E "(VGA|3D)"
+	echo "${PARAM_COLOR}Graphics Devices:${RESET} $(lspci -k | grep -EA3 'VGA|3D|Display')"
+	echo "${PARAM_COLOR}Graphics Devices:${RESET} $(lspci -k | grep -A 2 -E '(VGA|3D)')"
 	# Display the currently running display manager (gdm, sddm, etc.)
 	systemd-analyze blame | grep -E 'gdm|sddm|lightdm|xdm|lxdm' | head -n1 | awk '{print $2}' | sed 's/\.service//'
 	# Show CPU temperature
-	sensors | grep 'Package id 0:' | awk '{print $4}'
+	echo "${PARAM_COLOR}CPU Temperature:${RESET} $(sensors | grep 'temp1:' | awk '{print $2}')"
 	# Display CPU usage percentage
 	top -bn1 | grep "Cpu(s)" | sed "s/.*, *\([0-9.]*\)%* id.*/\1/" | awk '{print 100 - $1"%"}'
-	# Show CPU frequency
-	lscpu | grep 'MHz' | head -1 | awk '{print $3 " MHz"}'
 	# Display CPU vendor
 	lscpu | grep 'Vendor ID' | cut -d: -f2 | sed 's/^[ \t]*//'
 	# Show the number of CPU cores
@@ -130,8 +123,6 @@ get_system_info() {
 	ps aux --sort=-%mem | head -n 10
 	# List top 10 CPU consuming processes
 	ps aux --sort=-%cpu | head -n 10
-	# Show system boot time
-	who -b
 }
 # Get system information and store it in an array
 # IFS=$'\n' read -d '' -r -a results <<<"$(get_system_info)"
