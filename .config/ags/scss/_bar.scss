@@ -30,6 +30,11 @@ $bar_ws_width_focus_active: 2.045rem;
 	min-height: 2px;
 }
 
+// Window Title:
+// .windowTitle {
+//   // border: 1px solid red;
+// }
+
 .bar-bg-focus-batterylow {
 	background-color: mix($layer0, $errorContainer, 80%);
 }

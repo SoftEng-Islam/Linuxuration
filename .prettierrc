@@ -4,8 +4,8 @@
     "arrowParents": "avoid",
     "bracketSpacing": true,
     "jsxBracketSameLine": false,
-    "tabWidth": 4,
-    "useTabs": true,
+    "tabWidth": 2,
+    "useTabs": false,
     "endOfLine": "auto",
     "printWidth": 120
 }
