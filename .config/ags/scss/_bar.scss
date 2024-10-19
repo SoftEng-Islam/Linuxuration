@@ -14,8 +14,9 @@ $bar_ws_width_focus_active: 2.045rem;
 
 .bar-bg {
 	@include small-rounding;
-	background-color: $layer0;
-	background: linear-gradient(rgb(49, 40, 40), rgb(19, 21, 19));
+	// background-color: $layer0;
+	background-color: #2F2D2D;
+	// background: linear-gradient(rgb(49, 40, 40), rgb(19, 21, 19));
 	min-height: 2.727rem;
 	margin: 0.4rem 0.5rem 0 0.5rem;
 	padding: 0.2rem;
@@ -41,17 +42,18 @@ $bar_ws_width_focus_active: 2.045rem;
 }
 
 .bar-group-margin {
-	padding: 0.273rem 0rem;
+	padding: 0.173rem 1rem;
 }
 
 .bar-group {
 	// background-color: $layer1;
-	background-color: #352f3eb1;
+	background-color: #0E0E0E;
 	// border: 1px solid rgba(128, 128, 128, 0.508);
 }
 
 .bar-group-pad {
 	padding: 0.205rem;
+	border: 1px solid #cf393982;
 }
 
 .bar-group-pad-less {
@@ -60,6 +62,7 @@ $bar_ws_width_focus_active: 2.045rem;
 
 .bar-group-pad-system {
 	padding: 0rem 0.341rem;
+	border: 1px solid #96cf3982;
 }
 
 .bar-group-pad-music {
@@ -70,6 +73,7 @@ $bar_ws_width_focus_active: 2.045rem;
 .bar-group-standalone {
 	@include bar-group-rounding;
 	-gtk-outline-radius: 1.364rem;
+	// border: 1px solid #cf913982;
 }
 
 .bar-group-round {
@@ -80,6 +84,7 @@ $bar_ws_width_focus_active: 2.045rem;
 .bar-group-middle {
 	border-radius: 0.477rem;
 	-gtk-outline-radius: 0.477rem;
+	border: 1px solid #8939cf82;
 }
 
 .bar-group-left {
@@ -87,6 +92,7 @@ $bar_ws_width_focus_active: 2.045rem;
 	-gtk-outline-radius: 0.477rem;
 	border-top-left-radius: 1.364rem;
 	border-bottom-left-radius: 1.364rem;
+	border: 1px solid #cf913982;
 }
 
 .bar-group-right {
@@ -149,11 +155,16 @@ $bar_ws_width_focus_active: 2.045rem;
 .bar-time {
 	@include titlefont;
 	font-size: 1.2727rem;
+	font-weight: bold;
 	color: $timeOnLayer1;
 }
 
 .bar-date {
+	@include full-rounding;
 	color: $dateOnLayer1;
+	padding: 0 0.4rem;
+	// border: 1px solid #cf913982;
+	background-color: #2F2D2D
 }
 
 .bar-batt {
