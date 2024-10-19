@@ -5,7 +5,7 @@
 const userConfigOptions = {
 	appearance: {
 		keyboardUseFlag: true,
-		barRoundCorners: 0,
+		barRoundCorners: 1,
 		fakeScreenRounding: 0
 	},
 	time: {
@@ -17,13 +17,13 @@ const userConfigOptions = {
 	// 	}
 	// },
 	dock: {
-		enabled: false,
+		enabled: true,
 		hiddenThickness: 1,
-		pinnedApps: ["firefox", "org.gnome.Nautilus"],
+		pinnedApps: ["google-chrome-stable", "org.gnome.Nautilus","obsidian"],
 		layer: "top",
 		monitorExclusivity: true, // Dock will move to other monitor along with focus if enabled
 		searchPinnedAppIcons: false, // Try to search for the correct icon if the app class isn't an icon name
-		trigger: ["client-added", "client-removed"], // client_added, client_move, workspace_active, client_active
+		trigger: [], // client_added, client_move, workspace_active, client_active
 		// Automatically hide dock after `interval` ms since trigger
 		autoHide: [
 			{

@@ -11,27 +11,11 @@ import { RoundedCorner } from "../.commonwidgets/cairo_roundedcorner.js";
 import { currentShellMode } from "../../variables.js";
 
 const NormalOptionalWorkspaces = async () => {
-	try {
-		return (await import("./normal/workspaces_hyprland.js")).default();
-	} catch {
-		try {
-			return (await import("./normal/workspaces_sway.js")).default();
-		} catch {
-			return null;
-		}
-	}
+	return (await import("./normal/workspaces_hyprland.js")).default();
 };
 
 const FocusOptionalWorkspaces = async () => {
-	try {
-		return (await import("./focus/workspaces_hyprland.js")).default();
-	} catch {
-		try {
-			return (await import("./focus/workspaces_sway.js")).default();
-		} catch {
-			return null;
-		}
-	}
+	return (await import("./focus/workspaces_hyprland.js")).default();
 };
 
 export const Bar = async (monitor = 0) => {
