@@ -1,3 +1,3 @@
 ./debug.sh
-node_modules
-themes
+./node_modules
+./home/wallpapers

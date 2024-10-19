@@ -4,6 +4,8 @@ $bar_ws_width: 1.774rem;
 $bar_ws_width_focus: 0.614rem;
 $bar_ws_width_focus_active: 2.045rem;
 
+$barBackgroundColor: #2F2D2D;
+
 @mixin bar-group-rounding {
 	@include full-rounding;
 }
@@ -14,7 +16,7 @@ $bar_ws_width_focus_active: 2.045rem;
 
 .bar-bg {
 	// @include normal-rounding;
-	background-color: #252323;
+	background-color: $barBackgroundColor;
 	// background: linear-gradient(rgb(49, 40, 40), rgb(19, 21, 19));
 	min-height: 2.727rem;
 	// margin: 0.5rem;
@@ -61,8 +63,8 @@ $bar_ws_width_focus_active: 2.045rem;
 	padding: 0rem 0.681rem;
 }
 .bar-group-pad-system {
-	padding: 0rem 0.341rem;
-	border: 1px solid #535353cf;
+	padding: 0rem 0.441rem;
+	border: 2px dashed #535353cf;
 }
 .bar-group-pad-music {
 	padding-right: 1.023rem;
@@ -317,7 +319,7 @@ $bar_ws_width_focus_active: 2.045rem;
 }
 
 .corner {
-	background-color: $layer0;
+	background-color: $barBackgroundColor;
 	@include large-rounding;
 }
 
