@@ -31,8 +31,9 @@ $barBackgroundColor: #2F2D2D;
 	background-color: $layer0;
 	min-height: 2px;
 }
-
+// --------------
 // Window Title:
+// --------------
 // .windowTitle {
 //   // border: 1px solid red;
 // }
@@ -40,21 +41,17 @@ $barBackgroundColor: #2F2D2D;
 .bar-bg-focus-batterylow {
 	background-color: mix($layer0, $errorContainer, 80%);
 }
-
 .bar-sidespace {
 	min-width: 1.5rem;
 }
-
 .bar-group-margin {
 	padding: 0.173rem 1rem;
 }
-
 .bar-group {
 	// background-color: $layer1;
 	background-color: #383838;
 	// border: 1px solid rgba(128, 128, 128, 0.508);
 }
-
 .bar-group-pad {
 	padding: 0.205rem;
 	border: 2px dashed #691baed4;
@@ -116,15 +113,12 @@ $barBackgroundColor: #2F2D2D;
 	min-width: 26rem;
 	// border: 1px solid orange;
 }
-
 .bar-ws-width {
 	min-width: 18.341rem;
 }
-
 .bar-ws-container {
 	transition: 700ms cubic-bezier(0.1, 1, 0, 1);
 }
-
 // The bar Workspaces
 .bar-ws {
 	font-size: 1.02rem;
@@ -170,6 +164,8 @@ $barBackgroundColor: #2F2D2D;
 	// border: 1px solid #cf913982;
 	background-color: #2f2d2d;
 }
+
+// Battery
 .bar-batt {
 	@include full-rounding;
 	@include element_decel;
