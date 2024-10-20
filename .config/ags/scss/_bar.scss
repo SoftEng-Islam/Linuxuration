@@ -66,9 +66,21 @@ $barBackgroundColor: #2F2D2D;
 	padding: 0rem 0.441rem;
 	border: 2px dashed #535353cf;
 }
+
+// Music Section
+.music {
+  // border: 1px solid red;
+}
+.music-bar-group {
+  @include bar-group-rounding;
+  -gtk-outline-radius: 1.364rem;
+  padding: 0 0.441rem;
+	border: 2px dashed #ae1b5dd4;
+  background-color: #1c1c1c;
+}
+
 .bar-group-pad-music {
-	padding-right: 1.023rem;
-	padding-left: 0.341rem;
+  padding: 0 0.441rem
 }
 
 .bar-group-standalone {

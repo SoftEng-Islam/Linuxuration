@@ -27,10 +27,10 @@ function trimTrackTitle(title) {
 }
 
 const BarGroup = ({ child }) => Box({
-    className: 'bar-group-margin bar-sides',
+    className: 'music bar-group-margin bar-sides',
     children: [
         Box({
-            className: 'bar-group bar-group-standalone bar-group-pad-system',
+            className: 'music-bar-group',
             children: [child],
         }),
     ]
