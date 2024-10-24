@@ -25,6 +25,7 @@ create_links() {
 	ln -s /data/current/Linuxuration/.config/qt6ct ~/.config/qt6ct
 	ln -s /data/current/Linuxuration/.config/psd ~/.config/psd
 	ln -s /data/current/Linuxuration/.config/electron-flags.conf ~/.config/electron-flags.conf
+	ln -s /data/current/Linuxuration/.config/msedge-flags.conf ~/.config/msedge-flags.conf
 	ln -s /data/current/Linuxuration/home/.zshrc ~/.zshrc
 	ln -s /data/current/Linuxuration/home/softeng.zsh-theme ~/softeng.zsh-theme
 	ln -s /data/current/Linuxuration/home/wallpapers ~/wallpapers
