@@ -1,6 +1,6 @@
-# confArch
+# Linuxuration
 
-**Arch** Linux enhancement configuration
+**Linuxuration** Linux enhancement configuration
 
 The repository "confArch" by SoftEng-Islam is designed for enhancing Arch Linux configurations. It contains scripts and configurations to update the system, install essential development tools, configure the shell and terminal, set up version control, install development libraries and dependencies, customize the desktop environment, set up the development environment, configure network connectivity, and install additional software.
 
