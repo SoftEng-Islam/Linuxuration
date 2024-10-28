@@ -29,4 +29,5 @@ create_links() {
 	ln -s /data/current/Linuxuration/home/.zshrc ~/.zshrc
 	ln -s /data/current/Linuxuration/home/softeng.zsh-theme ~/softeng.zsh-theme
 	ln -s /data/current/Linuxuration/home/wallpapers ~/wallpapers
+	ln -s /data/current/Linuxuration/.config/scripts ~/.config/scripts
 }
