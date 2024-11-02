@@ -556,6 +556,19 @@ if [ "$nautilus_backspace" == true ]; then
   sudo make schemas
 fi
 
+# ---------------------------------- #
+# Install and Enable plymouth Themes #
+# ---------------------------------- #
+if [ "$plymouth_theme" == true ]; then
+  sudo pacman -S plymouth
+  sudo plymouth-set-default-theme -R arch-logo
+  sudo mkinitcpio -p linux
+  sudo systemctl daemon-reload
+  systemctl status plymouth.service
+  ls /usr/share/plymouth/themes/
+  sudo plymouth-set-default-theme -R details
+fi
+
 # ----------------------------- #
 # Install Arch Package Managers #
 # ----------------------------- #
