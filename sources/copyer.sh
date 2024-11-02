@@ -29,5 +29,6 @@ create_links() {
 	ln -s /data/current/Linuxuration/.config/code-flags.conf ~/.config/code-flags.conf
 	ln -s /data/current/Linuxuration/home/.zshrc ~/.zshrc
 	ln -s /data/current/Linuxuration/home/wallpapers ~/wallpapers
+  ls -s /data/current/Linuxuration/home/mumble-dark.qbtheme ~/mumble-dark.qbtheme
 	ln -s /data/current/Linuxuration/.config/scripts ~/.config/scripts
 }
