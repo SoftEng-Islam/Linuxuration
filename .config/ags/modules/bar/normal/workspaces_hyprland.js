@@ -191,7 +191,7 @@ export default () => EventBox({
         homogeneous: true,
         className: 'bar-group-margin',
         children: [Box({
-            className: 'workspaces-bar bar-group bar-group-standalone bar-group-pad',
+            className: 'bar-group bar-group-standalone bar-group-pad',
             css: 'min-width: 2px;',
             children: [WorkspaceContents(userOptions.workspaces.shown)],
         })]

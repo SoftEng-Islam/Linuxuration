@@ -74,18 +74,18 @@ const Utilities = () => Box({
     className: 'spacing-h-4',
     children: [
         UtilButton({
-            name: 'Screen snip', icon: 'screenshot_region', onClicked: () => {
+            name: getString('Screen snip'), icon: 'screenshot_region', onClicked: () => {
                 Utils.execAsync(`${App.configDir}/scripts/grimblast.sh copy area`)
                     .catch(print)
             }
         }),
         UtilButton({
-            name: 'Color picker', icon: 'colorize', onClicked: () => {
+            name: getString('Color picker'), icon: 'colorize', onClicked: () => {
                 Utils.execAsync(['hyprpicker', '-a']).catch(print)
             }
         }),
         UtilButton({
-            name: 'Toggle on-screen keyboard', icon: 'keyboard', onClicked: () => {
+            name: getString('Toggle on-screen keyboard'), icon: 'keyboard', onClicked: () => {
                 toggleWindowOnAllMonitors('osk');
             }
         }),
@@ -134,7 +134,7 @@ const BarGroup = ({ child }) => Widget.Box({
     className: 'bar-group-margin bar-sides',
     children: [
         Widget.Box({
-            className: 'date-bar',
+            className: 'bar-group bar-group-standalone bar-group-pad-system',
             children: [child],
         }),
     ]

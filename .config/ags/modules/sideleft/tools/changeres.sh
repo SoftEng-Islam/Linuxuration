@@ -44,7 +44,7 @@ update_resolution_config() {
         exit 1
     fi
 
-    local configPath="${HOME}/.config/hypr/configs/general.conf"
+    local configPath="${HOME}/.config/hypr/hyprland/general.conf"
     local newConfigContent
     newConfigContent=$(sed "s/^monitor=.*$/monitor=eDP-1, $resolution@$rate, auto, 1/" "$configPath")
 
