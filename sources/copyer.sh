@@ -2,45 +2,51 @@
 copy_files() {
 	echo "()=> Copying files"
 	mkdir -p ~/.config
-	
-  # "$HOME"/dotfiles/setup/copy.sh
-  echo ":: gtk..."
 
-  mv "$HOME"/.config/gtk-3.0 --backup "$HOME"/.config/gtk-3.0-bk
-  mv "$HOME"/.config/gtk-4.0 --backup "$HOME"/.config/gtk-4.0-bk
-  
-  cp -r -f "$HOME"/dotfiles/setup/gtk-3.0 "$HOME"/.config/
-  cp -r -f "$HOME"/dotfiles/setup/gtk-4.0 "$HOME"/.config/
-  
-  echo ":: wl-gammarelay..."
+  echo "()=> Set GTK"
+	mkdir -p ~/.config/backup
+	mv "$HOME"/.config/gtk-2.0 --backup "$HOME"/.config/backup/gtk-3.0-bk
+  mv "$HOME"/.config/gtk-3.0 --backup "$HOME"/.config/backup/gtk-3.0-bk
+  mv "$HOME"/.config/gtk-4.0 --backup "$HOME"/.config/backup/gtk-4.0-bk
+	cp -r -f /data/current/Linuxuration/.config/gtk-2.0 ~/.config/
+	cp -r -f /data/current/Linuxuration/.config/gtk-3.0 ~/.config/
+	cp -r -f /data/current/Linuxuration/.config/gtk-4.0 ~/.config/
+
+
+  # Set wl-gammarelay
+  echo "()=> wl-gammarelay"
   mkdir -p "$HOME"/.config/systemd/user/
-  cp "$HOME"/dotfiles/setup/wl-gammarelay.service "$HOME"/.config/systemd/user/
+  cp /data/current/Linuxuration/.config/wl-gammarelay.service "$HOME"/.config/systemd/user/
   systemctl --user daemon-reload
   systemctl --user enable --now wl-gammarelay.service
 
-  echo ":: Product Sans font"
-  sudo cp -r "$HOME"/dotfiles/setup/google-sans /usr/share/fonts
+  # Set Goole Fonts
+  echo "()=> Google Sans Fonts"
+  sudo cp -r "$HOME"/setup/google-sans /usr/share/fonts
   sudo fc-cache -f -v
 
-  echo ":: Done!"
-
-
+  # Set Wallpaper Directory
 	if [ -d "$HOME/wallpaper" ]; then
-		echo ":: Error: directory wallpaper already exists in home"
+		echo "Error: The wallpaper Directory is already exists in /home"
 	else
-		cp -r "$HOME"/dotfiles/wallpapers "$HOME"/wallpaper
+		cp -r "$HOME"/wallpapers "$HOME"/wallpaper
 	fi
+
+  echo "#=> Done!"
 }
+
+
 create_links() {
-	echo ":: Creating links"
+	echo "()=> Creating links with 'ln'"
 	ln -f /data/current/Linuxuration/.config/electron-flags.conf ~/.config/electron-flags.conf
 	ln -s /data/current/Linuxuration/.config/ags ~/.config/ags
 	ln -s /data/current/Linuxuration/.config/code-flags.conf ~/.config/code-flags.conf
-	ln -s /data/current/Linuxuration/.config/gtk-2.0 ~/.config/gtk-2.0
-	ln -s /data/current/Linuxuration/.config/gtk-3.0 ~/.config/gtk-3.0
-	ln -s /data/current/Linuxuration/.config/gtk-4.0 ~/.config/gtk-4.0
+	# ln -s /data/current/Linuxuration/.config/gtk-2.0 ~/.config/gtk-2.0
+	# ln -s /data/current/Linuxuration/.config/gtk-3.0 ~/.config/gtk-3.0
+	# ln -s /data/current/Linuxuration/.config/gtk-4.0 ~/.config/gtk-4.0
 	ln -s /data/current/Linuxuration/.config/hypr ~/.config/hypr
 	ln -s /data/current/Linuxuration/.config/kitty ~/.config/kitty
+	ln -s /data/current/Linuxuration/.config/dunst ~/.config/dunst
 	ln -s /data/current/Linuxuration/.config/msedge-flags.conf ~/.config/msedge-flags.conf
 	ln -s /data/current/Linuxuration/.config/psd ~/.config/psd
 	ln -s /data/current/Linuxuration/.config/qt5ct ~/.config/qt5ct

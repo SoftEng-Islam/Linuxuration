@@ -214,7 +214,7 @@ fi
 
 install_microtex() {
   echo "# Installing Microtex:"
-  cd ~/dotfiles/setup/MicroTex/ || echo "ERROR: ~/dotfiles/setup/MicroTex/"
+  cd "$(pwd)/setup/MicroTex/" || echo "ERROR: $(pwd)/setup/MicroTex/"
   execute_command makepkg -si
 }
 

@@ -284,3 +284,5 @@ fi
 if ! grep -q "nix" /etc/os-release; then
   # NIXOS configs
 fi
+# Created by `pipx` on 2024-11-07 21:19:31
+export PATH="$PATH:/home/softeng/.local/bin"
