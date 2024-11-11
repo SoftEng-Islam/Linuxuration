@@ -10,7 +10,7 @@ scriptsDir=$HOME/.config/hypr/scripts
 wallpaper=$HOME/.config/hypr/wallpaper_effects/.wallpaper_modified
 # kvantum_theme="Catppuccin-Mocha"
 color_scheme="prefer-dark"
-gtk_theme="Fluent-Dark"
+gtk_theme="Adwaita-dark"
 icon_theme="Papirus-Dark"
 cursor_theme="Bibata-Modern-Ice"
 

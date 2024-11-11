@@ -4,9 +4,10 @@ from materialyoucolor.palettes.tonal_palette import TonalPalette
 
 
 class SchemeMoreVibrant(DynamicScheme):
-    hues = [0.0, 41.0, 61.0, 101.0, 131.0, 181.0, 251.0, 301.0, 360.0]
-    secondary_rotations = [18.0, 15.0, 10.0, 12.0, 15.0, 18.0, 15.0, 12.0, 12.0]
-    tertiary_rotations = [35.0, 30.0, 20.0, 25.0, 30.0, 35.0, 30.0, 25.0, 25.0]
+    # Broadened hue rotations to maximize contrast across different tones
+    hues = [0.0, 45.0, 70.0, 105.0, 135.0, 190.0, 255.0, 310.0, 360.0]
+    secondary_rotations = [20.0, 17.0, 15.0, 13.0, 17.0, 20.0, 17.0, 13.0, 13.0]
+    tertiary_rotations = [40.0, 35.0, 25.0, 30.0, 35.0, 40.0, 35.0, 30.0, 30.0]
 
     def __init__(self, source_color_hct, is_dark, contrast_level):
         super().__init__(
@@ -16,7 +17,7 @@ class SchemeMoreVibrant(DynamicScheme):
                 contrast_level=contrast_level,
                 is_dark=is_dark,
                 primary_palette=TonalPalette.from_hue_and_chroma(
-                    source_color_hct.hue, 200.0
+                    source_color_hct.hue, 240.0  # Stronger primary color intensity
                 ),
                 secondary_palette=TonalPalette.from_hue_and_chroma(
                     DynamicScheme.get_rotated_hue(
@@ -24,7 +25,7 @@ class SchemeMoreVibrant(DynamicScheme):
                         SchemeMoreVibrant.hues,
                         SchemeMoreVibrant.secondary_rotations,
                     ),
-                    32.0,
+                    50.0,  # Higher chroma for a distinct secondary palette
                 ),
                 tertiary_palette=TonalPalette.from_hue_and_chroma(
                     DynamicScheme.get_rotated_hue(
@@ -32,13 +33,15 @@ class SchemeMoreVibrant(DynamicScheme):
                         SchemeMoreVibrant.hues,
                         SchemeMoreVibrant.tertiary_rotations,
                     ),
-                    32.0,
+                    55.0,  # Stronger tertiary contrast
                 ),
                 neutral_palette=TonalPalette.from_hue_and_chroma(
-                    source_color_hct.hue, 13.0
+                    source_color_hct.hue,
+                    25.0,  # Increased for more distinct neutral tones
                 ),
                 neutral_variant_palette=TonalPalette.from_hue_and_chroma(
-                    source_color_hct.hue, 15.0
+                    source_color_hct.hue,
+                    28.0,  # Higher variant chroma for stronger emphasis
                 ),
             )
         )
